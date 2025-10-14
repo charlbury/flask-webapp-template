@@ -57,7 +57,8 @@ Note down these values for later:
 4. Click "Review + create" → "Create"
 
 ### 2.2 Create Deployment Slot (Optional but Recommended)
-1. Go to your Web App in the Azure Portal
+1. Create a staging branch in the repo
+2. Go to your Web App in the Azure Portal
 2. Under "Deployment" → "Deployment slots"
 3. Click "Add slot"
 4. Name: `staging`
