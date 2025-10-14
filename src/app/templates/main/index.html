@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Flask RBAC App{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto text-center">
+        <h1 class="display-4 mb-4">
+            <i class="bi bi-shield-check text-primary"></i>
+            Flask RBAC App
+        </h1>
+        <p class="lead mb-4">
+            A production-ready Flask application with role-based access control,
+            built for Azure deployment with SQLAlchemy 2.0 and Azure SQL.
+        </p>
+        
+        <div class="row mb-5">
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="bi bi-shield-lock text-primary" style="font-size: 2rem;"></i>
+                        <h5 class="card-title mt-3">Secure Authentication</h5>
+                        <p class="card-text">Email/password login with PBKDF2 password hashing and CSRF protection.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="bi bi-people text-primary" style="font-size: 2rem;"></i>
+                        <h5 class="card-title mt-3">Role-Based Access</h5>
+                        <p class="card-text">Flexible RBAC system with many-to-many user-role relationships.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="bi bi-cloud text-primary" style="font-size: 2rem;"></i>
+                        <h5 class="card-title mt-3">Azure Ready</h5>
+                        <p class="card-text">Designed for Azure Web Apps with Azure SQL Database integration.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% if not current_user.is_authenticated %}
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-person-plus"></i> Get Started
+                </a>
+                <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary btn-lg">
+                    <i class="bi bi-box-arrow-in-right"></i> Login
+                </a>
+            </div>
+        {% else %}
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+                {% if current_user.is_admin %}
+                    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-primary btn-lg">
+                        <i class="bi bi-gear"></i> Admin Panel
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

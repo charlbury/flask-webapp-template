@@ -1,0 +1,49 @@
+# Optional GitHub Actions workflow for Azure Web App deployment
+# This is an alternative to using Azure Deployment Center
+# Uncomment and configure if you prefer GitHub Actions over Deployment Center
+
+# name: Deploy to Azure Web App
+# 
+# on:
+#   push:
+#     branches: [ main ]
+#   workflow_dispatch:
+# 
+# jobs:
+#   build-and-deploy:
+#     runs-on: ubuntu-latest
+#     
+#     steps:
+#     - name: 'Checkout GitHub Action'
+#       uses: actions/checkout@v4
+#     
+#     - name: 'Setup Python'
+#       uses: actions/setup-python@v4
+#       with:
+#         python-version: '3.11'
+#     
+#     - name: 'Install dependencies'
+#       run: |
+#         python -m pip install --upgrade pip
+#         pip install -r requirements.txt
+#     
+#     - name: 'Deploy to Azure Web App'
+#       uses: azure/webapps-deploy@v2
+#       with:
+#         app-name: 'flask-rbac-app'  # Replace with your app name
+#         slot-name: 'staging'        # Replace with your slot name
+#         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+#         package: '.'
+# 
+#     - name: 'Run database migrations'
+#       uses: azure/CLI@v1
+#       with:
+#         inlineScript: |
+#           az webapp ssh --name flask-rbac-app --resource-group your-resource-group --command "cd /home/site/wwwroot && source venv/bin/activate && export FLASK_APP=src/app && flask db upgrade"
+
+# To use this workflow:
+# 1. Uncomment the entire file
+# 2. Replace 'flask-rbac-app' with your actual Azure Web App name
+# 3. Replace 'your-resource-group' with your actual resource group name
+# 4. Add AZURE_WEBAPP_PUBLISH_PROFILE secret to your GitHub repository
+# 5. Configure the workflow to match your deployment needs

@@ -1,0 +1,57 @@
+{% macro render_field(field, label_class='form-label', input_class='form-control') %}
+    <div class="mb-3">
+        {{ field.label(class=label_class) }}
+        {{ field(class=input_class + (' is-invalid' if field.errors else '')) }}
+        {% if field.errors %}
+            <div class="invalid-feedback">
+                {% for error in field.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro render_submit(field, class='btn btn-primary') %}
+    {{ field(class=class) }}
+{% endmacro %}
+
+{% macro render_user_card(user) %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h5 class="card-title">{{ user.email }}</h5>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            <i class="bi bi-calendar"></i> Joined {{ user.created_at.strftime('%B %d, %Y') }}
+                        </small>
+                    </p>
+                    <div class="mt-2">
+                        {% for role in user.roles %}
+                            <span class="badge bg-secondary me-1">{{ role.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        Actions
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <form method="POST" action="{{ url_for('admin.toggle_user_active', user_id=user.id) }}" class="d-inline">
+                                <button type="submit" class="dropdown-item">
+                                    {% if user.is_active %}
+                                        <i class="bi bi-person-x"></i> Deactivate
+                                    {% else %}
+                                        <i class="bi bi-person-check"></i> Activate
+                                    {% endif %}
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}

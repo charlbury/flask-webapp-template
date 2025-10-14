@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Access Forbidden - Flask RBAC App{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="text-center">
+            <i class="bi bi-shield-exclamation text-danger" style="font-size: 4rem;"></i>
+            <h1 class="display-4 mt-3">403</h1>
+            <h2 class="mb-4">Access Forbidden</h2>
+            <p class="lead">You don't have permission to access this resource.</p>
+            
+            {% if not current_user.is_authenticated %}
+                <p>Please <a href="{{ url_for('auth.login') }}">log in</a> to access this page.</p>
+            {% else %}
+                <p>Contact an administrator if you believe this is an error.</p>
+            {% endif %}
+            
+            <div class="mt-4">
+                <a href="{{ url_for('main.index') }}" class="btn btn-primary">
+                    <i class="bi bi-house"></i> Go Home
+                </a>
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
