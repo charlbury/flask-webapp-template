@@ -35,7 +35,7 @@ class User(UserMixin, db.Model):
         'Role',
         secondary='user_roles',
         back_populates='users',
-        lazy='dynamic'
+        lazy='select'
     )
     projects: Mapped[List['Project']] = relationship('Project', back_populates='owner', lazy='dynamic')
     
@@ -49,8 +49,7 @@ class User(UserMixin, db.Model):
     
     def has_role(self, role_name: str) -> bool:
         """Check if user has a specific role."""
-        from .role import Role
-        return self.roles.filter(Role.name == role_name).first() is not None
+        return any(role.name == role_name for role in self.roles)
     
     def add_role(self, role_name: str) -> bool:
         """Add a role to the user."""
@@ -65,8 +64,8 @@ class User(UserMixin, db.Model):
     def remove_role(self, role_name: str) -> bool:
         """Remove a role from the user."""
         from .role import Role
-        role = self.roles.filter(Role.name == role_name).first()
-        if role:
+        role = Role.query.filter_by(name=role_name).first()
+        if role and role in self.roles:
             self.roles.remove(role)
             return True
         return False

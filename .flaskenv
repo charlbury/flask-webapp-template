@@ -1,2 +1,2 @@
-FLASK_APP=src/app
-FLASK_RUN_PORT=5000
+FLASK_APP=src.app:create_app
+FLASK_RUN_PORT=5001

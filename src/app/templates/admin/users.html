@@ -24,6 +24,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form method="POST" action="" id="assignRoleForm">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="role_name" class="form-label">Role</label>
@@ -52,6 +53,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form method="POST" action="" id="removeRoleForm">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="remove_role_name" class="form-label">Role</label>
@@ -103,7 +105,9 @@
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="dropdown-item" onclick="openRemoveRoleModal('{{ user.id }}', {{ user.roles|list|tojson }})">
+                                        <button class="dropdown-item remove-role-btn"
+                                                data-user-id="{{ user.id }}"
+                                                data-user-roles="{{ user.roles|map(attribute='name')|join(',') }}">
                                             <i class="bi bi-dash-circle"></i> Remove Role
                                         </button>
                                     </li>
@@ -144,33 +148,61 @@ const availableRoles = {{ roles|tojson if roles else '[]' }};
 function openAssignRoleModal(userId) {
     document.getElementById('assign_user_id').value = userId;
     document.getElementById('assignRoleForm').action = `/admin/users/${userId}/roles`;
-    
+
     const roleSelect = document.getElementById('role_name');
     roleSelect.innerHTML = '<option value="">Select a role...</option>';
-    availableRoles.forEach(role => {
+    availableRoles.forEach(roleName => {
         const option = document.createElement('option');
-        option.value = role.name;
-        option.textContent = role.name;
+        option.value = roleName;
+        option.textContent = roleName;
         roleSelect.appendChild(option);
     });
-    
+
     new bootstrap.Modal(document.getElementById('assignRoleModal')).show();
 }
 
 function openRemoveRoleModal(userId, userRoles) {
     document.getElementById('remove_user_id').value = userId;
     document.getElementById('removeRoleForm').action = `/admin/users/${userId}/roles/remove`;
-    
+
     const roleSelect = document.getElementById('remove_role_name');
     roleSelect.innerHTML = '<option value="">Select a role...</option>';
-    userRoles.forEach(role => {
+
+    if (userRoles && userRoles.length > 0) {
+        userRoles.forEach(roleName => {
+            const option = document.createElement('option');
+            option.value = roleName;
+            option.textContent = roleName;
+            roleSelect.appendChild(option);
+        });
+    } else {
+        // User has no roles
         const option = document.createElement('option');
-        option.value = role.name;
-        option.textContent = role.name;
+        option.value = '';
+        option.textContent = 'No roles to remove';
+        option.disabled = true;
         roleSelect.appendChild(option);
-    });
-    
+    }
+
     new bootstrap.Modal(document.getElementById('removeRoleModal')).show();
 }
+
+// Add event listeners for remove role buttons
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.remove-role-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const userId = this.getAttribute('data-user-id');
+            const userRolesString = this.getAttribute('data-user-roles');
+
+            // Convert comma-separated string to array
+            let userRoles = [];
+            if (userRolesString && userRolesString.trim() !== '') {
+                userRoles = userRolesString.split(',').map(role => role.trim()).filter(role => role !== '');
+            }
+
+            openRemoveRoleModal(userId, userRoles);
+        });
+    });
+});
 </script>
 {% endblock %}

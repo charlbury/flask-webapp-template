@@ -61,6 +61,32 @@ def create_app(config_name: str = None) -> Flask:
     def internal_error(error):
         return render_template('errors/500.html'), 500
     
+    # Context processors
+    @app.context_processor
+    def inject_app_info():
+        """Inject application information into all templates."""
+        from .config import config
+        from sqlalchemy import create_engine
+        from urllib.parse import urlparse
+        
+        # Get current config
+        current_config = config[config_name]
+        
+        # Determine database type
+        db_uri = current_config.SQLALCHEMY_DATABASE_URI
+        if db_uri.startswith('sqlite'):
+            db_type = "SQLite (Development)"
+        elif db_uri.startswith('mssql'):
+            db_type = "Azure SQL Server (Production)"
+        else:
+            db_type = "Unknown"
+        
+        return {
+            'app_version': current_config.VERSION,
+            'database_type': db_type,
+            'debug_mode': app.debug
+        }
+    
     # CLI commands
     from .cli import register_commands
     register_commands(app)

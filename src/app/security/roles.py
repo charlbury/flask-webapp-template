@@ -29,8 +29,7 @@ def roles_required(*role_names):
                 abort(403)
             
             # Check if user has any of the required roles
-            user_roles = current_user.roles.with_entities(Role.name).all()
-            user_role_names = [role.name for role in user_roles]
+            user_role_names = [role.name for role in current_user.roles]
             
             if not any(role_name in user_role_names for role_name in role_names):
                 current_app.logger.warning(

@@ -36,10 +36,14 @@ def dashboard():
 @admin_required
 def users():
     """List all users with their roles."""
-    # Get users with their roles loaded to avoid N+1 queries
-    users = User.query.options(joinedload(User.roles)).order_by(User.created_at.desc()).all()
+    # Get all users
+    users = User.query.order_by(User.created_at.desc()).all()
     
-    return render_template('admin/users.html', users=users)
+    # Get all available roles for the dropdown (as names only)
+    roles = Role.query.all()
+    role_names = [role.name for role in roles]
+    
+    return render_template('admin/users.html', users=users, roles=role_names)
 
 
 @admin_bp.route('/users/<user_id>/roles', methods=['POST'])
