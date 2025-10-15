@@ -8,7 +8,7 @@ from urllib.parse import quote_plus
 
 class Config:
     """Base configuration class."""
-    VERSION = "0.1.1"
+    VERSION = "0.1.2"
     SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
