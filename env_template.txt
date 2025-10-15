@@ -1,0 +1,67 @@
+# Flask Application Configuration
+# ================================
+
+# Flask Environment
+# Options: development, production, testing
+FLASK_ENV=development
+
+# Flask Secret Key
+# Generate a secure secret key for production
+# You can generate one with: python -c "import secrets; print(secrets.token_hex(32))"
+SECRET_KEY=dev-secret-key-change-in-production
+
+# Azure SQL Database Configuration
+# ================================
+# Leave these empty for local development (will use SQLite)
+# Fill these in for Azure deployment
+
+# Azure SQL Server (e.g., your-server.database.windows.net)
+AZURE_SQL_SERVER=
+
+# Azure SQL Database name
+AZURE_SQL_DB=
+
+# Azure SQL Username
+AZURE_SQL_USER=
+
+# Azure SQL Password
+AZURE_SQL_PASSWORD=
+
+# ODBC Driver Configuration
+# ========================
+# Default: ODBC Driver 18 for SQL Server
+# Alternative: ODBC Driver 17 for SQL Server
+ODBC_DRIVER=ODBC Driver 18 for SQL Server
+
+# Azure Web App Configuration (for deployment)
+# ============================================
+# These are set automatically by Azure, but you can override if needed
+
+# Port (Azure sets this automatically)
+# PORT=8000
+
+# Build configuration for Azure deployment
+SCM_DO_BUILD_DURING_DEPLOYMENT=1
+
+# Local Development Database
+# ==========================
+# For local development, the app will use SQLite if Azure SQL variables are not set
+# Database file will be created at: instance/app.db
+
+# Security Configuration
+# =====================
+# These are handled in config.py but can be overridden here if needed
+
+# Session cookie settings (handled in config.py)
+# SESSION_COOKIE_HTTPONLY=True
+# SESSION_COOKIE_SAMESITE=Lax
+
+# CSRF protection timeout (handled in config.py)
+# WTF_CSRF_TIME_LIMIT=3600
+
+# Production Security Settings (for production deployment)
+# ========================================================
+# Uncomment and configure these for production deployment
+
+# SESSION_COOKIE_SECURE=True
+# REMEMBER_COOKIE_SECURE=True

@@ -1,9 +1,15 @@
 /* Custom CSS for Flask RBAC App */
 
 /* Global Styles */
+html, body {
+    height: 100%;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Navigation */
@@ -20,6 +26,11 @@ body {
 
 .card:hover {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background-color: #e9ecef;
+    border-bottom: 1px solid #dee2e6;
 }
 
 /* Statistics Cards */
@@ -53,9 +64,22 @@ body {
     background-color: rgba(0, 0, 0, 0.075);
 }
 
+/* Main Content */
+main {
+    flex: 1;
+}
+
 /* Footer */
 footer {
     margin-top: auto;
+    background-color: #343a40 !important;
+    color: #ffffff !important;
+}
+
+footer p,
+footer small,
+footer strong {
+    color: #ffffff !important;
 }
 
 /* Responsive */
@@ -63,7 +87,7 @@ footer {
     .display-4 {
         font-size: 2rem;
     }
-    
+
     .lead {
         font-size: 1rem;
     }
