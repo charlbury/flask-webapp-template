@@ -23,12 +23,12 @@ class Config:
     SESSION_COOKIE_SAMESITE = 'Lax'
     WTF_CSRF_TIME_LIMIT = 3600
 
-    # Content Security Policy for Bootstrap CDN
+    # Content Security Policy for Bootstrap CDN and Material Dashboard
     CSP_HEADERS = {
         'default-src': "'self'",
-        'script-src': "'self' 'unsafe-inline' https://cdn.jsdelivr.net",
-        'style-src': "'self' 'unsafe-inline' https://cdn.jsdelivr.net",
-        'font-src': "'self' https://cdn.jsdelivr.net",
+        'script-src': "'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://buttons.github.io",
+        'style-src': "'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com https://cdnjs.cloudflare.com",
+        'font-src': "'self' https://cdn.jsdelivr.net https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com",
         'img-src': "'self' data:",
         'connect-src': "'self'"
     }

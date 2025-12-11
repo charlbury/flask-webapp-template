@@ -1,0 +1,1366 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Admin Page{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item text-sm text-dark active font-weight-bold" aria-current="page">Admin Page</li>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-1 px-2">
+        <div class="sidenav-toggler sidenav-toggler-inner d-xl-block d-none ">
+          <a href="javascript:;" class="nav-link text-body p-0">
+            <div class="sidenav-toggler-inner">
+              <i class="sidenav-toggler-line"></i>
+              <i class="sidenav-toggler-line"></i>
+              <i class="sidenav-toggler-line"></i>
+            </div>
+          </a>
+        </div>
+        <nav aria-label="breadcrumb" class="ps-2">
+          <ol class="breadcrumb bg-transparent mb-0 p-0">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
+            <li class="breadcrumb-item text-sm text-dark active font-weight-bold" aria-current="page">VR Default</li>
+          </ol>
+        </nav>
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            <div class="input-group input-group-outline">
+              <label class="form-label">Search here</label>
+              <input type="text" class="form-control">
+            </div>
+          </div>
+          <ul class="navbar-nav  justify-content-end">
+            <li class="nav-item">
+              <a href="../../../pages/authentication/signin/illustration.html" class="px-1 py-0 nav-link line-height-0" target="_blank">
+                <i class="material-symbols-rounded">
+              account_circle
+            </i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="javascript:;" class="nav-link py-0 px-1 line-height-0">
+                <i class="material-symbols-rounded fixed-plugin-button-nav">
+              settings
+            </i>
+              </a>
+            </li>
+            <li class="nav-item dropdown py-0 pe-3">
+              <a href="javascript:;" class="nav-link py-0 px-1 position-relative line-height-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="material-symbols-rounded">
+              notifications
+            </i>
+                <span class="position-absolute top-5 start-100 translate-middle badge rounded-pill bg-danger border border-white small py-1 px-2">
+                  <span class="small">11</span>
+                  <span class="visually-hidden">unread notifications</span>
+                </span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end p-2 me-sm-n4" aria-labelledby="dropdownMenuButton">
+                <li class="mb-2">
+                  <a class="dropdown-item border-radius-md" href="javascript:;">
+                    <div class="d-flex align-items-center py-1">
+                      <span class="material-symbols-rounded">email</span>
+                      <div class="ms-2">
+                        <h6 class="text-sm font-weight-normal my-auto">
+                          Check new messages
+                        </h6>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li class="mb-2">
+                  <a class="dropdown-item border-radius-md" href="javascript:;">
+                    <div class="d-flex align-items-center py-1">
+                      <span class="material-symbols-rounded">podcasts</span>
+                      <div class="ms-2">
+                        <h6 class="text-sm font-weight-normal my-auto">
+                          Manage podcast session
+                        </h6>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item border-radius-md" href="javascript:;">
+                    <div class="d-flex align-items-center py-1">
+                      <span class="material-symbols-rounded">shopping_cart</span>
+                      <div class="ms-2">
+                        <h6 class="text-sm font-weight-normal my-auto">
+                          Payment successfully completed
+                        </h6>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                <div class="sidenav-toggler-inner">
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+  </div>
+  <div class="border-radius-xl mx-2 mx-md-3 position-relative" style="background-image: url('../{{ url_for('static', filename='admin/img/vr-bg.jpg') }}'); background-size: cover;">
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2" id="sidenav-main">
+      <div class="sidenav-header">
+        <i class="fas fa-times p-3 cursor-pointer text-dark opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+        <a class="navbar-brand px-4 py-3 m-0" href=" https://demos.creative-tim.com/material-dashboard-pro/pages/dashboards/analytics.html " target="_blank">
+          <img src="{{ url_for('static', filename='admin/img/logo-ct-dark.png') }}" class="navbar-brand-img" width="26" height="26" alt="main_logo">
+          <span class="ms-1 text-sm text-dark">Creative Tim</span>
+        </a>
+      </div>
+      <hr class="horizontal dark mt-0 mb-2">
+      <div class="collapse navbar-collapse  w-auto h-auto" id="sidenav-collapse-main">
+        <ul class="navbar-nav">
+          <li class="nav-item mb-2 mt-0">
+            <a data-bs-toggle="collapse" href="#ProfileNav" class="nav-link text-dark" aria-controls="ProfileNav" role="button" aria-expanded="false">
+              <img src="{{ url_for('static', filename='admin/img/team-3.jpg') }}" class="avatar">
+              <span class="nav-link-text ms-2 ps-1">Brooklyn Alice</span>
+            </a>
+            <div class="collapse" id="ProfileNav" style="">
+              <ul class="nav ">
+                <li class="nav-item">
+                  <a class="nav-link text-dark" href="../../../pages/pages/profile/overview.html">
+                    <span class="sidenav-mini-icon"> MP </span>
+                    <span class="sidenav-normal  ms-3  ps-1"> My Profile </span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-dark " href="../../../pages/pages/account/settings.html">
+                    <span class="sidenav-mini-icon"> S </span>
+                    <span class="sidenav-normal  ms-3  ps-1"> Settings </span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-dark " href="../../../pages/authentication/signin/basic.html">
+                    <span class="sidenav-mini-icon"> L </span>
+                    <span class="sidenav-normal  ms-3  ps-1"> Logout </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <hr class="horizontal dark mt-0">
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#dashboardsExamples" class="nav-link text-dark " aria-controls="dashboardsExamples" role="button" aria-expanded="false">
+              <i class="material-symbols-rounded opacity-5">space_dashboard</i>
+              <span class="nav-link-text ms-1 ps-1">Dashboards</span>
+            </a>
+            <div class="collapse " id="dashboardsExamples">
+              <ul class="nav ">
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/dashboards/analytics.html">
+                    <span class="sidenav-mini-icon"> A </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Analytics </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/dashboards/discover.html">
+                    <span class="sidenav-mini-icon"> D </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Discover </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/dashboards/sales.html">
+                    <span class="sidenav-mini-icon"> S </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Sales </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/dashboards/automotive.html">
+                    <span class="sidenav-mini-icon"> A </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Automotive </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/dashboards/smart-home.html">
+                    <span class="sidenav-mini-icon"> S </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Smart Home </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item mt-3">
+            <h6 class="ps-3  ms-2 text-uppercase text-xs font-weight-bolder text-dark">PAGES</h6>
+          </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-dark active" aria-controls="pagesExamples" role="button" aria-expanded="false">
+              <i class="material-symbols-rounded opacity-5 {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">contract</i>
+              <span class="nav-link-text ms-1 ps-1">Pages</span>
+            </a>
+            <div class="collapse  show " id="pagesExamples">
+              <ul class="nav ">
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " data-bs-toggle="collapse" aria-expanded="false" href="#vrExamples">
+                    <span class="sidenav-mini-icon"> V </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Virtual Reality <b class="caret"></b></span>
+                  </a>
+                  <div class="collapse show" id="vrExamples">
+                    <ul class="nav nav-sm flex-column">
+                      <li class="nav-item">
+                        <a class="nav-link text-dark active" href="../../../pages/pages/vr/vr-default.html">
+                          <span class="sidenav-mini-icon"> V </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> VR Default </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/pages/vr/vr-info.html">
+                          <span class="sidenav-mini-icon"> V </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> VR Info </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/pages/pricing-page.html">
+                    <span class="sidenav-mini-icon"> P </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Pricing Page </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/pages/rtl-page.html">
+                    <span class="sidenav-mini-icon"> R </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> RTL </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/pages/widgets.html">
+                    <span class="sidenav-mini-icon"> W </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Widgets </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/pages/charts.html">
+                    <span class="sidenav-mini-icon"> C </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Charts </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/pages/sweet-alerts.html">
+                    <span class="sidenav-mini-icon"> S </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Sweet Alerts </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/pages/notifications.html">
+                    <span class="sidenav-mini-icon"> N </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Notifications </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#accountExamples" class="nav-link text-dark " aria-controls="accountExamples" role="button" aria-expanded="false">
+              <i class="material-symbols-rounded opacity-5 {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">account_circle</i>
+              <span class="nav-link-text ms-1 ps-1">Account</span>
+            </a>
+            <div class="collapse " id="accountExamples">
+              <ul class="nav ">
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/account/settings.html">
+                    <span class="sidenav-mini-icon"> S </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Settings </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/account/billing.html">
+                    <span class="sidenav-mini-icon"> B </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Billing </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/account/invoice.html">
+                    <span class="sidenav-mini-icon"> I </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Invoice </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/account/security.html">
+                    <span class="sidenav-mini-icon"> S </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Security </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#applicationsExamples" class="nav-link text-dark " aria-controls="applicationsExamples" role="button" aria-expanded="false">
+              <i class="material-symbols-rounded opacity-5 {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">apps</i>
+              <span class="nav-link-text ms-1 ps-1">Applications</span>
+            </a>
+            <div class="collapse " id="applicationsExamples">
+              <ul class="nav ">
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/applications/crm.html">
+                    <span class="sidenav-mini-icon"> C </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> CRM </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/applications/kanban.html">
+                    <span class="sidenav-mini-icon"> K </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Kanban </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/applications/wizard.html">
+                    <span class="sidenav-mini-icon"> W </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Wizard </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/applications/datatables.html">
+                    <span class="sidenav-mini-icon"> D </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> DataTables </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/applications/calendar.html">
+                    <span class="sidenav-mini-icon"> C </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Calendar </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/applications/stats.html">
+                    <span class="sidenav-mini-icon"> S </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Stats </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/applications/validation.html">
+                    <span class="sidenav-mini-icon"> V </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Validation </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#ecommerceExamples" class="nav-link text-dark " aria-controls="ecommerceExamples" role="button" aria-expanded="false">
+              <i class="material-symbols-rounded opacity-5 {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">storefront</i>
+              <span class="nav-link-text ms-1 ps-1">Ecommerce</span>
+            </a>
+            <div class="collapse " id="ecommerceExamples">
+              <ul class="nav ">
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " data-bs-toggle="collapse" aria-expanded="false" href="#productsExample">
+                    <span class="sidenav-mini-icon"> P </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Products <b class="caret"></b></span>
+                  </a>
+                  <div class="collapse " id="productsExample">
+                    <ul class="nav nav-sm flex-column">
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/ecommerce/products/new-product.html">
+                          <span class="sidenav-mini-icon"> N </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> New Product </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/ecommerce/products/edit-product.html">
+                          <span class="sidenav-mini-icon"> E </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Edit Product </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/ecommerce/products/product-page.html">
+                          <span class="sidenav-mini-icon"> P </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Product Page </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/ecommerce/products/products-list.html">
+                          <span class="sidenav-mini-icon"> P </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Products List </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " data-bs-toggle="collapse" aria-expanded="false" href="#ordersExample">
+                    <span class="sidenav-mini-icon"> O </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Orders <b class="caret"></b></span>
+                  </a>
+                  <div class="collapse " id="ordersExample">
+                    <ul class="nav nav-sm flex-column">
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/ecommerce/orders/list.html">
+                          <span class="sidenav-mini-icon"> O </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Order List </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/ecommerce/orders/details.html">
+                          <span class="sidenav-mini-icon"> O </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Order Details </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/ecommerce/referral.html">
+                    <span class="sidenav-mini-icon"> R </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Referral </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#profileExamples" class="nav-link text-dark " aria-controls="profileExamples" role="button" aria-expanded="false">
+              <i class="material-symbols-rounded opacity-5 {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">group</i>
+              <span class="nav-link-text ms-1 ps-1">Team</span>
+            </a>
+            <div class="collapse " id="profileExamples">
+              <ul class="nav ">
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/team/all-projects.html">
+                    <span class="sidenav-mini-icon"> A </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> All Projects </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/team/messages.html">
+                    <span class="sidenav-mini-icon"> M </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Messages </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/team/new-user.html">
+                    <span class="sidenav-mini-icon"> N </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> New User </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/team/profile-overview.html">
+                    <span class="sidenav-mini-icon"> P </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Profile Overview </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/team/reports.html">
+                    <span class="sidenav-mini-icon"> R </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Reports </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#projectsExamples" class="nav-link text-dark " aria-controls="projectsExamples" role="button" aria-expanded="false">
+              <i class="material-symbols-rounded opacity-5 {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">widgets</i>
+              <span class="nav-link-text ms-1 ps-1">Projects</span>
+            </a>
+            <div class="collapse " id="projectsExamples">
+              <ul class="nav ">
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/projects/general.html">
+                    <span class="sidenav-mini-icon"> G </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> General </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/projects/timeline.html">
+                    <span class="sidenav-mini-icon"> T </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Timeline </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="../../../pages/projects/new-project.html">
+                    <span class="sidenav-mini-icon"> N </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> New Project </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#authExamples" class="nav-link text-dark " aria-controls="authExamples" role="button" aria-expanded="false">
+              <i class="material-symbols-rounded opacity-5 {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">tv_signin</i>
+              <span class="nav-link-text ms-1 ps-1">Authentication</span>
+            </a>
+            <div class="collapse " id="authExamples">
+              <ul class="nav ">
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " data-bs-toggle="collapse" aria-expanded="false" href="#signinExample">
+                    <span class="sidenav-mini-icon"> S </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Sign In <b class="caret"></b></span>
+                  </a>
+                  <div class="collapse " id="signinExample">
+                    <ul class="nav nav-sm flex-column">
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/authentication/signin/basic.html">
+                          <span class="sidenav-mini-icon"> B </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Basic </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/authentication/signin/cover.html">
+                          <span class="sidenav-mini-icon"> C </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Cover </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/authentication/signin/illustration.html">
+                          <span class="sidenav-mini-icon"> I </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Illustration </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " data-bs-toggle="collapse" aria-expanded="false" href="#signupExample">
+                    <span class="sidenav-mini-icon"> S </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Sign Up <b class="caret"></b></span>
+                  </a>
+                  <div class="collapse " id="signupExample">
+                    <ul class="nav nav-sm flex-column">
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/authentication/signup/basic.html">
+                          <span class="sidenav-mini-icon"> B </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Basic </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/authentication/signup/cover.html">
+                          <span class="sidenav-mini-icon"> C </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Cover </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/authentication/signup/illustration.html">
+                          <span class="sidenav-mini-icon"> I </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Illustration </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " data-bs-toggle="collapse" aria-expanded="false" href="#resetExample">
+                    <span class="sidenav-mini-icon"> R </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Reset Password <b class="caret"></b></span>
+                  </a>
+                  <div class="collapse " id="resetExample">
+                    <ul class="nav nav-sm flex-column">
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/authentication/reset/basic.html">
+                          <span class="sidenav-mini-icon"> B </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Basic </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/authentication/reset/cover.html">
+                          <span class="sidenav-mini-icon"> C </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Cover </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/authentication/reset/illustration.html">
+                          <span class="sidenav-mini-icon"> I </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Illustration </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " data-bs-toggle="collapse" aria-expanded="false" href="#lockExample">
+                    <span class="sidenav-mini-icon"> L </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Lock <b class="caret"></b></span>
+                  </a>
+                  <div class="collapse " id="lockExample">
+                    <ul class="nav nav-sm flex-column">
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/authentication/lock/basic.html">
+                          <span class="sidenav-mini-icon"> B </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Basic </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/authentication/lock/cover.html">
+                          <span class="sidenav-mini-icon"> C </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Cover </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/authentication/lock/illustration.html">
+                          <span class="sidenav-mini-icon"> I </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Illustration </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " data-bs-toggle="collapse" aria-expanded="false" href="#StepExample">
+                    <span class="sidenav-mini-icon"> 2 </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> 2-Step Verification <b class="caret"></b></span>
+                  </a>
+                  <div class="collapse " id="StepExample">
+                    <ul class="nav nav-sm flex-column">
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/authentication/verification/basic.html">
+                          <span class="sidenav-mini-icon"> B </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Basic </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/authentication/verification/cover.html">
+                          <span class="sidenav-mini-icon"> C </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Cover </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/authentication/verification/illustration.html">
+                          <span class="sidenav-mini-icon"> I </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Illustration </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " data-bs-toggle="collapse" aria-expanded="false" href="#errorExample">
+                    <span class="sidenav-mini-icon"> E </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Error <b class="caret"></b></span>
+                  </a>
+                  <div class="collapse " id="errorExample">
+                    <ul class="nav nav-sm flex-column">
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/authentication/error/404.html">
+                          <span class="sidenav-mini-icon"> E </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Error 404 </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="../../../pages/authentication/error/500.html">
+                          <span class="sidenav-mini-icon"> E </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Error 500 </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <hr class="horizontal dark" />
+            <h6 class="ps-3  ms-2 text-uppercase text-xs font-weight-bolder text-dark">DOCS</h6>
+          </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#basicExamples" class="nav-link text-dark " aria-controls="basicExamples" role="button" aria-expanded="false">
+              <i class="material-symbols-rounded opacity-5 {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">upcoming</i>
+              <span class="nav-link-text ms-1 ps-1">Basic</span>
+            </a>
+            <div class="collapse " id="basicExamples">
+              <ul class="nav ">
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " data-bs-toggle="collapse" aria-expanded="false" href="#gettingStartedExample">
+                    <span class="sidenav-mini-icon"> G </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Getting Started <b class="caret"></b></span>
+                  </a>
+                  <div class="collapse " id="gettingStartedExample">
+                    <ul class="nav nav-sm flex-column">
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/quick-start/material-dashboard" target="_blank">
+                          <span class="sidenav-mini-icon"> Q </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Quick Start </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/license/material-dashboard" target="_blank">
+                          <span class="sidenav-mini-icon"> L </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> License </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/overview/material-dashboard" target="_blank">
+                          <span class="sidenav-mini-icon"> C </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Contents </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/build-tools/material-dashboard" target="_blank">
+                          <span class="sidenav-mini-icon"> B </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Build Tools </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " data-bs-toggle="collapse" aria-expanded="false" href="#foundationExample">
+                    <span class="sidenav-mini-icon"> F </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Foundation <b class="caret"></b></span>
+                  </a>
+                  <div class="collapse " id="foundationExample">
+                    <ul class="nav nav-sm flex-column">
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/colors/material-dashboard" target="_blank">
+                          <span class="sidenav-mini-icon"> C </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Colors </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/grid/material-dashboard" target="_blank">
+                          <span class="sidenav-mini-icon"> G </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Grid </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/typography/material-dashboard" target="_blank">
+                          <span class="sidenav-mini-icon"> T </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Typography </span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/icons/material-dashboard" target="_blank">
+                          <span class="sidenav-mini-icon"> I </span>
+                          <span class="sidenav-normal  ms-1  ps-1"> Icons </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#componentsExamples" class="nav-link text-dark " aria-controls="componentsExamples" role="button" aria-expanded="false">
+              <i class="material-symbols-rounded opacity-5 {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">view_in_ar</i>
+              <span class="nav-link-text ms-1 ps-1">Components</span>
+            </a>
+            <div class="collapse " id="componentsExamples">
+              <ul class="nav ">
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/alerts/material-dashboard" target="_blank">
+                    <span class="sidenav-mini-icon"> A </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Alerts </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/badge/material-dashboard" target="_blank">
+                    <span class="sidenav-mini-icon"> B </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Badge </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/buttons/material-dashboard" target="_blank">
+                    <span class="sidenav-mini-icon"> B </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Buttons </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/cards/material-dashboard" target="_blank">
+                    <span class="sidenav-mini-icon"> C </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Card </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/carousel/material-dashboard" target="_blank">
+                    <span class="sidenav-mini-icon"> C </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Carousel </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/collapse/material-dashboard" target="_blank">
+                    <span class="sidenav-mini-icon"> C </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Collapse </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/dropdowns/material-dashboard" target="_blank">
+                    <span class="sidenav-mini-icon"> D </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Dropdowns </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/forms/material-dashboard" target="_blank">
+                    <span class="sidenav-mini-icon"> F </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Forms </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/modal/material-dashboard" target="_blank">
+                    <span class="sidenav-mini-icon"> M </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Modal </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/navs/material-dashboard" target="_blank">
+                    <span class="sidenav-mini-icon"> N </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Navs </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/navbar/material-dashboard" target="_blank">
+                    <span class="sidenav-mini-icon"> N </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Navbar </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/pagination/material-dashboard" target="_blank">
+                    <span class="sidenav-mini-icon"> P </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Pagination </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/popovers/material-dashboard" target="_blank">
+                    <span class="sidenav-mini-icon"> P </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Popovers </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/progress/material-dashboard" target="_blank">
+                    <span class="sidenav-mini-icon"> P </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Progress </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/spinners/material-dashboard" target="_blank">
+                    <span class="sidenav-mini-icon"> S </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Spinners </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/tables/material-dashboard" target="_blank">
+                    <span class="sidenav-mini-icon"> T </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Tables </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link text-dark " href="https://www.creative-tim.com/learning-lab/bootstrap/tooltips/material-dashboard" target="_blank">
+                    <span class="sidenav-mini-icon"> T </span>
+                    <span class="sidenav-normal  ms-1  ps-1"> Tooltips </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="https://github.com/creativetimofficial/ct-material-dashboard-pro/blob/master/CHANGELOG.md" target="_blank">
+              <i class="material-symbols-rounded opacity-5 {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">receipt_long</i>
+              <span class="nav-link-text ms-1 ps-1">Changelog</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+    <main class="main-content border-radius-lg h-100">
+      <div class="section min-vh-85 position-relative transform-scale-0 transform-scale-md-6">
+        <div class="container ms-n0 ms-lg-n5">
+          <div class="row">
+            <div class="col-lg-10 mb-lg-0 position-relative z-index-2">
+              <div class="card card-plain">
+                <div class="card-body p-3">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="d-flex flex-column h-100">
+                        <h2 class="font-weight-bolder mb-0mt-4 fadeIn1 fadeInBottom text-white">General Statistics</h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-12">
+                  <div class="card mb-4">
+                    <div class="card-header pb-0">
+                      <h6 class="mb-0">Sales by Country</h6>
+                      <p class="mb-2 text-sm">
+                        Check the sales, value and bounce rate by country.
+                      </p>
+                    </div>
+                    <div class="card-body p-3">
+                      <div class="row">
+                        <div class="col-lg-6 col-md-7">
+                          <div class="table-responsive">
+                            <table class="table align-items-center">
+                              <thead>
+                                <tr>
+                                  <th class="text-secondary text-sm font-weight-normal text-left p-2">Country</th>
+                                  <th class="text-secondary text-sm font-weight-normal text-left p-2">Sales</th>
+                                  <th class="text-secondary text-sm font-weight-normal text-left p-2">Value</th>
+                                  <th class="text-secondary text-sm font-weight-normal text-left p-2">Bounce</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td class="w-30">
+                                    <div class="d-flex px-2 py-1 align-items-center">
+                                      <div>
+                                        <img src="{{ url_for('static', filename='admin/img/icons/flags/US.png') }}" alt="Country flag">
+                                      </div>
+                                      <div class="ms-4">
+                                        <h6 class="text-sm font-weight-normal mb-0">United States</h6>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <h6 class="text-sm font-weight-normal mb-0">2500</h6>
+                                  </td>
+                                  <td>
+                                    <h6 class="text-sm font-weight-normal mb-0">$230,900</h6>
+                                  </td>
+                                  <td class="align-middle text-sm">
+                                    <h6 class="text-sm font-weight-normal mb-0">29.9%</h6>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="w-30">
+                                    <div class="d-flex px-2 py-1 align-items-center">
+                                      <div>
+                                        <img src="{{ url_for('static', filename='admin/img/icons/flags/DE.png') }}" alt="Country flag">
+                                      </div>
+                                      <div class="ms-4">
+                                        <h6 class="text-sm font-weight-normal mb-0">Germany</h6>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <h6 class="text-sm font-weight-normal mb-0">3.900</h6>
+                                  </td>
+                                  <td>
+                                    <h6 class="text-sm font-weight-normal mb-0">$440,000</h6>
+                                  </td>
+                                  <td class="align-middle text-sm">
+                                    <h6 class="text-sm font-weight-normal mb-0">40.22%</h6>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="w-30">
+                                    <div class="d-flex px-2 py-1 align-items-center">
+                                      <div>
+                                        <img src="{{ url_for('static', filename='admin/img/icons/flags/GB.png') }}" alt="Country flag">
+                                      </div>
+                                      <div class="ms-4">
+                                        <h6 class="text-sm font-weight-normal mb-0">Great Britain</h6>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <h6 class="text-sm font-weight-normal mb-0">1.400</h6>
+                                  </td>
+                                  <td>
+                                    <h6 class="text-sm font-weight-normal mb-0">$190,700</h6>
+                                  </td>
+                                  <td class="align-middle text-sm">
+                                    <h6 class="text-sm font-weight-normal mb-0">23.44%</h6>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="w-30">
+                                    <div class="d-flex px-2 py-1 align-items-center">
+                                      <div>
+                                        <img src="{{ url_for('static', filename='admin/img/icons/flags/BR.png') }}" alt="Country flag">
+                                      </div>
+                                      <div class="ms-4">
+                                        <h6 class="text-sm font-weight-normal mb-0">Brasil</h6>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <h6 class="text-sm font-weight-normal mb-0">562</h6>
+                                  </td>
+                                  <td>
+                                    <h6 class="text-sm font-weight-normal mb-0">$143,960</h6>
+                                  </td>
+                                  <td class="align-middle text-sm">
+                                    <h6 class="text-sm font-weight-normal mb-0">32.14%</h6>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <div class="col-lg-6 col-md-5">
+                          <div id="vector-map" class="mt-0 mt-lg-n4"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-lg-4 col-md-6 col-12">
+                  <div class="card fadeIn1 fadeInBottom bg-gradient-dark ">
+                    <div class="card-body">
+                      <h6 class="mb-0 text-white"> Daily Sales </h6>
+                      <p class="text-sm text-white opacity-6"> (<span class="font-weight-bolder">+15%</span>) increase in today sales. </p>
+                      <div class="pe-2">
+                        <div class="chart">
+                          <canvas id="chart-line-vr" class="chart-canvas" height="370"></canvas>
+                        </div>
+                      </div>
+                      <hr class="dark horizontal">
+                      <div class="d-flex text-white opacity-6">
+                        <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
+                        <p class="mb-0 text-sm"> updated 4 min ago </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-12">
+                  <div class="card fadeIn3 fadeInBottom bg-gradient-dark">
+                    <div class="card-body">
+                      <h6 class="mb-0 text-white">Website Views</h6>
+                      <p class="text-sm text-white opacity-6">Last Campaign Performance</p>
+                      <div class="pe-2">
+                        <div class="chart">
+                          <canvas id="chart-bars-vr" class="chart-canvas" height="370"></canvas>
+                        </div>
+                      </div>
+                      <hr class="dark horizontal">
+                      <div class="d-flex text-white opacity-6">
+                        <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
+                        <p class="mb-0 text-sm"> campaign sent 2 days ago </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-12 col-12 mt-5 mt-lg-0">
+                  <div class="card fadeIn2 fadeInBottom bg-gradient-dark">
+                    <div class="card-body">
+                      <h6 class="mb-0 text-white">Completed Tasks</h6>
+                      <p class="text-sm text-white opacity-6">Last Campaign Performance</p>
+                      <div class="pe-2">
+                        <div class="chart">
+                          <canvas id="chart-line-tasks-vr" class="chart-canvas" height="370"></canvas>
+                        </div>
+                      </div>
+                      <hr class="dark horizontal">
+                      <div class="d-flex text-white opacity-6">
+                        <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
+                        <p class="mb-0 text-sm">just updated</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+              document.write(new Date().getFullYear())
+            </script>
+<script>
+    // Initialize the vector map
+    var map = new jsVectorMap({
+      selector: "#vector-map",
+      map: "world_merc",
+      zoomOnScroll: false,
+      zoomButtons: false,
+      selectedMarkers: [1, 3],
+      markersSelectable: true,
+      markers: [{
+          name: "USA",
+          coords: [40.71296415909766, -74.00437720027804]
+        },
+        {
+          name: "Germany",
+          coords: [51.17661451970939, 10.97947735117339]
+        },
+        {
+          name: "Brazil",
+          coords: [-7.596735421549542, -54.781694323779185]
+        },
+        {
+          name: "Russia",
+          coords: [62.318222797104276, 89.81564777631716]
+        },
+        {
+          name: "China",
+          coords: [22.320178999475512, 114.17161225541399],
+          style: {
+            fill: '#E91E63'
+          }
+        }
+      ],
+      markerStyle: {
+        initial: {
+          fill: "#9c27b0"
+        },
+        selected: {
+          fill: "E91E63"
+        }
+      },
+
+
+    });
+    var ctx5 = document.getElementById("chart-line-vr").getContext("2d");
+
+    new Chart(ctx5, {
+      type: "line",
+      data: {
+        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [{
+          label: "Mobile apps",
+          tension: 0,
+          borderWidth: 0,
+          pointRadius: 5,
+          pointBackgroundColor: "rgba(255, 255, 255, .8)",
+          pointBorderColor: "transparent",
+          borderColor: "rgba(255, 255, 255, .8)",
+          borderColor: "rgba(255, 255, 255, .8)",
+          borderWidth: 4,
+          backgroundColor: "transparent",
+          fill: true,
+          data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+          maxBarThickness: 6
+
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: 'rgba(255, 255, 255, .2)'
+            },
+            ticks: {
+              display: true,
+              color: '#f8f9fa',
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              color: '#f8f9fa',
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+
+    var ctx6 = document.getElementById("chart-bars-vr").getContext("2d");
+
+    new Chart(ctx6, {
+      type: "bar",
+      data: {
+        labels: ["M", "T", "W", "T", "F", "S", "S"],
+        datasets: [{
+          label: "Sales",
+          tension: 0.4,
+          borderWidth: 0,
+          borderRadius: 4,
+          borderSkipped: false,
+          backgroundColor: "rgba(255, 255, 255, .8)",
+          data: [50, 20, 10, 22, 50, 10, 40],
+          maxBarThickness: 6
+        }, ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: 'rgba(255, 255, 255, .2)'
+            },
+            ticks: {
+              suggestedMin: 0,
+              suggestedMax: 500,
+              beginAtZero: true,
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+              color: "#fff"
+            },
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: 'rgba(255, 255, 255, .2)'
+            },
+            ticks: {
+              display: true,
+              color: '#f8f9fa',
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+
+    var ctx7 = document.getElementById("chart-line-tasks-vr").getContext("2d");
+
+    new Chart(ctx7, {
+      type: "line",
+      data: {
+        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [{
+          label: "Mobile apps",
+          tension: 0,
+          borderWidth: 0,
+          pointRadius: 5,
+          pointBackgroundColor: "rgba(255, 255, 255, .8)",
+          pointBorderColor: "transparent",
+          borderColor: "rgba(255, 255, 255, .8)",
+          borderWidth: 4,
+          backgroundColor: "transparent",
+          fill: true,
+          data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+          maxBarThickness: 6
+
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: 'rgba(255, 255, 255, .2)'
+            },
+            ticks: {
+              display: true,
+              padding: 10,
+              color: '#f8f9fa',
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              color: '#f8f9fa',
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+  </script>
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+{% endblock %}
