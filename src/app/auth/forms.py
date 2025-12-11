@@ -17,6 +17,12 @@ class RegisterForm(FlaskForm):
         Email(),
         Length(max=255)
     ])
+    first_name = StringField('First Name', validators=[
+        Length(max=100)
+    ])
+    last_name = StringField('Last Name', validators=[
+        Length(max=100)
+    ])
     password = PasswordField('Password', validators=[
         DataRequired(),
         Length(min=8, max=128)
