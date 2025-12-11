@@ -8,7 +8,7 @@
 
 {% block content %}
 <div class="container-fluid px-5 my-6">
-    <div class="card mt-n8">
+    <div class="card mt-4">
       <div class="container">
         <div class="row mb-5">
           <div class="col-lg-4 col-md-6 col-7 mx-auto text-center">
@@ -396,7 +396,7 @@
     </div>
   </div>
   <!-- -------- START FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
-  
+
 {% endblock %}
 
 {% block extra_scripts %}
@@ -404,14 +404,33 @@
               document.write(new Date().getFullYear())
             </script>
 <script>
-    if (document.getElementsByClassName('page-header')) {
-      window.onscroll = debounce(function() {
-        var scrollPosition = window.pageYOffset;
-        var bgParallax = document.querySelector('.page-header');
-        var oVal = (window.scrollY / 3);
-        bgParallax.style.transform = 'translate3d(0,' + oVal + 'px,0)';
-      }, 6);
-    }
+    // Wait for Material Dashboard to load (which defines debounce)
+    // This script runs before material-dashboard.min.js loads, so we need to wait
+    (function() {
+      function initParallax() {
+        if (typeof debounce === 'undefined') {
+          // Material Dashboard not loaded yet, try again
+          setTimeout(initParallax, 50);
+          return;
+        }
+        if (document.getElementsByClassName('page-header').length > 0) {
+          window.onscroll = debounce(function() {
+            var scrollPosition = window.pageYOffset;
+            var bgParallax = document.querySelector('.page-header');
+            if (bgParallax) {
+              var oVal = (window.scrollY / 3);
+              bgParallax.style.transform = 'translate3d(0,' + oVal + 'px,0)';
+            }
+          }, 6);
+        }
+      }
+      // Start checking once DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initParallax);
+      } else {
+        initParallax();
+      }
+    })();
   </script>
 <script>
     var win = navigator.platform.indexOf('Win') > -1;
