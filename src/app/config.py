@@ -12,6 +12,12 @@ class Config:
     SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    # Database connection retry settings
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        'pool_pre_ping': True,  # Verify connections before using
+        'pool_recycle': 3600,   # Recycle connections after 1 hour
+    }
+
     # Security settings
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = 'Lax'
@@ -52,7 +58,7 @@ def _build_azure_sql_uri() -> str:
         f"Pwd={password_encoded};"
         f"Encrypt=yes;"
         f"TrustServerCertificate=no;"
-        f"Connection Timeout=30;"
+        f"Connection Timeout=10;"  # Reduced from 30 to work with retry logic
     )
 
     # URL encode the entire connection string

@@ -13,6 +13,7 @@ from .config import config
 from .extensions import db, login_manager, csrf, migrate
 from .models import User, Role, Project
 from .security.roles import admin_required
+from .db_utils import retry_db_operation
 
 
 def create_app(config_name: str = None) -> Flask:
@@ -40,6 +41,7 @@ def create_app(config_name: str = None) -> Flask:
     login_manager.login_message_category = 'info'
 
     @login_manager.user_loader
+    @retry_db_operation(max_retries=6, initial_delay=2, max_delay=10)
     def load_user(user_id):
         return User.query.get(user_id)
 
