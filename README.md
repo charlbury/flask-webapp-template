@@ -51,6 +51,51 @@ azure-flask-sqlalchemy-app/
 └── azure/                        # Azure deployment files
 ```
 
+### Flask Application Structure
+
+This project uses the **Application Factory Pattern**, which is the recommended approach for production Flask applications. The Flask app is created in `src/app/__init__.py` using a `create_app()` function.
+
+#### Why Application Factory Pattern?
+
+**Benefits:**
+- ✅ **Multiple App Instances**: Create different app instances for testing, development, and production
+- ✅ **Better Testability**: Each test can create a fresh app instance with isolated configuration
+- ✅ **Avoids Circular Imports**: Extensions are initialized separately and attached to the app
+- ✅ **Separation of Concerns**: Clean organization with blueprints, models, and extensions
+- ✅ **Production Ready**: Works seamlessly with WSGI servers (Gunicorn, uWSGI)
+- ✅ **Scalable**: Easy to add new features and blueprints
+
+#### Flask CLI Configuration
+
+Flask automatically discovers the `create_app()` function when `FLASK_APP` is set to the module path using dot notation.
+
+**Preferred Method: `.flaskenv` file**
+
+This project includes a `.flaskenv` file that Flask automatically loads when you run `flask` commands. This is the recommended approach as it:
+- ✅ Persists across terminal sessions (no need to export each time)
+- ✅ Is project-specific and version-controlled
+- ✅ Works regardless of virtual environment activation
+- ✅ Automatically loaded by Flask CLI
+
+The `.flaskenv` file contains:
+```
+FLASK_APP=src.app:create_app
+FLASK_RUN_PORT=5001
+```
+
+**Alternative: Manual export (temporary)**
+
+If you need to override the `.flaskenv` setting or are using `python -m flask` instead of `flask` directly, you can manually export:
+
+```bash
+export FLASK_APP=src.app  # Dot notation for module path
+```
+
+**Note**:
+- Use dot notation (`src.app`) not slash notation (`src/app`) for `FLASK_APP`
+- The `export` command only lasts for the current terminal session (not venv-specific)
+- Flask will automatically look for `create_app()` or `make_app()` function in the specified module
+
 ## Quick Start
 
 ### Local Development
@@ -61,6 +106,7 @@ azure-flask-sqlalchemy-app/
    cd azure-flask-sqlalchemy-app
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install --upgrade pip
    pip install -r requirements.txt
    ```
 
@@ -72,7 +118,8 @@ azure-flask-sqlalchemy-app/
 
 3. **Initialize database**:
    ```bash
-   export FLASK_APP=src/app
+   # FLASK_APP is automatically loaded from .flaskenv
+   # If needed, you can override with: export FLASK_APP=src.app
    flask db upgrade
    flask create-admin --email admin@example.com --password 'AdminPass123!'
    ```
@@ -273,6 +320,13 @@ The application is designed for Azure Web Apps deployment:
    - Verify SECRET_KEY is set
    - Check session configuration
    - Ensure CSRF tokens are enabled
+
+4. **Flask App Import Errors**
+   - Check that `.flaskenv` file exists and contains `FLASK_APP=src.app:create_app` (preferred method)
+   - If using manual export, ensure `FLASK_APP` uses dot notation: `export FLASK_APP=src.app` (not `src/app`)
+   - Verify virtual environment is activated and dependencies are installed
+   - Check that `src/app/__init__.py` contains the `create_app()` function
+   - Note: `FLASK_APP` is not venv-specific - it's a shell environment variable that persists via `.flaskenv` file
 
 ### Getting Help
 
