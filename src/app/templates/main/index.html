@@ -13,7 +13,7 @@
             A production-ready Flask application with role-based access control,
             built for Azure deployment with SQLAlchemy 2.0 and Azure SQL.
         </p>
-        
+
         <div class="row mb-5">
             <div class="col-md-4">
                 <div class="card h-100">
@@ -43,7 +43,7 @@
                 </div>
             </div>
         </div>
-        
+
         {% if not current_user.is_authenticated %}
             <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                 <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">
@@ -55,11 +55,11 @@
             </div>
         {% else %}
             <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary btn-lg">
+                <a href="{{ url_for('admin.live_dashboard') }}" class="btn btn-primary btn-lg">
                     <i class="bi bi-speedometer2"></i> Dashboard
                 </a>
                 {% if current_user.is_admin %}
-                    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-primary btn-lg">
+                    <a href="{{ url_for('admin.live_dashboard') }}" class="btn btn-outline-primary btn-lg">
                         <i class="bi bi-gear"></i> Admin Panel
                     </a>
                 {% endif %}

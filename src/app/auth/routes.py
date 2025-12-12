@@ -17,7 +17,7 @@ from ..extensions import db
 def register():
     """User registration."""
     if current_user.is_authenticated:
-        return redirect(url_for('main.dashboard'))
+        return redirect(url_for('admin.live_dashboard'))
 
     form = RegisterForm()
     if form.validate_on_submit():
@@ -41,7 +41,7 @@ def register():
 def login():
     """User login."""
     if current_user.is_authenticated:
-        return redirect(url_for('main.dashboard'))
+        return redirect(url_for('admin.live_dashboard'))
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -57,7 +57,7 @@ def login():
             # Redirect to next page or dashboard
             next_page = request.args.get('next')
             if not next_page or urlparse(next_page).netloc != '':
-                next_page = url_for('main.dashboard')
+                next_page = url_for('admin.live_dashboard')
 
             flash(f'Welcome back, {user.email}!', 'success')
             return redirect(next_page)
