@@ -480,6 +480,10 @@
 {% endblock %}
 
 {% block extra_scripts %}
+<!-- Chart.js -->
+<script src="{{ url_for('static', filename='admin/js/plugins/chartjs.min.js') }}"></script>
+<!-- World map (includes jsVectorMap) -->
+<script src="{{ url_for('static', filename='admin/js/plugins/world.js') }}"></script>
 <script>
                   document.write(new Date().getFullYear())
                 </script>

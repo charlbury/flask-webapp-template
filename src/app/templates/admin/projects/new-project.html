@@ -88,9 +88,11 @@
 {% endblock %}
 
 {% block extra_scripts %}
-<!-- Choices.js and Quill.js -->
+<!-- Choices.js, Quill.js, Dropzone.js, and Flatpickr -->
 <script src="{{ url_for('static', filename='admin/js/plugins/choices.min.js') }}"></script>
 <script src="{{ url_for('static', filename='admin/js/plugins/quill.min.js') }}"></script>
+<script src="{{ url_for('static', filename='admin/js/plugins/dropzone.min.js') }}"></script>
+<script src="{{ url_for('static', filename='admin/js/plugins/flatpickr.min.js') }}"></script>
 <script>
     if (document.getElementById('editor')) {
       var quill = new Quill('#editor', {
@@ -132,13 +134,30 @@
       }); // flatpickr
     }
 
-    Dropzone.autoDiscover = false;
-    var drop = document.getElementById('dropzone')
-    var myDropzone = new Dropzone(drop, {
-      url: "/file/post",
-      addRemoveLinks: true
-
-    });
+    // Initialize Dropzone
+    (function() {
+      function initDropzone() {
+        if (typeof Dropzone === 'undefined') {
+          setTimeout(initDropzone, 50);
+          return;
+        }
+        
+        Dropzone.autoDiscover = false;
+        var drop = document.getElementById('dropzone');
+        if (drop) {
+          var myDropzone = new Dropzone(drop, {
+            url: "/file/post",
+            addRemoveLinks: true
+          });
+        }
+      }
+      
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initDropzone);
+      } else {
+        initDropzone();
+      }
+    })();
   </script>
 <script>
     var win = navigator.platform.indexOf('Win') > -1;

@@ -438,6 +438,10 @@
 {% endblock %}
 
 {% block extra_scripts %}
+<!-- Chart.js -->
+<script src="{{ url_for('static', filename='admin/js/plugins/chartjs.min.js') }}"></script>
+<!-- FullCalendar for calendar widget -->
+<script src="{{ url_for('static', filename='admin/js/plugins/fullcalendar.min.js') }}"></script>
 <script>
                   document.write(new Date().getFullYear())
                 </script>

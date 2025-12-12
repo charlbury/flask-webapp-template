@@ -13,10 +13,52 @@ from ..extensions import db
 from ..security.roles import admin_required, ensure_role_exists
 
 
+# Live App Routes (for production development)
 @admin_bp.route('/')
 @admin_required
+def index():
+    """Redirect to live dashboard."""
+    return redirect(url_for('admin.live_dashboard'))
+
+
+@admin_bp.route('/dashboard')
+@admin_required
+def live_dashboard():
+    """Live app dashboard with statistics."""
+    # Get counts
+    total_users = User.query.count()
+    admin_users = User.query.join(User.roles).filter(Role.name == 'admin').count()
+    total_projects = Project.query.count()
+    
+    # Get recent users
+    recent_users = User.query.order_by(User.created_at.desc()).limit(5).all()
+    
+    return render_template('admin/live/dashboard.html', 
+                         total_users=total_users,
+                         admin_users=admin_users,
+                         total_projects=total_projects,
+                         recent_users=recent_users)
+
+
+@admin_bp.route('/user-management')
+@admin_required
+def live_users():
+    """Live app user management."""
+    # Get all users
+    users = User.query.order_by(User.created_at.desc()).all()
+    
+    # Get all available roles for the dropdown (as names only)
+    roles = Role.query.all()
+    role_names = [role.name for role in roles]
+    
+    return render_template('admin/live/users.html', users=users, roles=role_names)
+
+
+# Demo Routes (kept for reference)
+@admin_bp.route('/demo/dashboard')
+@admin_required
 def dashboard():
-    """Admin dashboard with statistics."""
+    """Demo admin dashboard with statistics."""
     # Get counts
     total_users = User.query.count()
     admin_users = User.query.join(User.roles).filter(Role.name == 'admin').count()
@@ -32,10 +74,10 @@ def dashboard():
                          recent_users=recent_users)
 
 
-@admin_bp.route('/users')
+@admin_bp.route('/demo/users')
 @admin_required
 def users():
-    """List all users with their roles."""
+    """Demo user management."""
     # Get all users
     users = User.query.order_by(User.created_at.desc()).all()
     
@@ -52,6 +94,10 @@ def assign_role(user_id):
     """Assign a role to a user."""
     form = AssignRoleForm()
     
+    # Determine redirect based on referrer
+    referrer = request.referrer or ''
+    redirect_to = 'admin.live_users' if '/user-management' in referrer else 'admin.users'
+    
     if form.validate_on_submit():
         user = User.query.get_or_404(user_id)
         role_name = form.role_name.data
@@ -67,7 +113,7 @@ def assign_role(user_id):
     else:
         flash('Invalid form data', 'error')
     
-    return redirect(url_for('admin.users'))
+    return redirect(url_for(redirect_to))
 
 
 @admin_bp.route('/users/<user_id>/roles/remove', methods=['POST'])
@@ -75,6 +121,10 @@ def assign_role(user_id):
 def remove_role(user_id):
     """Remove a role from a user."""
     form = RemoveRoleForm()
+    
+    # Determine redirect based on referrer
+    referrer = request.referrer or ''
+    redirect_to = 'admin.live_users' if '/user-management' in referrer else 'admin.users'
     
     if form.validate_on_submit():
         user = User.query.get_or_404(user_id)
@@ -88,7 +138,7 @@ def remove_role(user_id):
     else:
         flash('Invalid form data', 'error')
     
-    return redirect(url_for('admin.users'))
+    return redirect(url_for(redirect_to))
 
 
 @admin_bp.route('/users/<user_id>/toggle-active', methods=['POST'])
@@ -97,10 +147,14 @@ def toggle_user_active(user_id):
     """Toggle user active status."""
     user = User.query.get_or_404(user_id)
     
+    # Determine redirect based on referrer
+    referrer = request.referrer or ''
+    redirect_to = 'admin.live_users' if '/user-management' in referrer else 'admin.users'
+    
     # Prevent deactivating yourself
     if user.id == current_user.id:
         flash('You cannot deactivate your own account', 'error')
-        return redirect(url_for('admin.users'))
+        return redirect(url_for(redirect_to))
     
     user.is_active = not user.is_active
     db.session.commit()
@@ -108,7 +162,7 @@ def toggle_user_active(user_id):
     status = 'activated' if user.is_active else 'deactivated'
     flash(f'User {user.email} has been {status}', 'success')
     
-    return redirect(url_for('admin.users'))
+    return redirect(url_for(redirect_to))
 
 
 # ============================================================================

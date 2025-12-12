@@ -236,14 +236,32 @@
 {% endblock %}
 
 {% block extra_scripts %}
+<!-- Choices.js -->
+<script src="{{ url_for('static', filename='admin/js/plugins/choices.min.js') }}"></script>
 <script>
                   document.write(new Date().getFullYear())
                 </script>
 <script>
-    if (document.getElementById('choices-questions')) {
-      var element = document.getElementById('choices-questions');
-      const example = new Choices(element);
-    }
+    // Wait for Choices.js to load
+    (function() {
+      function initChoices() {
+        if (typeof Choices === 'undefined') {
+          setTimeout(initChoices, 50);
+          return;
+        }
+        
+        if (document.getElementById('choices-questions')) {
+          var element = document.getElementById('choices-questions');
+          const example = new Choices(element);
+        }
+      }
+      
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initChoices);
+      } else {
+        initChoices();
+      }
+    })();
   </script>
 <script>
     var win = navigator.platform.indexOf('Win') > -1;

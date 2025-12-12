@@ -65,79 +65,96 @@
         </li>
         <hr class="horizontal dark mt-0">
 
-        <!-- Dashboards -->
+        <!-- Live App Menu Items -->
+        <!-- Dashboard -->
         <li class="nav-item">
-          <a data-bs-toggle="collapse" href="#dashboardsExamples" class="nav-link text-dark {% if request.endpoint and 'admin.dashboard' in request.endpoint or (request.endpoint and 'admin.dashboards' in request.endpoint) %}active{% endif %}" aria-controls="dashboardsExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.dashboards' in request.endpoint %}true{% else %}false{% endif %}">
+          <a class="nav-link text-dark {% if request.endpoint == 'admin.live_dashboard' %}active{% endif %}" href="{{ url_for('admin.live_dashboard') }}">
             <i class="material-symbols-rounded opacity-5">space_dashboard</i>
-            <span class="nav-link-text ms-1 ps-1">Dashboards</span>
+            <span class="nav-link-text ms-1 ps-1">Dashboard</span>
           </a>
-          <div class="collapse {% if request.endpoint and 'admin.dashboards' in request.endpoint %}show{% endif %}" id="dashboardsExamples">
-            <ul class="nav">
-              <li class="nav-item {% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboard' %}active{% endif %}" href="{{ url_for('admin.dashboard') }}">
-                  <span class="sidenav-mini-icon"> D </span>
-                  <span class="sidenav-normal ms-1 ps-1"> Dashboard </span>
-                </a>
-              </li>
-              <li class="nav-item {% if request.endpoint == 'admin.dashboards_analytics' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboards_analytics' %}active{% endif %}" href="{{ url_for('admin.dashboards_analytics') }}">
-                  <span class="sidenav-mini-icon"> A </span>
-                  <span class="sidenav-normal ms-1 ps-1"> Analytics </span>
-                </a>
-              </li>
-              <li class="nav-item {% if request.endpoint == 'admin.dashboards_discover' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboards_discover' %}active{% endif %}" href="{{ url_for('admin.dashboards_discover') }}">
-                  <span class="sidenav-mini-icon"> D </span>
-                  <span class="sidenav-normal ms-1 ps-1"> Discover </span>
-                </a>
-              </li>
-              <li class="nav-item {% if request.endpoint == 'admin.dashboards_sales' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboards_sales' %}active{% endif %}" href="{{ url_for('admin.dashboards_sales') }}">
-                  <span class="sidenav-mini-icon"> S </span>
-                  <span class="sidenav-normal ms-1 ps-1"> Sales </span>
-                </a>
-              </li>
-              <li class="nav-item {% if request.endpoint == 'admin.dashboards_automotive' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboards_automotive' %}active{% endif %}" href="{{ url_for('admin.dashboards_automotive') }}">
-                  <span class="sidenav-mini-icon"> A </span>
-                  <span class="sidenav-normal ms-1 ps-1"> Automotive </span>
-                </a>
-              </li>
-              <li class="nav-item {% if request.endpoint == 'admin.dashboards_smart_home' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboards_smart_home' %}active{% endif %}" href="{{ url_for('admin.dashboards_smart_home') }}">
-                  <span class="sidenav-mini-icon"> S </span>
-                  <span class="sidenav-normal ms-1 ps-1"> Smart Home </span>
-                </a>
-              </li>
-              <li class="nav-item {% if request.endpoint == 'admin.dashboards_blocks_analytics' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboards_blocks_analytics' %}active{% endif %}" href="{{ url_for('admin.dashboards_blocks_analytics') }}">
-                  <span class="sidenav-mini-icon"> B </span>
-                  <span class="sidenav-normal ms-1 ps-1"> Blocks Analytics </span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </li>
-
-        <li class="nav-item mt-3">
-          <h6 class="ps-3 ms-2 text-uppercase text-xs font-weight-bolder text-dark">PAGES</h6>
         </li>
 
         <!-- User Management -->
         <li class="nav-item">
-          <a class="nav-link text-dark {% if request.endpoint == 'admin.users' %}active{% endif %}" href="{{ url_for('admin.users') }}">
+          <a class="nav-link text-dark {% if request.endpoint == 'admin.live_users' %}active{% endif %}" href="{{ url_for('admin.live_users') }}">
             <i class="material-symbols-rounded opacity-5">people</i>
             <span class="nav-link-text ms-1 ps-1">User Management</span>
           </a>
         </li>
 
-        <!-- Pages -->
+        <li class="nav-item mt-3">
+          <h6 class="ps-3 ms-2 text-uppercase text-xs font-weight-bolder text-dark">DEMO PAGES</h6>
+        </li>
+
+        <!-- Demo Pages Collapsible Menu -->
         <li class="nav-item">
-          <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-dark {% if request.endpoint and 'admin.pages' in request.endpoint %}active{% endif %}" aria-controls="pagesExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.pages' in request.endpoint %}true{% else %}false{% endif %}">
-            <i class="material-symbols-rounded opacity-5">contract</i>
-            <span class="nav-link-text ms-1 ps-1">Pages</span>
+          <a data-bs-toggle="collapse" href="#demoPagesExamples" class="nav-link text-dark {% if request.endpoint and ('admin.dashboard' in request.endpoint or 'admin.dashboards' in request.endpoint or 'admin.pages' in request.endpoint or 'admin.account' in request.endpoint or 'admin.applications' in request.endpoint or 'admin.ecommerce' in request.endpoint or 'admin.team' in request.endpoint or 'admin.projects' in request.endpoint or 'admin.profile' in request.endpoint) %}active{% endif %}" aria-controls="demoPagesExamples" role="button" aria-expanded="{% if request.endpoint and ('admin.dashboards' in request.endpoint or 'admin.pages' in request.endpoint or 'admin.account' in request.endpoint or 'admin.applications' in request.endpoint or 'admin.ecommerce' in request.endpoint or 'admin.team' in request.endpoint or 'admin.projects' in request.endpoint or 'admin.profile' in request.endpoint) %}true{% else %}false{% endif %}">
+            <i class="material-symbols-rounded opacity-5">description</i>
+            <span class="nav-link-text ms-1 ps-1">Demo Pages</span>
           </a>
-          <div class="collapse {% if request.endpoint and 'admin.pages' in request.endpoint %}show{% endif %}" id="pagesExamples">
+          <div class="collapse {% if request.endpoint and ('admin.dashboards' in request.endpoint or 'admin.pages' in request.endpoint or 'admin.account' in request.endpoint or 'admin.applications' in request.endpoint or 'admin.ecommerce' in request.endpoint or 'admin.team' in request.endpoint or 'admin.projects' in request.endpoint or 'admin.profile' in request.endpoint) %}show{% endif %}" id="demoPagesExamples">
+            <ul class="nav">
+              <!-- Dashboards -->
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#dashboardsExamples" class="nav-link text-dark {% if request.endpoint and 'admin.dashboards' in request.endpoint %}active{% endif %}" aria-controls="dashboardsExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.dashboards' in request.endpoint %}true{% else %}false{% endif %}">
+                  <span class="sidenav-mini-icon"> D </span>
+                  <span class="sidenav-normal ms-1 ps-1"> Dashboards <b class="caret"></b></span>
+                </a>
+                <div class="collapse {% if request.endpoint and 'admin.dashboards' in request.endpoint %}show{% endif %}" id="dashboardsExamples">
+                  <ul class="nav nav-sm flex-column">
+                    <li class="nav-item {% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboard' %}active{% endif %}" href="{{ url_for('admin.dashboard') }}">
+                        <span class="sidenav-mini-icon"> D </span>
+                        <span class="sidenav-normal ms-1 ps-1"> Dashboard </span>
+                      </a>
+                    </li>
+                    <li class="nav-item {% if request.endpoint == 'admin.dashboards_analytics' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboards_analytics' %}active{% endif %}" href="{{ url_for('admin.dashboards_analytics') }}">
+                        <span class="sidenav-mini-icon"> A </span>
+                        <span class="sidenav-normal ms-1 ps-1"> Analytics </span>
+                      </a>
+                    </li>
+                    <li class="nav-item {% if request.endpoint == 'admin.dashboards_discover' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboards_discover' %}active{% endif %}" href="{{ url_for('admin.dashboards_discover') }}">
+                        <span class="sidenav-mini-icon"> D </span>
+                        <span class="sidenav-normal ms-1 ps-1"> Discover </span>
+                      </a>
+                    </li>
+                    <li class="nav-item {% if request.endpoint == 'admin.dashboards_sales' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboards_sales' %}active{% endif %}" href="{{ url_for('admin.dashboards_sales') }}">
+                        <span class="sidenav-mini-icon"> S </span>
+                        <span class="sidenav-normal ms-1 ps-1"> Sales </span>
+                      </a>
+                    </li>
+                    <li class="nav-item {% if request.endpoint == 'admin.dashboards_automotive' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboards_automotive' %}active{% endif %}" href="{{ url_for('admin.dashboards_automotive') }}">
+                        <span class="sidenav-mini-icon"> A </span>
+                        <span class="sidenav-normal ms-1 ps-1"> Automotive </span>
+                      </a>
+                    </li>
+                    <li class="nav-item {% if request.endpoint == 'admin.dashboards_smart_home' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboards_smart_home' %}active{% endif %}" href="{{ url_for('admin.dashboards_smart_home') }}">
+                        <span class="sidenav-mini-icon"> S </span>
+                        <span class="sidenav-normal ms-1 ps-1"> Smart Home </span>
+                      </a>
+                    </li>
+                    <li class="nav-item {% if request.endpoint == 'admin.dashboards_blocks_analytics' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboards_blocks_analytics' %}active{% endif %}" href="{{ url_for('admin.dashboards_blocks_analytics') }}">
+                        <span class="sidenav-mini-icon"> B </span>
+                        <span class="sidenav-normal ms-1 ps-1"> Blocks Analytics </span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
+              <!-- Pages -->
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-dark {% if request.endpoint and 'admin.pages' in request.endpoint %}active{% endif %}" aria-controls="pagesExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.pages' in request.endpoint %}true{% else %}false{% endif %}">
+                  <span class="sidenav-mini-icon"> P </span>
+                  <span class="sidenav-normal ms-1 ps-1"> Pages <b class="caret"></b></span>
+                </a>
+                <div class="collapse {% if request.endpoint and 'admin.pages' in request.endpoint %}show{% endif %}" id="pagesExamples">
             <ul class="nav">
               <li class="nav-item">
                 <a class="nav-link text-dark" data-bs-toggle="collapse" aria-expanded="false" href="#vrExamples">
@@ -197,17 +214,17 @@
                   <span class="sidenav-normal ms-1 ps-1"> Notifications </span>
                 </a>
               </li>
-            </ul>
-          </div>
-        </li>
+                </ul>
+              </div>
+              </li>
 
-        <!-- Account -->
-        <li class="nav-item">
-          <a data-bs-toggle="collapse" href="#accountExamples" class="nav-link text-dark {% if request.endpoint and 'admin.account' in request.endpoint %}active{% endif %}" aria-controls="accountExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.account' in request.endpoint %}true{% else %}false{% endif %}">
-            <i class="material-symbols-rounded opacity-5">account_circle</i>
-            <span class="nav-link-text ms-1 ps-1">Account</span>
-          </a>
-          <div class="collapse {% if request.endpoint and 'admin.account' in request.endpoint %}show{% endif %}" id="accountExamples">
+              <!-- Account -->
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#accountExamples" class="nav-link text-dark {% if request.endpoint and 'admin.account' in request.endpoint %}active{% endif %}" aria-controls="accountExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.account' in request.endpoint %}true{% else %}false{% endif %}">
+                  <span class="sidenav-mini-icon"> A </span>
+                  <span class="sidenav-normal ms-1 ps-1"> Account <b class="caret"></b></span>
+                </a>
+                <div class="collapse {% if request.endpoint and 'admin.account' in request.endpoint %}show{% endif %}" id="accountExamples">
             <ul class="nav">
               <li class="nav-item {% if request.endpoint == 'admin.account_settings' %}active{% endif %}">
                 <a class="nav-link text-dark {% if request.endpoint == 'admin.account_settings' %}active{% endif %}" href="{{ url_for('admin.account_settings') }}">
@@ -233,17 +250,17 @@
                   <span class="sidenav-normal ms-1 ps-1"> Security </span>
                 </a>
               </li>
-            </ul>
-          </div>
-        </li>
+                </ul>
+              </div>
+              </li>
 
-        <!-- Applications -->
-        <li class="nav-item">
-          <a data-bs-toggle="collapse" href="#applicationsExamples" class="nav-link text-dark {% if request.endpoint and 'admin.applications' in request.endpoint %}active{% endif %}" aria-controls="applicationsExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.applications' in request.endpoint %}true{% else %}false{% endif %}">
-            <i class="material-symbols-rounded opacity-5">apps</i>
-            <span class="nav-link-text ms-1 ps-1">Applications</span>
-          </a>
-          <div class="collapse {% if request.endpoint and 'admin.applications' in request.endpoint %}show{% endif %}" id="applicationsExamples">
+              <!-- Applications -->
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#applicationsExamples" class="nav-link text-dark {% if request.endpoint and 'admin.applications' in request.endpoint %}active{% endif %}" aria-controls="applicationsExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.applications' in request.endpoint %}true{% else %}false{% endif %}">
+                  <span class="sidenav-mini-icon"> A </span>
+                  <span class="sidenav-normal ms-1 ps-1"> Applications <b class="caret"></b></span>
+                </a>
+                <div class="collapse {% if request.endpoint and 'admin.applications' in request.endpoint %}show{% endif %}" id="applicationsExamples">
             <ul class="nav">
               <li class="nav-item {% if request.endpoint == 'admin.applications_crm' %}active{% endif %}">
                 <a class="nav-link text-dark {% if request.endpoint == 'admin.applications_crm' %}active{% endif %}" href="{{ url_for('admin.applications_crm') }}">
@@ -287,17 +304,17 @@
                   <span class="sidenav-normal ms-1 ps-1"> Validation </span>
                 </a>
               </li>
-            </ul>
-          </div>
-        </li>
+                </ul>
+              </div>
+              </li>
 
-        <!-- Ecommerce -->
-        <li class="nav-item">
-          <a data-bs-toggle="collapse" href="#ecommerceExamples" class="nav-link text-dark {% if request.endpoint and 'admin.ecommerce' in request.endpoint %}active{% endif %}" aria-controls="ecommerceExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.ecommerce' in request.endpoint %}true{% else %}false{% endif %}">
-            <i class="material-symbols-rounded opacity-5">storefront</i>
-            <span class="nav-link-text ms-1 ps-1">Ecommerce</span>
-          </a>
-          <div class="collapse {% if request.endpoint and 'admin.ecommerce' in request.endpoint %}show{% endif %}" id="ecommerceExamples">
+              <!-- Ecommerce -->
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#ecommerceExamples" class="nav-link text-dark {% if request.endpoint and 'admin.ecommerce' in request.endpoint %}active{% endif %}" aria-controls="ecommerceExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.ecommerce' in request.endpoint %}true{% else %}false{% endif %}">
+                  <span class="sidenav-mini-icon"> E </span>
+                  <span class="sidenav-normal ms-1 ps-1"> Ecommerce <b class="caret"></b></span>
+                </a>
+                <div class="collapse {% if request.endpoint and 'admin.ecommerce' in request.endpoint %}show{% endif %}" id="ecommerceExamples">
             <ul class="nav">
               <li class="nav-item">
                 <a class="nav-link text-dark {% if request.endpoint and 'admin.ecommerce_products' in request.endpoint %}active{% endif %}" data-bs-toggle="collapse" aria-expanded="{% if request.endpoint and 'admin.ecommerce_products' in request.endpoint %}true{% else %}false{% endif %}" href="#productsExample">
@@ -361,17 +378,17 @@
                   <span class="sidenav-normal ms-1 ps-1"> Referral </span>
                 </a>
               </li>
-            </ul>
-          </div>
-        </li>
+                </ul>
+              </div>
+              </li>
 
-        <!-- Team -->
-        <li class="nav-item">
-          <a data-bs-toggle="collapse" href="#profileExamples" class="nav-link text-dark {% if request.endpoint and 'admin.team' in request.endpoint %}active{% endif %}" aria-controls="profileExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.team' in request.endpoint %}true{% else %}false{% endif %}">
-            <i class="material-symbols-rounded opacity-5">group</i>
-            <span class="nav-link-text ms-1 ps-1">Team</span>
-          </a>
-          <div class="collapse {% if request.endpoint and 'admin.team' in request.endpoint %}show{% endif %}" id="profileExamples">
+              <!-- Team -->
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#profileExamples" class="nav-link text-dark {% if request.endpoint and 'admin.team' in request.endpoint %}active{% endif %}" aria-controls="profileExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.team' in request.endpoint %}true{% else %}false{% endif %}">
+                  <span class="sidenav-mini-icon"> T </span>
+                  <span class="sidenav-normal ms-1 ps-1"> Team <b class="caret"></b></span>
+                </a>
+                <div class="collapse {% if request.endpoint and 'admin.team' in request.endpoint %}show{% endif %}" id="profileExamples">
             <ul class="nav">
               <li class="nav-item {% if request.endpoint == 'admin.team_all_projects' %}active{% endif %}">
                 <a class="nav-link text-dark {% if request.endpoint == 'admin.team_all_projects' %}active{% endif %}" href="{{ url_for('admin.team_all_projects') }}">
@@ -403,17 +420,17 @@
                   <span class="sidenav-normal ms-1 ps-1"> Reports </span>
                 </a>
               </li>
-            </ul>
-          </div>
-        </li>
+                </ul>
+              </div>
+              </li>
 
-        <!-- Projects -->
-        <li class="nav-item">
-          <a data-bs-toggle="collapse" href="#projectsExamples" class="nav-link text-dark {% if request.endpoint and 'admin.projects' in request.endpoint %}active{% endif %}" aria-controls="projectsExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.projects' in request.endpoint %}true{% else %}false{% endif %}">
-            <i class="material-symbols-rounded opacity-5">widgets</i>
-            <span class="nav-link-text ms-1 ps-1">Projects</span>
-          </a>
-          <div class="collapse {% if request.endpoint and 'admin.projects' in request.endpoint %}show{% endif %}" id="projectsExamples">
+              <!-- Projects -->
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#projectsExamples" class="nav-link text-dark {% if request.endpoint and 'admin.projects' in request.endpoint %}active{% endif %}" aria-controls="projectsExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.projects' in request.endpoint %}true{% else %}false{% endif %}">
+                  <span class="sidenav-mini-icon"> P </span>
+                  <span class="sidenav-normal ms-1 ps-1"> Projects <b class="caret"></b></span>
+                </a>
+                <div class="collapse {% if request.endpoint and 'admin.projects' in request.endpoint %}show{% endif %}" id="projectsExamples">
             <ul class="nav">
               <li class="nav-item {% if request.endpoint == 'admin.projects_general' %}active{% endif %}">
                 <a class="nav-link text-dark {% if request.endpoint == 'admin.projects_general' %}active{% endif %}" href="{{ url_for('admin.projects_general') }}">
@@ -433,16 +450,19 @@
                   <span class="sidenav-normal ms-1 ps-1"> New Project </span>
                 </a>
               </li>
+                </ul>
+              </div>
+              </li>
+
+              <!-- Profile -->
+              <li class="nav-item {% if request.endpoint == 'admin.profile_projects' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.profile_projects' %}active{% endif %}" href="{{ url_for('admin.profile_projects') }}">
+                  <span class="sidenav-mini-icon"> P </span>
+                  <span class="sidenav-normal ms-1 ps-1"> Profile </span>
+                </a>
+              </li>
             </ul>
           </div>
-        </li>
-
-        <!-- Profile -->
-        <li class="nav-item {% if request.endpoint == 'admin.profile_projects' %}active{% endif %}">
-          <a class="nav-link text-dark {% if request.endpoint == 'admin.profile_projects' %}active{% endif %}" href="{{ url_for('admin.profile_projects') }}">
-            <i class="material-symbols-rounded opacity-5">person</i>
-            <span class="nav-link-text ms-1 ps-1">Profile</span>
-          </a>
         </li>
       </ul>
     </div>
@@ -463,7 +483,7 @@
         </div>
         <nav aria-label="breadcrumb" class="ps-2">
           <ol class="breadcrumb bg-transparent mb-0 p-0">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="{{ url_for('admin.dashboard') }}">Admin</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="{{ url_for('admin.live_dashboard') }}">Admin</a></li>
             {% block breadcrumb %}{% endblock %}
           </ol>
         </nav>
