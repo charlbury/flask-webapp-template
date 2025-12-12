@@ -1,36 +1,150 @@
-{% extends "base.html" %}
-{% from "macros.html" import render_field, render_submit %}
-
-{% block title %}Register - Flask RBAC App{% endblock %}
+{% extends "auth/base.html" %}
+{% block title %}Sign Up - Flask RBAC App{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6 col-lg-4">
-        <div class="card">
-            <div class="card-header text-center">
-                <h4><i class="bi bi-person-plus"></i> Register</h4>
+<div class="page-header align-items-start min-vh-100" style="background-image: url('https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1650&q=80');">
+  <span class="mask bg-gradient-dark opacity-6"></span>
+  <div class="container my-auto">
+    <div class="row">
+      <div class="col-lg-4 col-md-8 mx-auto">
+        <div class="card z-index-0">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
+              <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Register with</h4>
             </div>
-            <div class="card-body">
-                <form method="POST">
-                    {{ form.hidden_tag() }}
-                    
-                    {{ render_field(form.email) }}
-                    {{ render_field(form.password) }}
-                    {{ render_field(form.confirm_password) }}
-                    
-                    {{ render_submit(form.submit) }}
-                </form>
-                
-                <hr>
-                
-                <div class="text-center">
-                    <p class="mb-0">Already have an account?</p>
-                    <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary">
-                        <i class="bi bi-box-arrow-in-right"></i> Login
-                    </a>
-                </div>
+          </div>
+          <div class="row px-xl-5 px-sm-4 px-3">
+            <div class="mt-2 position-relative text-center">
+              <p class="text-sm font-weight-bold mb-2 text-secondary text-border d-inline z-index-2 bg-white px-3">
+                or
+              </p>
             </div>
+          </div>
+          <div class="card-body">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+
+            <form role="form" method="POST">
+              {{ form.hidden_tag() }}
+
+              <div class="input-group input-group-dynamic mb-3 {% if form.first_name.errors %}is-invalid{% endif %}">
+                <label class="form-label">First Name</label>
+                {{ form.first_name(class="form-control", aria_label="First Name") }}
+                {% if form.first_name.errors %}
+                  <div class="invalid-feedback">
+                    {% for error in form.first_name.errors %}
+                      <div>{{ error }}</div>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="input-group input-group-dynamic mb-3 {% if form.last_name.errors %}is-invalid{% endif %}">
+                <label class="form-label">Last Name</label>
+                {{ form.last_name(class="form-control", aria_label="Last Name") }}
+                {% if form.last_name.errors %}
+                  <div class="invalid-feedback">
+                    {% for error in form.last_name.errors %}
+                      <div>{{ error }}</div>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="input-group input-group-dynamic mb-3 {% if form.email.errors %}is-invalid{% endif %}">
+                <label class="form-label">Email</label>
+                {{ form.email(class="form-control", aria_label="Email") }}
+                {% if form.email.errors %}
+                  <div class="invalid-feedback">
+                    {% for error in form.email.errors %}
+                      <div>{{ error }}</div>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="input-group input-group-dynamic mb-3 {% if form.password.errors %}is-invalid{% endif %}">
+                <label class="form-label">Password</label>
+                {{ form.password(class="form-control", aria_label="Password") }}
+                {% if form.password.errors %}
+                  <div class="invalid-feedback">
+                    {% for error in form.password.errors %}
+                      <div>{{ error }}</div>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="input-group input-group-dynamic mb-3 {% if form.confirm_password.errors %}is-invalid{% endif %}">
+                <label class="form-label">Confirm Password</label>
+                {{ form.confirm_password(class="form-control", aria_label="Confirm Password") }}
+                {% if form.confirm_password.errors %}
+                  <div class="invalid-feedback">
+                    {% for error in form.confirm_password.errors %}
+                      <div>{{ error }}</div>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="text-center">
+                {{ form.submit(class="btn bg-gradient-dark w-100 my-4 mb-2") }}
+              </div>
+
+              <p class="text-sm mt-3 mb-0">Already have an account? <a href="{{ url_for('auth.login') }}" class="text-dark font-weight-bolder">Sign in</a></p>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // Fix Material Dashboard input states - only reset classes, preserve user input
+  (function() {
+    function fixInputStates() {
+      const inputs = document.querySelectorAll('.input-group-dynamic input, .input-group-outline input');
+      inputs.forEach(function(input) {
+        // Only fix Material Dashboard classes, don't touch the input value
+        // If input has a value, ensure Material Dashboard shows it as filled
+        if (input.value && input.value.trim() !== '') {
+          input.classList.add('is-filled');
+          const parent = input.parentElement;
+          if (parent) {
+            parent.classList.add('is-filled');
+          }
+        } else {
+          // If input is empty, ensure Material Dashboard classes are removed
+          input.classList.remove('is-filled', 'is-focused');
+          const parent = input.parentElement;
+          if (parent) {
+            parent.classList.remove('is-filled', 'is-focused');
+          }
+        }
+      });
+    }
+
+    // Run after Material Dashboard JS has initialized
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(fixInputStates, 100);
+        setTimeout(fixInputStates, 500);
+      });
+    } else {
+      setTimeout(fixInputStates, 100);
+      setTimeout(fixInputStates, 500);
+    }
+  })();
+</script>
 {% endblock %}

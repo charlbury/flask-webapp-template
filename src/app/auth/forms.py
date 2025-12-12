@@ -11,7 +11,7 @@ from ..models import User
 
 class RegisterForm(FlaskForm):
     """User registration form."""
-    
+
     email = StringField('Email', validators=[
         DataRequired(),
         Email(),
@@ -32,7 +32,7 @@ class RegisterForm(FlaskForm):
         EqualTo('password', message='Passwords must match')
     ])
     submit = SubmitField('Register')
-    
+
     def validate_email(self, field):
         """Validate that email is not already registered."""
         if User.query.filter_by(email=field.data.lower()).first():
@@ -41,7 +41,7 @@ class RegisterForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     """User login form."""
-    
+
     email = StringField('Email', validators=[
         DataRequired(),
         Email()
@@ -55,13 +55,13 @@ class LoginForm(FlaskForm):
 
 class ForgotPasswordForm(FlaskForm):
     """Forgot password form."""
-    
+
     email = StringField('Email', validators=[
         DataRequired(),
         Email()
     ])
     submit = SubmitField('Send Reset Link')
-    
+
     def validate_email(self, field):
         """Validate that email exists."""
         if not User.query.filter_by(email=field.data.lower()).first():
