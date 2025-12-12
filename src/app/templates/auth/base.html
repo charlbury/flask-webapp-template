@@ -38,12 +38,14 @@
       <div class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0" id="navigation">
         <ul class="navbar-nav ms-auto">
           {% if current_user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link text-white" href="{{ url_for('admin.live_dashboard') }}">
-                <i class="material-symbols-rounded me-1">dashboard</i>
-                Dashboard
-              </a>
-            </li>
+            {% if current_user.is_admin %}
+              <li class="nav-item">
+                <a class="nav-link text-white" href="{{ url_for('admin.live_dashboard') }}">
+                  <i class="material-symbols-rounded me-1">dashboard</i>
+                  Dashboard
+                </a>
+              </li>
+            {% endif %}
             <li class="nav-item">
               <a class="nav-link text-white" href="{{ url_for('auth.logout') }}">
                 <i class="material-symbols-rounded me-1">logout</i>

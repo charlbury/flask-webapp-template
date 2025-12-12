@@ -6,6 +6,8 @@ import pytest
 from flask import url_for
 from flask_login import current_user
 
+from src.app.models import User
+
 
 class TestAuthRoutes:
     """Test authentication routes."""
@@ -20,6 +22,7 @@ class TestAuthRoutes:
         """Test successful user registration."""
         response = client.post('/auth/register', data={
             'email': 'newuser@test.com',
+            'username': 'newuser',
             'password': 'newpass123',
             'confirm_password': 'newpass123'
         }, follow_redirects=True)
@@ -30,12 +33,14 @@ class TestAuthRoutes:
         # Check user was created
         user = User.query.filter_by(email='newuser@test.com').first()
         assert user is not None
+        assert user.username == 'newuser'
         assert user.check_password('newpass123')
     
     def test_register_post_duplicate_email(self, client, regular_user):
         """Test registration with duplicate email."""
         response = client.post('/auth/register', data={
             'email': regular_user.email,
+            'username': 'differentuser',
             'password': 'newpass123',
             'confirm_password': 'newpass123'
         })
@@ -43,10 +48,47 @@ class TestAuthRoutes:
         assert response.status_code == 200
         assert b'Email is already registered' in response.data
     
+    def test_register_post_duplicate_username(self, client, regular_user):
+        """Test registration with duplicate username."""
+        response = client.post('/auth/register', data={
+            'email': 'different@test.com',
+            'username': regular_user.username,
+            'password': 'newpass123',
+            'confirm_password': 'newpass123'
+        })
+        
+        assert response.status_code == 200
+        assert b'Username is already taken' in response.data
+    
+    def test_register_post_username_too_long(self, client):
+        """Test registration with username exceeding 13 characters."""
+        response = client.post('/auth/register', data={
+            'email': 'newuser@test.com',
+            'username': 'a' * 14,  # 14 characters
+            'password': 'newpass123',
+            'confirm_password': 'newpass123'
+        })
+        
+        assert response.status_code == 200
+        assert b'13 characters or less' in response.data
+    
+    def test_register_post_username_invalid_chars(self, client):
+        """Test registration with username containing invalid characters."""
+        response = client.post('/auth/register', data={
+            'email': 'newuser@test.com',
+            'username': 'user-name',  # Contains hyphen
+            'password': 'newpass123',
+            'confirm_password': 'newpass123'
+        })
+        
+        assert response.status_code == 200
+        assert b'only contain letters, numbers, and underscores' in response.data
+    
     def test_register_post_password_mismatch(self, client):
         """Test registration with password mismatch."""
         response = client.post('/auth/register', data={
             'email': 'newuser@test.com',
+            'username': 'newuser',
             'password': 'newpass123',
             'confirm_password': 'differentpass'
         })
@@ -60,10 +102,21 @@ class TestAuthRoutes:
         assert response.status_code == 200
         assert b'Login' in response.data
     
-    def test_login_post_valid(self, client, regular_user):
-        """Test successful login."""
+    def test_login_post_valid_username(self, client, regular_user):
+        """Test successful login with username."""
         response = client.post('/auth/login', data={
-            'email': regular_user.email,
+            'username_or_email': regular_user.username,
+            'password': 'userpass',
+            'remember_me': False
+        }, follow_redirects=True)
+        
+        assert response.status_code == 200
+        assert b'Welcome back' in response.data
+    
+    def test_login_post_valid_email(self, client, regular_user):
+        """Test successful login with email."""
+        response = client.post('/auth/login', data={
+            'username_or_email': regular_user.email,
             'password': 'userpass',
             'remember_me': False
         }, follow_redirects=True)
@@ -74,24 +127,24 @@ class TestAuthRoutes:
     def test_login_post_invalid_credentials(self, client):
         """Test login with invalid credentials."""
         response = client.post('/auth/login', data={
-            'email': 'nonexistent@test.com',
+            'username_or_email': 'nonexistent@test.com',
             'password': 'wrongpass',
             'remember_me': False
         })
         
         assert response.status_code == 200
-        assert b'Invalid email or password' in response.data
+        assert b'Invalid username/email or password' in response.data
     
     def test_login_post_inactive_user(self, client, db_session):
         """Test login with inactive user."""
-        user = User(email='inactive@test.com')
+        user = User(email='inactive@test.com', username='inactive')
         user.set_password('testpass')
         user.is_active = False
         db_session.session.add(user)
         db_session.session.commit()
         
         response = client.post('/auth/login', data={
-            'email': user.email,
+            'username_or_email': user.username,
             'password': 'testpass',
             'remember_me': False
         })
@@ -103,7 +156,7 @@ class TestAuthRoutes:
         """Test user logout."""
         # Login first
         client.post('/auth/login', data={
-            'email': regular_user.email,
+            'username_or_email': regular_user.username,
             'password': 'userpass',
             'remember_me': False
         })
@@ -142,7 +195,7 @@ class TestAuthRedirects:
         """Test authenticated user can access dashboard."""
         # Login
         client.post('/auth/login', data={
-            'email': regular_user.email,
+            'username_or_email': regular_user.username,
             'password': 'userpass',
             'remember_me': False
         })
@@ -160,7 +213,7 @@ class TestAuthRedirects:
         
         # Login
         response = client.post('/auth/login', data={
-            'email': regular_user.email,
+            'username_or_email': regular_user.username,
             'password': 'userpass',
             'remember_me': False
         }, follow_redirects=True)

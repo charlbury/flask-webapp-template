@@ -17,13 +17,18 @@ from ..extensions import db
 def register():
     """User registration."""
     if current_user.is_authenticated:
-        return redirect(url_for('admin.live_dashboard'))
+        # Redirect admins to dashboard, others to home page
+        if current_user.is_admin:
+            return redirect(url_for('admin.live_dashboard'))
+        else:
+            return redirect(url_for('main.index'))
 
     form = RegisterForm()
     if form.validate_on_submit():
         user = create_user(
             email=form.email.data.lower(),
             password=form.password.data,
+            username=form.username.data,
             first_name=form.first_name.data.strip() if form.first_name.data else None,
             last_name=form.last_name.data.strip() if form.last_name.data else None
         )
@@ -32,7 +37,7 @@ def register():
             flash('Registration successful! Please log in.', 'success')
             return redirect(url_for('auth.login'))
         else:
-            flash('Email is already registered.', 'error')
+            flash('Email or username is already registered.', 'error')
 
     return render_template('auth/register.html', form=form)
 
@@ -41,11 +46,20 @@ def register():
 def login():
     """User login."""
     if current_user.is_authenticated:
-        return redirect(url_for('admin.live_dashboard'))
+        # Redirect admins to dashboard, others to home page
+        if current_user.is_admin:
+            return redirect(url_for('admin.live_dashboard'))
+        else:
+            return redirect(url_for('main.index'))
 
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data.lower()).first()
+        # Try username first (case-sensitive)
+        user = User.query.filter_by(username=form.username_or_email.data).first()
+        
+        # If not found, try email (case-insensitive)
+        if not user:
+            user = User.query.filter_by(email=form.username_or_email.data.lower()).first()
 
         if user and user.check_password(form.password.data):
             if not user.is_active:
@@ -54,15 +68,21 @@ def login():
 
             login_user(user, remember=form.remember_me.data)
 
-            # Redirect to next page or dashboard
+            # Redirect to next page, dashboard (if admin), or home page
             next_page = request.args.get('next')
             if not next_page or urlparse(next_page).netloc != '':
-                next_page = url_for('admin.live_dashboard')
+                # Redirect admins to dashboard, others to home page
+                if user.is_admin:
+                    next_page = url_for('admin.live_dashboard')
+                else:
+                    next_page = url_for('main.index')
 
-            flash(f'Welcome back, {user.email}!', 'success')
+            # Use username if available, otherwise email
+            display_name = user.username if user.username else user.email
+            flash(f'Welcome back, {display_name}!', 'success')
             return redirect(next_page)
         else:
-            flash('Invalid email or password.', 'error')
+            flash('Invalid username/email or password.', 'error')
 
     return render_template('auth/login.html', form=form)
 

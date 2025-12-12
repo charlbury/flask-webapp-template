@@ -4,7 +4,7 @@ Authentication forms.
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError, Regexp
 
 from ..models import User
 
@@ -16,6 +16,11 @@ class RegisterForm(FlaskForm):
         DataRequired(),
         Email(),
         Length(max=255)
+    ])
+    username = StringField('Username', validators=[
+        DataRequired(),
+        Length(max=13, message='Username must be 13 characters or less'),
+        Regexp('^[a-zA-Z0-9_]+$', message='Username can only contain letters, numbers, and underscores')
     ])
     first_name = StringField('First Name', validators=[
         Length(max=100)
@@ -38,13 +43,17 @@ class RegisterForm(FlaskForm):
         if User.query.filter_by(email=field.data.lower()).first():
             raise ValidationError('Email is already registered')
 
+    def validate_username(self, field):
+        """Validate that username is not already taken."""
+        if User.query.filter_by(username=field.data).first():
+            raise ValidationError('Username is already taken')
+
 
 class LoginForm(FlaskForm):
     """User login form."""
 
-    email = StringField('Email', validators=[
-        DataRequired(),
-        Email()
+    username_or_email = StringField('Username or Email', validators=[
+        DataRequired()
     ])
     password = PasswordField('Password', validators=[
         DataRequired()

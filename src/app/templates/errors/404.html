@@ -11,7 +11,7 @@
         <h2 class="text-white">Erm. Page not found</h2>
         <p class="lead text-white">We suggest you to go to the homepage while we solve this issue.</p>
         <a href="{{ url_for('main.index') }}" class="btn btn-outline-white mt-4">Go to Homepage</a>
-        {% if current_user.is_authenticated %}
+        {% if current_user.is_authenticated and current_user.is_admin %}
           <a href="{{ url_for('admin.live_dashboard') }}" class="btn btn-outline-white mt-4 ms-2">Dashboard</a>
         {% endif %}
       </div>

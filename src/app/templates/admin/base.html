@@ -74,21 +74,25 @@
           </a>
         </li>
 
-        <!-- Dashboard -->
+        <!-- Dashboard (Admin Only) -->
+        {% if current_user.is_admin %}
         <li class="nav-item">
           <a class="nav-link text-dark {% if request.endpoint == 'admin.live_dashboard' %}active{% endif %}" href="{{ url_for('admin.live_dashboard') }}">
             <i class="material-symbols-rounded opacity-5">space_dashboard</i>
             <span class="nav-link-text ms-1 ps-1">Dashboard</span>
           </a>
         </li>
+        {% endif %}
 
-        <!-- User Management -->
+        <!-- User Management (Admin Only) -->
+        {% if current_user.is_admin %}
         <li class="nav-item">
           <a class="nav-link text-dark {% if request.endpoint == 'admin.live_users' %}active{% endif %}" href="{{ url_for('admin.live_users') }}">
             <i class="material-symbols-rounded opacity-5">people</i>
             <span class="nav-link-text ms-1 ps-1">User Management</span>
           </a>
         </li>
+        {% endif %}
 
         <li class="nav-item mt-3">
           <h6 class="ps-3 ms-2 text-uppercase text-xs font-weight-bolder text-dark">DEMO PAGES</h6>
@@ -491,7 +495,11 @@
         </div>
         <nav aria-label="breadcrumb" class="ps-2">
           <ol class="breadcrumb bg-transparent mb-0 p-0">
+            {% if current_user.is_admin %}
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="{{ url_for('admin.live_dashboard') }}">Admin</a></li>
+            {% else %}
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="{{ url_for('main.index') }}">Home</a></li>
+            {% endif %}
             {% block breadcrumb %}{% endblock %}
           </ol>
         </nav>

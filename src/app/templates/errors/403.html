@@ -16,7 +16,7 @@
           <p class="text-white">Contact an administrator if you believe this is an error.</p>
         {% endif %}
         <a href="{{ url_for('main.index') }}" class="btn btn-outline-white mt-4">Go to Homepage</a>
-        {% if current_user.is_authenticated %}
+        {% if current_user.is_authenticated and current_user.is_admin %}
           <a href="{{ url_for('admin.live_dashboard') }}" class="btn btn-outline-white mt-4 ms-2">Dashboard</a>
         {% endif %}
       </div>

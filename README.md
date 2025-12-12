@@ -80,7 +80,7 @@ This project includes a `.flaskenv` file that Flask automatically loads when you
 The `.flaskenv` file contains:
 ```
 FLASK_APP=src.app:create_app
-FLASK_RUN_PORT=5001
+FLASK_RUN_PORT=5002
 ```
 
 **Alternative: Manual export (temporary)**

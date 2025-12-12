@@ -13,17 +13,25 @@ from .security.roles import ensure_role_exists
 
 @click.command()
 @click.option('--email', prompt=True, help='Admin email address')
+@click.option('--username', prompt=True, help='Admin username (max 13 characters)')
 @click.option('--password', prompt=True, hide_input=True, confirmation_prompt=True, help='Admin password')
 @with_appcontext
-def create_admin(email, password):
-    """Create an admin user with the specified email and password."""
+def create_admin(email, username, password):
+    """Create an admin user with the specified email, username, and password."""
     try:
-        # Check if user already exists
+        # Validate username length
+        if len(username) > 13:
+            click.echo(f"Error: Username must be 13 characters or less. Got {len(username)} characters.")
+            raise click.Abort()
+
+        # Check if user already exists by email or username
         user = User.query.filter_by(email=email.lower()).first()
-        
+        if not user:
+            user = User.query.filter_by(username=username).first()
+
         if user:
-            click.echo(f"User {email} already exists.")
-            
+            click.echo(f"User {email} or username {username} already exists.")
+
             # Ensure admin role exists and assign it
             admin_role = ensure_role_exists('admin')
             if user.add_role('admin'):
@@ -33,18 +41,18 @@ def create_admin(email, password):
                 click.echo(f"User {email} already has admin role")
         else:
             # Create new user
-            user = User(email=email.lower())
+            user = User(email=email.lower(), username=username)
             user.set_password(password)
             db.session.add(user)
             db.session.flush()  # Get the user ID
-            
+
             # Ensure admin role exists and assign it
             admin_role = ensure_role_exists('admin')
             user.add_role('admin')
-            
+
             db.session.commit()
-            click.echo(f"Admin user {email} created successfully")
-            
+            click.echo(f"Admin user {username} ({email}) created successfully")
+
     except Exception as e:
         click.echo(f"Error creating admin user: {str(e)}")
         db.session.rollback()
@@ -59,20 +67,20 @@ def assign_role(email, role):
     """Assign a role to a user."""
     try:
         user = User.query.filter_by(email=email.lower()).first()
-        
+
         if not user:
             click.echo(f"User {email} not found.")
             return
-        
+
         # Ensure role exists
         role_obj = ensure_role_exists(role)
-        
+
         if user.add_role(role):
             db.session.commit()
             click.echo(f"Role '{role}' assigned to {email}")
         else:
             click.echo(f"User {email} already has role '{role}'")
-            
+
     except Exception as e:
         click.echo(f"Error assigning role: {str(e)}")
         db.session.rollback()
@@ -87,17 +95,17 @@ def create_role(role):
     try:
         # Check if role already exists
         existing_role = Role.query.filter_by(name=role).first()
-        
+
         if existing_role:
             click.echo(f"Role '{role}' already exists.")
             return
-        
+
         # Create new role
         new_role = Role(name=role)
         db.session.add(new_role)
         db.session.commit()
         click.echo(f"Role '{role}' created successfully")
-        
+
     except Exception as e:
         click.echo(f"Error creating role: {str(e)}")
         db.session.rollback()

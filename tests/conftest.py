@@ -47,7 +47,7 @@ def admin_user(db_session):
     db_session.session.flush()
     
     # Create admin user
-    user = User(email='admin@test.com')
+    user = User(email='admin@test.com', username='admin')
     user.set_password('adminpass')
     user.roles.append(admin_role)
     db_session.session.add(user)
@@ -59,7 +59,7 @@ def admin_user(db_session):
 @pytest.fixture
 def regular_user(db_session):
     """Create regular user for testing."""
-    user = User(email='user@test.com')
+    user = User(email='user@test.com', username='testuser')
     user.set_password('userpass')
     db_session.session.add(user)
     db_session.session.commit()
@@ -86,7 +86,7 @@ def auth_headers(client, regular_user):
     """Get authentication headers for API testing."""
     # Login to get session
     response = client.post('/auth/login', data={
-        'email': regular_user.email,
+        'username_or_email': regular_user.username,
         'password': 'userpass',
         'remember_me': False
     }, follow_redirects=True)
@@ -99,7 +99,7 @@ def admin_headers(client, admin_user):
     """Get admin authentication headers for API testing."""
     # Login as admin
     response = client.post('/auth/login', data={
-        'email': admin_user.email,
+        'username_or_email': admin_user.username,
         'password': 'adminpass',
         'remember_me': False
     }, follow_redirects=True)

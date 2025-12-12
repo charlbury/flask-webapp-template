@@ -71,6 +71,18 @@
                 {% endif %}
               </div>
 
+              <div class="input-group input-group-dynamic mb-3 {% if form.username.errors %}is-invalid{% endif %}">
+                <label class="form-label">Username</label>
+                {{ form.username(class="form-control", aria_label="Username", maxlength="13") }}
+                {% if form.username.errors %}
+                  <div class="invalid-feedback">
+                    {% for error in form.username.errors %}
+                      <div>{{ error }}</div>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+
               <div class="input-group input-group-dynamic mb-3 {% if form.password.errors %}is-invalid{% endif %}">
                 <label class="form-label">Password</label>
                 {{ form.password(class="form-control", aria_label="Password") }}

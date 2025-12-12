@@ -12,19 +12,20 @@ class TestUserModel:
     
     def test_user_creation(self, db_session):
         """Test user creation."""
-        user = User(email='test@example.com')
+        user = User(email='test@example.com', username='testuser')
         user.set_password('testpass')
         db_session.session.add(user)
         db_session.session.commit()
         
         assert user.id is not None
         assert user.email == 'test@example.com'
+        assert user.username == 'testuser'
         assert user.check_password('testpass')
         assert user.is_active is True
     
     def test_user_password_hashing(self, db_session):
         """Test password hashing and verification."""
-        user = User(email='test@example.com')
+        user = User(email='test@example.com', username='testuser')
         user.set_password('testpass')
         
         # Password should be hashed
@@ -37,13 +38,28 @@ class TestUserModel:
     
     def test_user_email_uniqueness(self, db_session):
         """Test email uniqueness constraint."""
-        user1 = User(email='test@example.com')
+        user1 = User(email='test@example.com', username='testuser1')
         user1.set_password('testpass')
         db_session.session.add(user1)
         db_session.session.commit()
         
         # Try to create another user with same email
-        user2 = User(email='test@example.com')
+        user2 = User(email='test@example.com', username='testuser2')
+        user2.set_password('testpass')
+        db_session.session.add(user2)
+        
+        with pytest.raises(Exception):  # Should raise integrity error
+            db_session.session.commit()
+    
+    def test_user_username_uniqueness(self, db_session):
+        """Test username uniqueness constraint."""
+        user1 = User(email='test1@example.com', username='testuser')
+        user1.set_password('testpass')
+        db_session.session.add(user1)
+        db_session.session.commit()
+        
+        # Try to create another user with same username
+        user2 = User(email='test2@example.com', username='testuser')
         user2.set_password('testpass')
         db_session.session.add(user2)
         
@@ -59,7 +75,7 @@ class TestUserModel:
         db_session.session.flush()
         
         # Create user
-        user = User(email='test@example.com')
+        user = User(email='test@example.com', username='testuser')
         user.set_password('testpass')
         user.roles.extend([admin_role, user_role])
         db_session.session.add(user)
@@ -79,13 +95,13 @@ class TestUserModel:
         db_session.session.flush()
         
         # Create admin user
-        admin_user = User(email='admin@example.com')
+        admin_user = User(email='admin@example.com', username='adminuser')
         admin_user.set_password('adminpass')
         admin_user.roles.append(admin_role)
         db_session.session.add(admin_user)
         
         # Create regular user
-        regular_user = User(email='user@example.com')
+        regular_user = User(email='user@example.com', username='regularuser')
         regular_user.set_password('userpass')
         db_session.session.add(regular_user)
         
@@ -102,7 +118,7 @@ class TestUserModel:
         db_session.session.flush()
         
         # Create user
-        user = User(email='test@example.com')
+        user = User(email='test@example.com', username='testuser')
         user.set_password('testpass')
         db_session.session.add(user)
         db_session.session.commit()
@@ -155,9 +171,9 @@ class TestRoleModel:
         db_session.session.flush()
         
         # Create users
-        user1 = User(email='user1@example.com')
+        user1 = User(email='user1@example.com', username='user1')
         user1.set_password('pass1')
-        user2 = User(email='user2@example.com')
+        user2 = User(email='user2@example.com', username='user2')
         user2.set_password('pass2')
         
         # Add users to role

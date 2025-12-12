@@ -10,47 +10,56 @@ from ..models import User
 from ..extensions import db
 
 
-def create_user(email: str, password: str, first_name: Optional[str] = None, last_name: Optional[str] = None) -> Optional[User]:
+def create_user(email: str, password: str, username: str, first_name: Optional[str] = None, last_name: Optional[str] = None) -> Optional[User]:
     """
-    Create a new user with the given email and password.
+    Create a new user with the given email, username, and password.
 
     Args:
         email: User's email address
         password: Plain text password
+        username: User's username (max 13 characters, unique)
         first_name: User's first name (optional)
         last_name: User's last name (optional)
 
     Returns:
-        User instance if successful, None if email already exists
+        User instance if successful, None if email or username already exists
     """
     if User.query.filter_by(email=email.lower()).first():
         return None
+    
+    if User.query.filter_by(username=username).first():
+        return None
 
-    user = User(email=email.lower(), first_name=first_name, last_name=last_name)
+    user = User(email=email.lower(), username=username, first_name=first_name, last_name=last_name)
     user.set_password(password)
 
     db.session.add(user)
     db.session.commit()
 
-    current_app.logger.info(f"Created user: {email}")
+    current_app.logger.info(f"Created user: {username} ({email})")
     return user
 
 
-def authenticate_user(email: str, password: str) -> Optional[User]:
+def authenticate_user(username_or_email: str, password: str) -> Optional[User]:
     """
-    Authenticate a user with email and password.
+    Authenticate a user with username or email and password.
 
     Args:
-        email: User's email address
+        username_or_email: User's username or email address
         password: Plain text password
 
     Returns:
         User instance if authentication successful, None otherwise
     """
-    user = User.query.filter_by(email=email.lower()).first()
+    # Try username first (case-sensitive)
+    user = User.query.filter_by(username=username_or_email).first()
+    
+    # If not found, try email (case-insensitive)
+    if not user:
+        user = User.query.filter_by(email=username_or_email.lower()).first()
 
     if user and user.check_password(password) and user.is_active:
-        current_app.logger.info(f"User authenticated: {email}")
+        current_app.logger.info(f"User authenticated: {user.username} ({user.email})")
         return user
 
     return None
