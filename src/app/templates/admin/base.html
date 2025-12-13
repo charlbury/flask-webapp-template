@@ -56,6 +56,14 @@
                   <span class="sidenav-normal ms-3 ps-1"> Settings </span>
                 </a>
               </li>
+              {% if current_user.is_admin %}
+              <li class="nav-item">
+                <a class="nav-link text-dark {% if request.endpoint and 'admin.live' in request.endpoint %}active{% endif %}" href="{{ url_for('admin.live_dashboard') }}">
+                  <span class="sidenav-mini-icon"> A </span>
+                  <span class="sidenav-normal ms-3 ps-1"> Admin </span>
+                </a>
+              </li>
+              {% endif %}
               <li class="nav-item">
                 <a class="nav-link text-dark" href="{{ url_for('auth.logout') }}">
                   <span class="sidenav-mini-icon"> L </span>
@@ -597,7 +605,7 @@
         <div class="row align-items-center justify-content-lg-between">
           <div class="col-lg-6 mb-lg-0 mb-4">
             <div class="copyright text-center text-sm text-muted text-lg-start">
-              © 2025, created by
+              © <script>document.write(new Date().getFullYear())</script>, created by
               <a href="https://www.seesawweb.com" class="font-weight-bold" target="_blank">SeeSawWeb</a>. V{{ app_version }}
             </div>
           </div>

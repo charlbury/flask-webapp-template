@@ -87,9 +87,17 @@
         </li>
       </ul>
 
-      <!-- Logout Section -->
+      <!-- Admin & Logout Section -->
       <hr class="horizontal dark mt-3 mb-2">
       <ul class="navbar-nav">
+        {% if current_user.is_admin %}
+        <li class="nav-item">
+          <a class="nav-link text-dark {% if request.endpoint and 'admin.live' in request.endpoint %}active{% endif %}" href="{{ url_for('admin.live_dashboard') }}">
+            <i class="material-symbols-rounded opacity-5">admin_panel_settings</i>
+            <span class="nav-link-text ms-1 ps-1">Admin</span>
+          </a>
+        </li>
+        {% endif %}
         <li class="nav-item">
           <a class="nav-link text-dark" href="{{ url_for('auth.logout') }}">
             <i class="material-symbols-rounded opacity-5">logout</i>
