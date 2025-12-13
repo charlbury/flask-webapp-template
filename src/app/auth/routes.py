@@ -29,8 +29,8 @@ def register():
             email=form.email.data.lower(),
             password=form.password.data,
             username=form.username.data,
-            first_name=form.first_name.data.strip() if form.first_name.data else None,
-            last_name=form.last_name.data.strip() if form.last_name.data else None
+            first_name=form.first_name.data.strip(),
+            last_name=form.last_name.data.strip()
         )
 
         if user:
@@ -54,9 +54,9 @@ def login():
 
     form = LoginForm()
     if form.validate_on_submit():
-        # Try username first (case-sensitive)
-        user = User.query.filter_by(username=form.username_or_email.data).first()
-        
+        # Try username first (case-insensitive)
+        user = User.query.filter_by(username=form.username_or_email.data.lower()).first()
+
         # If not found, try email (case-insensitive)
         if not user:
             user = User.query.filter_by(email=form.username_or_email.data.lower()).first()

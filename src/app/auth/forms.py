@@ -23,9 +23,11 @@ class RegisterForm(FlaskForm):
         Regexp('^[a-zA-Z0-9_]+$', message='Username can only contain letters, numbers, and underscores')
     ])
     first_name = StringField('First Name', validators=[
+        DataRequired(),
         Length(max=100)
     ])
     last_name = StringField('Last Name', validators=[
+        DataRequired(),
         Length(max=100)
     ])
     password = PasswordField('Password', validators=[

@@ -1,0 +1,32 @@
+/* Site-specific styles and Material Dashboard customizations */
+
+/*
+ * Material Dashboard Input Group Dynamic - Invalid State Borders
+ *
+ * Material Dashboard removes left/right borders by default for input-group-dynamic fields.
+ * This override ensures that invalid fields show all borders (left, right, and bottom)
+ * for better visual feedback when validation errors occur.
+ */
+.input-group.input-group-dynamic.is-invalid .form-control,
+.input-group.input-group-dynamic.is-invalid .form-control:focus {
+  border-left: 1px solid #F44335 !important;
+  border-right: 1px solid #F44335 !important;
+  /* Ensure all border-radius values are consistent (Material Dashboard uses 0) */
+  border-top-left-radius: 6px !important;
+  border-top-right-radius: 6px !important;
+  border-bottom-left-radius: 6px !important;
+  border-bottom-right-radius: 6px !important;
+}
+
+/* Ensure borders are visible even when not focused */
+.input-group.input-group-dynamic.is-invalid .form-control:not(:focus) {
+  border-left: 1px solid #F44335 !important;
+  border-right: 1px solid #F44335 !important;
+  /* Ensure all border-radius values are consistent */
+  border-top-left-radius: 6px !important;
+  border-top-right-radius: 6px !important;
+  border-bottom-left-radius: 6px !important;
+  border-bottom-right-radius: 6px !important;
+}
+
+/* END Material Dashboard Input Group Dynamic - Invalid State Borders */

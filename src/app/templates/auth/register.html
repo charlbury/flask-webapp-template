@@ -61,7 +61,7 @@
 
               <div class="input-group input-group-dynamic mb-3 {% if form.email.errors %}is-invalid{% endif %}">
                 <label class="form-label">Email</label>
-                {{ form.email(class="form-control", aria_label="Email") }}
+                {{ form.email(class="form-control " + ("is-invalid" if form.email.errors else ""), aria_label="Email") }}
                 {% if form.email.errors %}
                   <div class="invalid-feedback">
                     {% for error in form.email.errors %}
@@ -73,7 +73,7 @@
 
               <div class="input-group input-group-dynamic mb-3 {% if form.username.errors %}is-invalid{% endif %}">
                 <label class="form-label">Username</label>
-                {{ form.username(class="form-control", aria_label="Username", maxlength="13") }}
+                {{ form.username(class="form-control " + ("is-invalid" if form.username.errors else ""), aria_label="Username", maxlength="13") }}
                 {% if form.username.errors %}
                   <div class="invalid-feedback">
                     {% for error in form.username.errors %}

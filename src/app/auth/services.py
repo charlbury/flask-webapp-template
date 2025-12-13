@@ -27,10 +27,10 @@ def create_user(email: str, password: str, username: str, first_name: Optional[s
     if User.query.filter_by(email=email.lower()).first():
         return None
     
-    if User.query.filter_by(username=username).first():
+    if User.query.filter_by(username=username.lower()).first():
         return None
 
-    user = User(email=email.lower(), username=username, first_name=first_name, last_name=last_name)
+    user = User(email=email.lower(), username=username.lower(), first_name=first_name, last_name=last_name)
     user.set_password(password)
 
     db.session.add(user)
@@ -51,8 +51,8 @@ def authenticate_user(username_or_email: str, password: str) -> Optional[User]:
     Returns:
         User instance if authentication successful, None otherwise
     """
-    # Try username first (case-sensitive)
-    user = User.query.filter_by(username=username_or_email).first()
+    # Try username first (case-insensitive)
+    user = User.query.filter_by(username=username_or_email.lower()).first()
     
     # If not found, try email (case-insensitive)
     if not user:
