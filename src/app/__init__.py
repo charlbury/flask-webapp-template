@@ -49,10 +49,12 @@ def create_app(config_name: str = None) -> Flask:
     from .auth import auth_bp
     from .main import main_bp
     from .admin import admin_bp
+    from .user import user_bp
 
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(main_bp)
     app.register_blueprint(admin_bp, url_prefix='/admin')
+    app.register_blueprint(user_bp, url_prefix='/user')
 
     # Error handlers
     @app.errorhandler(403)

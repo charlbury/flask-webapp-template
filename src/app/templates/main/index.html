@@ -55,8 +55,8 @@
             </div>
         {% else %}
             <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                <a href="{{ url_for('admin.live_dashboard') }}" class="btn btn-primary btn-lg">
-                    <i class="bi bi-speedometer2"></i> Dashboard
+                <a href="{{ url_for('user.dashboard') }}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-person-circle"></i> My Account
                 </a>
                 {% if current_user.is_admin %}
                     <a href="{{ url_for('admin.live_dashboard') }}" class="btn btn-outline-primary btn-lg">
