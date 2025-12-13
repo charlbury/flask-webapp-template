@@ -9,8 +9,10 @@ from flask_login import current_user, login_required
 from . import user_bp
 from .forms import ChangePasswordForm, AvatarUploadForm
 from ..extensions import db
+from ..models import UserSession
 from ..services.blob_storage import BlobStorageService
 from ..utils.image_validator import validate_image_file, crop_to_square
+from ..services.session_tracker import get_user_sessions, revoke_session, get_current_session_token
 
 
 @user_bp.route('/')
@@ -51,7 +53,10 @@ def settings():
         flash('Password updated successfully', 'success')
         return redirect(url_for('user.settings'))
 
-    return render_template('user/settings.html', form=form, avatar_form=avatar_form)
+    # Get user sessions for display
+    sessions = get_user_sessions(current_user.id)
+
+    return render_template('user/settings.html', form=form, avatar_form=avatar_form, sessions=sessions)
 
 
 @user_bp.route('/avatar/upload', methods=['POST'])
@@ -121,5 +126,41 @@ def upload_avatar():
         flash('An error occurred while uploading your avatar. Please try again.', 'error')
         db.session.rollback()
 
+    return redirect(url_for('user.settings'))
+
+
+@user_bp.route('/sessions/<session_id>/revoke', methods=['POST'])
+@login_required
+def revoke_user_session(session_id):
+    """Revoke a user session."""
+    try:
+        # Get the session to check ownership
+        user_session = UserSession.query.get_or_404(session_id)
+        
+        # Ensure user owns this session
+        if user_session.user_id != current_user.id:
+            flash('You do not have permission to revoke this session.', 'error')
+            return redirect(url_for('user.settings'))
+        
+        # Check if this is the current session
+        current_session_token = get_current_session_token()
+        is_current = user_session.session_token == current_session_token
+        
+        # Revoke the session
+        if revoke_session(session_id, current_user.id):
+            if is_current:
+                # If revoking current session, log out immediately
+                from flask_login import logout_user
+                logout_user()
+                flash('Your session has been revoked. You have been logged out.', 'info')
+                return redirect(url_for('auth.login'))
+            else:
+                flash('Session revoked successfully.', 'success')
+        else:
+            flash('Failed to revoke session.', 'error')
+    except Exception as e:
+        current_app.logger.error(f"Error revoking session: {e}", exc_info=True)
+        flash('An error occurred while revoking the session.', 'error')
+    
     return redirect(url_for('user.settings'))
 

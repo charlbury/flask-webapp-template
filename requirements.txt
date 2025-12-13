@@ -13,3 +13,5 @@ Werkzeug==3.0.1
 email-validator==2.1.0
 azure-storage-blob==12.19.0
 Pillow==10.1.0
+user-agents==2.2.0
+requests==2.31.0

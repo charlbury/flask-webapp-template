@@ -44,6 +44,7 @@ class User(UserMixin, db.Model):
         lazy='select'
     )
     projects: Mapped[List['Project']] = relationship('Project', back_populates='owner', lazy='dynamic')
+    sessions: Mapped[List['UserSession']] = relationship('UserSession', back_populates='user', lazy='dynamic', cascade='all, delete-orphan')
 
     def set_password(self, password: str) -> None:
         """Set password hash using PBKDF2."""

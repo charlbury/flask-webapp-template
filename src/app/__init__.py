@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 
 from .config import config
 from .extensions import db, login_manager, csrf, migrate
-from .models import User, Role, Project
+from .models import User, Role, Project, UserSession
 from .security.roles import admin_required
 from .db_utils import retry_db_operation
 
@@ -98,5 +98,29 @@ def create_app(config_name: str = None) -> Flask:
     # CLI commands
     from .cli import register_commands
     register_commands(app)
+
+    # Session activity tracking and expiration
+    @app.after_request
+    def track_session_activity(response):
+        """Update session activity timestamp and check expiration."""
+        try:
+            from flask_login import current_user
+            from flask import session as flask_session
+            from .services.session_tracker import update_session_activity, expire_old_sessions
+            
+            # Update activity for current session
+            if current_user.is_authenticated:
+                session_token = flask_session.get('session_token')
+                if session_token:
+                    update_session_activity(session_token)
+            
+            # Periodically check for expired sessions (every 100 requests)
+            import random
+            if random.randint(1, 100) == 1:
+                expire_old_sessions()
+        except Exception as e:
+            app.logger.error(f"Failed to track session activity: {e}")
+        
+        return response
 
     return app

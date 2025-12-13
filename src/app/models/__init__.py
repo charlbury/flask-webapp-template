@@ -5,5 +5,6 @@ Database models for the Flask application.
 from .user import User
 from .role import Role
 from .project import Project
+from .session import UserSession
 
-__all__ = ['User', 'Role', 'Project']
+__all__ = ['User', 'Role', 'Project', 'UserSession']

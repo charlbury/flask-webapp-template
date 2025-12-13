@@ -216,48 +216,65 @@
               <p class="text-sm">This is a list of devices that have logged into your account. Remove those that you do not recognize.</p>
             </div>
             <div class="card-body pt-0">
-              <div class="d-flex align-items-center">
-                <div class="text-center w-5">
-                  <i class="fas fa-desktop text-lg opacity-6"></i>
-                </div>
-                <div class="my-auto ms-3">
-                  <div class="h-100">
-                    <p class="text-sm mb-1">
-                      Bucharest 68.133.163.201
-                    </p>
-                    <p class="mb-0 text-xs">
-                      Your current session
-                    </p>
+              {% if sessions %}
+                {% for session in sessions %}
+                  <div class="d-flex align-items-center">
+                    <div class="text-center w-5">
+                      {% if session.device_type == 'mobile' %}
+                        <i class="fas fa-mobile text-lg opacity-6"></i>
+                      {% elif session.device_type == 'tablet' %}
+                        <i class="fas fa-tablet text-lg opacity-6"></i>
+                      {% else %}
+                        <i class="fas fa-desktop text-lg opacity-6"></i>
+                      {% endif %}
+                    </div>
+                    <div class="my-auto ms-3">
+                      <div class="h-100">
+                        <p class="text-sm mb-1">
+                          {% if session.city %}{{ session.city }} {% endif %}{{ session.ip_address }}
+                        </p>
+                        <p class="mb-0 text-xs">
+                          {% if session.is_current %}
+                            Your current session
+                          {% else %}
+                            {% if session.browser_name and session.os_name %}
+                              {{ session.browser_name }}{% if session.browser_version %} {{ session.browser_version }}{% endif %} on {{ session.os_name }}{% if session.os_version %} {{ session.os_version }}{% endif %}
+                            {% elif session.browser_name %}
+                              {{ session.browser_name }}{% if session.browser_version %} {{ session.browser_version }}{% endif %}
+                            {% elif session.os_name %}
+                              {{ session.os_name }}{% if session.os_version %} {{ session.os_version }}{% endif %}
+                            {% else %}
+                              Unknown device
+                            {% endif %}
+                          {% endif %}
+                        </p>
+                      </div>
+                    </div>
+                    {% if session.is_active %}
+                      <span class="badge badge-success badge-sm my-auto ms-auto me-3">Active</span>
+                    {% else %}
+                      <span class="badge badge-secondary badge-sm my-auto ms-auto me-3">Inactive</span>
+                    {% endif %}
+                    {% if session.region or session.country %}
+                      <p class="text-secondary text-sm my-auto me-3">{{ session.region or session.country }}</p>
+                    {% endif %}
+                    {% if session.is_current %}
+                      <span class="badge badge-info badge-sm my-auto me-3">Current</span>
+                    {% endif %}
+                    <form method="POST" action="{{ url_for('admin.revoke_user_session', session_id=session.id) }}" class="d-inline" onsubmit="return confirm('Are you sure you want to revoke this session?{% if session.is_current %} This will log you out immediately.{% endif %}');">
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                      <button type="submit" class="btn btn-link text-danger text-sm p-0 my-auto" style="text-decoration: none;">
+                        <i class="fas fa-times"></i> Remove
+                      </button>
+                    </form>
                   </div>
-                </div>
-                <span class="badge badge-success badge-sm my-auto ms-auto me-3">Active</span>
-                <p class="text-secondary text-sm my-auto me-3">EU</p>
-                <a href="javascript:;" class="text-primary text-sm icon-move-right my-auto">See more
-                  <i class="fas fa-arrow-right text-xs ms-1" aria-hidden="true"></i>
-                </a>
-              </div>
-              <hr class="horizontal dark">
-              <div class="d-flex align-items-center">
-                <div class="text-center w-5">
-                  <i class="fas fa-desktop text-lg opacity-6"></i>
-                </div>
-                <p class="my-auto ms-3">Chrome on macOS</p>
-                <p class="text-secondary text-sm ms-auto my-auto me-3">US</p>
-                <a href="javascript:;" class="text-primary text-sm icon-move-right my-auto">See more
-                  <i class="fas fa-arrow-right text-xs ms-1" aria-hidden="true"></i>
-                </a>
-              </div>
-              <hr class="horizontal dark">
-              <div class="d-flex align-items-center">
-                <div class="text-center w-5">
-                  <i class="fas fa-mobile text-lg opacity-6"></i>
-                </div>
-                <p class="my-auto ms-3">Safari on iPhone</p>
-                <p class="text-secondary text-sm ms-auto my-auto me-3">US</p>
-                <a href="javascript:;" class="text-primary text-sm icon-move-right my-auto">See more
-                  <i class="fas fa-arrow-right text-xs ms-1" aria-hidden="true"></i>
-                </a>
-              </div>
+                  {% if not loop.last %}
+                    <hr class="horizontal dark">
+                  {% endif %}
+                {% endfor %}
+              {% else %}
+                <p class="text-muted text-sm">No sessions found.</p>
+              {% endif %}
             </div>
           </div>
         </div>

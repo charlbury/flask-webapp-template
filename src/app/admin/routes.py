@@ -9,11 +9,12 @@ from sqlalchemy.orm import joinedload
 
 from . import admin_bp
 from .forms import AssignRoleForm, RemoveRoleForm, ChangePasswordForm, AvatarUploadForm
-from ..models import User, Role, Project
+from ..models import User, Role, Project, UserSession
 from ..extensions import db
 from ..security.roles import admin_required, ensure_role_exists
 from ..services.blob_storage import BlobStorageService
 from ..utils.image_validator import validate_image_file, crop_to_square
+from ..services.session_tracker import get_user_sessions, revoke_session, get_current_session_token
 
 
 # Live App Routes (for production development)
@@ -81,7 +82,46 @@ def live_settings():
         flash('Password updated successfully', 'success')
         return redirect(url_for('admin.live_settings'))
 
-    return render_template('admin/live/settings.html', form=form, avatar_form=avatar_form)
+    # Get user sessions for display
+    sessions = get_user_sessions(current_user.id)
+
+    return render_template('admin/live/settings.html', form=form, avatar_form=avatar_form, sessions=sessions)
+
+
+@admin_bp.route('/sessions/<session_id>/revoke', methods=['POST'])
+@admin_required
+def revoke_user_session(session_id):
+    """Revoke a user session."""
+    try:
+        # Get the session to check ownership
+        user_session = UserSession.query.get_or_404(session_id)
+        
+        # Ensure user owns this session
+        if user_session.user_id != current_user.id:
+            flash('You do not have permission to revoke this session.', 'error')
+            return redirect(url_for('admin.live_settings'))
+        
+        # Check if this is the current session
+        current_session_token = get_current_session_token()
+        is_current = user_session.session_token == current_session_token
+        
+        # Revoke the session
+        if revoke_session(session_id, current_user.id):
+            if is_current:
+                # If revoking current session, log out immediately
+                from flask_login import logout_user
+                logout_user()
+                flash('Your session has been revoked. You have been logged out.', 'info')
+                return redirect(url_for('auth.login'))
+            else:
+                flash('Session revoked successfully.', 'success')
+        else:
+            flash('Failed to revoke session.', 'error')
+    except Exception as e:
+        current_app.logger.error(f"Error revoking session: {e}", exc_info=True)
+        flash('An error occurred while revoking the session.', 'error')
+    
+    return redirect(url_for('admin.live_settings'))
 
 
 @admin_bp.route('/avatar/upload', methods=['POST'])
