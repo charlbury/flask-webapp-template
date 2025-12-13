@@ -64,7 +64,7 @@
                     {% if current_user.first_name or current_user.last_name %}{{ current_user.first_name }} {{ current_user.last_name }}{% else %}{{ current_user.email }}{% endif %}
                   </h5>
                   <p class="mb-0 font-weight-normal text-sm">
-                    {{ current_user.email }}
+                    {{ current_user.username }}
                   </p>
                 </div>
               </div>
