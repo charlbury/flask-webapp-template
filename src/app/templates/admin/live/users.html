@@ -24,9 +24,10 @@
           <div class="card-body px-0 pt-0 pb-2">
             {% if users %}
               <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0">
+                <table class="table align-items-center mb-0" id="users-table">
                   <thead>
                     <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Avatar</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Roles</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
@@ -37,6 +38,13 @@
                   <tbody>
                     {% for user in users %}
                       <tr>
+                        <td>
+                          <div class="d-flex px-2 py-1">
+                            <div>
+                              <img src="{{ user.get_avatar_url() }}" class="avatar avatar-sm me-2" alt="{{ user.email }}">
+                            </div>
+                          </div>
+                        </td>
                         <td>
                           <div class="d-flex px-2 py-1">
                             <div class="d-flex flex-column justify-content-center">
@@ -83,6 +91,7 @@
                               <li><hr class="dropdown-divider"></li>
                               <li>
                                 <form method="POST" action="{{ url_for('admin.toggle_user_active', user_id=user.id) }}" class="d-inline">
+                                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                   <button type="submit" class="dropdown-item">
                                     {% if user.is_active %}
                                       <i class="material-symbols-rounded me-1">person_off</i> Deactivate
@@ -174,6 +183,8 @@
 {% block extra_scripts %}
 <!-- Choices.js -->
 <script src="{{ url_for('static', filename='admin/js/plugins/choices.min.js') }}"></script>
+<!-- DataTables -->
+<script src="{{ url_for('static', filename='admin/js/plugins/datatables.js') }}"></script>
 <script>
 // Available roles (populated from server)
 const availableRoles = {{ roles|tojson if roles else '[]' }};
@@ -266,12 +277,25 @@ function openRemoveRoleModal(userId, userRoles) {
   }, { once: true });
 }
 
-// Add event listeners for remove role buttons
+// Initialize DataTable
 document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.remove-role-btn').forEach(button => {
-    button.addEventListener('click', function() {
-      const userId = this.getAttribute('data-user-id');
-      const userRolesString = this.getAttribute('data-user-roles');
+  // Initialize DataTable if table exists
+  if (document.getElementById('users-table')) {
+    const usersTable = new simpleDatatables.DataTable("#users-table", {
+      searchable: true,
+      fixedHeight: false,
+      perPage: 50,
+      perPageSelect: [50, 100, 250, -1]
+    });
+  }
+
+  // Add event listeners for remove role buttons using event delegation
+  // This ensures buttons work even after DataTables recreates the DOM
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.remove-role-btn')) {
+      const button = e.target.closest('.remove-role-btn');
+      const userId = button.getAttribute('data-user-id');
+      const userRolesString = button.getAttribute('data-user-roles');
 
       // Convert comma-separated string to array
       let userRoles = [];
@@ -280,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       openRemoveRoleModal(userId, userRoles);
-    });
+    }
   });
 
   // Clean up Choices instances when modals are hidden
