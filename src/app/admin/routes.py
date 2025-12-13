@@ -54,6 +54,13 @@ def live_users():
     return render_template('admin/live/users.html', users=users, roles=role_names)
 
 
+@admin_bp.route('/settings')
+@admin_required
+def live_settings():
+    """Live app settings page."""
+    return render_template('admin/live/settings.html')
+
+
 # Demo Routes (kept for reference)
 @admin_bp.route('/demo/dashboard')
 @admin_required
