@@ -7,7 +7,7 @@ from flask_login import current_user
 from sqlalchemy.orm import joinedload
 
 from . import admin_bp
-from .forms import AssignRoleForm, RemoveRoleForm
+from .forms import AssignRoleForm, RemoveRoleForm, ChangePasswordForm
 from ..models import User, Role, Project
 from ..extensions import db
 from ..security.roles import admin_required, ensure_role_exists
@@ -29,11 +29,11 @@ def live_dashboard():
     total_users = User.query.count()
     admin_users = User.query.join(User.roles).filter(Role.name == 'admin').count()
     total_projects = Project.query.count()
-    
+
     # Get recent users
     recent_users = User.query.order_by(User.created_at.desc()).limit(5).all()
-    
-    return render_template('admin/live/dashboard.html', 
+
+    return render_template('admin/live/dashboard.html',
                          total_users=total_users,
                          admin_users=admin_users,
                          total_projects=total_projects,
@@ -46,19 +46,38 @@ def live_users():
     """Live app user management."""
     # Get all users
     users = User.query.order_by(User.created_at.desc()).all()
-    
+
     # Get all available roles for the dropdown (as names only)
     roles = Role.query.all()
     role_names = [role.name for role in roles]
-    
+
     return render_template('admin/live/users.html', users=users, roles=role_names)
 
 
-@admin_bp.route('/settings')
+@admin_bp.route('/settings', methods=['GET', 'POST'])
 @admin_required
 def live_settings():
     """Live app settings page."""
-    return render_template('admin/live/settings.html')
+    form = ChangePasswordForm()
+
+    if form.validate_on_submit():
+        # Verify current password
+        if not current_user.check_password(form.current_password.data):
+            flash('Current password is incorrect', 'error')
+            return render_template('admin/live/settings.html', form=form)
+
+        # Verify new password matches confirm password (form validation handles this, but double-check)
+        if form.new_password.data != form.confirm_password.data:
+            flash('New passwords do not match', 'error')
+            return render_template('admin/live/settings.html', form=form)
+
+        # Update password
+        current_user.set_password(form.new_password.data)
+        db.session.commit()
+        flash('Password updated successfully', 'success')
+        return redirect(url_for('admin.live_settings'))
+
+    return render_template('admin/live/settings.html', form=form)
 
 
 # Demo Routes (kept for reference)
@@ -70,11 +89,11 @@ def demo_dashboard():
     total_users = User.query.count()
     admin_users = User.query.join(User.roles).filter(Role.name == 'admin').count()
     total_projects = Project.query.count()
-    
+
     # Get recent users
     recent_users = User.query.order_by(User.created_at.desc()).limit(5).all()
-    
-    return render_template('admin/dashboard.html', 
+
+    return render_template('admin/dashboard.html',
                          total_users=total_users,
                          admin_users=admin_users,
                          total_projects=total_projects,
@@ -87,11 +106,11 @@ def demo_users():
     """Demo user management."""
     # Get all users
     users = User.query.order_by(User.created_at.desc()).all()
-    
+
     # Get all available roles for the dropdown (as names only)
     roles = Role.query.all()
     role_names = [role.name for role in roles]
-    
+
     return render_template('admin/users.html', users=users, roles=role_names)
 
 
@@ -100,18 +119,18 @@ def demo_users():
 def assign_role(user_id):
     """Assign a role to a user."""
     form = AssignRoleForm()
-    
+
     # Determine redirect based on referrer
     referrer = request.referrer or ''
     redirect_to = 'admin.live_users' if '/user-management' in referrer else 'admin.demo_users'
-    
+
     if form.validate_on_submit():
         user = User.query.get_or_404(user_id)
         role_name = form.role_name.data
-        
+
         # Ensure role exists
         role = ensure_role_exists(role_name)
-        
+
         if user.add_role(role_name):
             db.session.commit()
             flash(f'Role "{role_name}" assigned to {user.email}', 'success')
@@ -119,7 +138,7 @@ def assign_role(user_id):
             flash(f'User {user.email} already has role "{role_name}"', 'info')
     else:
         flash('Invalid form data', 'error')
-    
+
     return redirect(url_for(redirect_to))
 
 
@@ -128,15 +147,15 @@ def assign_role(user_id):
 def remove_role(user_id):
     """Remove a role from a user."""
     form = RemoveRoleForm()
-    
+
     # Determine redirect based on referrer
     referrer = request.referrer or ''
     redirect_to = 'admin.live_users' if '/user-management' in referrer else 'admin.demo_users'
-    
+
     if form.validate_on_submit():
         user = User.query.get_or_404(user_id)
         role_name = form.role_name.data
-        
+
         if user.remove_role(role_name):
             db.session.commit()
             flash(f'Role "{role_name}" removed from {user.email}', 'success')
@@ -144,7 +163,7 @@ def remove_role(user_id):
             flash(f'User {user.email} does not have role "{role_name}"', 'info')
     else:
         flash('Invalid form data', 'error')
-    
+
     return redirect(url_for(redirect_to))
 
 
@@ -153,22 +172,22 @@ def remove_role(user_id):
 def toggle_user_active(user_id):
     """Toggle user active status."""
     user = User.query.get_or_404(user_id)
-    
+
     # Determine redirect based on referrer
     referrer = request.referrer or ''
     redirect_to = 'admin.live_users' if '/user-management' in referrer else 'admin.demo_users'
-    
+
     # Prevent deactivating yourself
     if user.id == current_user.id:
         flash('You cannot deactivate your own account', 'error')
         return redirect(url_for(redirect_to))
-    
+
     user.is_active = not user.is_active
     db.session.commit()
-    
+
     status = 'activated' if user.is_active else 'deactivated'
     flash(f'User {user.email} has been {status}', 'success')
-    
+
     return redirect(url_for(redirect_to))
 
 

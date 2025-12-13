@@ -3,8 +3,8 @@ Admin forms.
 """
 
 from flask_wtf import FlaskForm
-from wtforms import SelectField, HiddenField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms import SelectField, HiddenField, SubmitField, PasswordField
+from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
 
 from ..models import Role
 
@@ -37,3 +37,20 @@ class RemoveRoleForm(FlaskForm):
         self.role_name.choices = [
             (role.name, role.name) for role in Role.query.all()
         ]
+
+
+class ChangePasswordForm(FlaskForm):
+    """Form for changing user password."""
+    
+    current_password = PasswordField('Current Password', validators=[
+        DataRequired()
+    ])
+    new_password = PasswordField('New Password', validators=[
+        DataRequired(),
+        Length(min=6, max=128, message='Password must be between 6 and 128 characters')
+    ])
+    confirm_password = PasswordField('Confirm New Password', validators=[
+        DataRequired(),
+        EqualTo('new_password', message='New passwords must match')
+    ])
+    submit = SubmitField('Update Password')

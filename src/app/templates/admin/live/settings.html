@@ -120,37 +120,65 @@
               <h5>Change Password</h5>
             </div>
             <div class="card-body pt-0">
-              <div class="input-group input-group-outline">
-                <label class="form-label">Current password</label>
-                <input type="password" class="form-control">
-              </div>
-              <div class="input-group input-group-outline my-4">
-                <label class="form-label">New password</label>
-                <input type="password" class="form-control">
-              </div>
-              <div class="input-group input-group-outline">
-                <label class="form-label">Confirm New password</label>
-                <input type="password" class="form-control">
-              </div>
-              <h5 class="mt-5">Password requirements</h5>
-              <p class="text-muted mb-2">
-                Please follow this guide for a strong password:
-              </p>
-              <ul class="text-muted ps-4 mb-0 float-start">
-                <li>
-                  <span class="text-sm">One special characters</span>
-                </li>
-                <li>
-                  <span class="text-sm">Min 6 characters</span>
-                </li>
-                <li>
-                  <span class="text-sm">One number (2 are recommended)</span>
-                </li>
-                <li>
-                  <span class="text-sm">Change it often</span>
-                </li>
-              </ul>
-              <button class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Update password</button>
+              <form method="POST" action="{{ url_for('admin.live_settings') }}">
+                {{ form.hidden_tag() }}
+
+                <div class="input-group input-group-outline {% if form.current_password.errors %}is-invalid{% endif %}">
+                  <label class="form-label">Current password</label>
+                  {{ form.current_password(class="form-control " + ("is-invalid" if form.current_password.errors else "")) }}
+                  {% if form.current_password.errors %}
+                    <div class="invalid-feedback">
+                      {% for error in form.current_password.errors %}
+                        <div>{{ error }}</div>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                </div>
+
+                <div class="input-group input-group-outline my-4 {% if form.new_password.errors %}is-invalid{% endif %}">
+                  <label class="form-label">New password</label>
+                  {{ form.new_password(class="form-control " + ("is-invalid" if form.new_password.errors else "")) }}
+                  {% if form.new_password.errors %}
+                    <div class="invalid-feedback">
+                      {% for error in form.new_password.errors %}
+                        <div>{{ error }}</div>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                </div>
+
+                <div class="input-group input-group-outline {% if form.confirm_password.errors %}is-invalid{% endif %}">
+                  <label class="form-label">Confirm New password</label>
+                  {{ form.confirm_password(class="form-control " + ("is-invalid" if form.confirm_password.errors else "")) }}
+                  {% if form.confirm_password.errors %}
+                    <div class="invalid-feedback">
+                      {% for error in form.confirm_password.errors %}
+                        <div>{{ error }}</div>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                </div>
+
+                <h5 class="mt-5">Password requirements</h5>
+                <p class="text-muted mb-2">
+                  Please follow this guide for a strong password:
+                </p>
+                <ul class="text-muted ps-4 mb-0 float-start">
+                  <li>
+                    <span class="text-sm">One special characters</span>
+                  </li>
+                  <li>
+                    <span class="text-sm">Min 6 characters</span>
+                  </li>
+                  <li>
+                    <span class="text-sm">One number (2 are recommended)</span>
+                  </li>
+                  <li>
+                    <span class="text-sm">Change it often</span>
+                  </li>
+                </ul>
+                {{ form.submit(class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0") }}
+              </form>
             </div>
           </div>
           <!-- Card Sessions -->
