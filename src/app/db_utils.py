@@ -5,7 +5,7 @@ Database utility functions with retry logic.
 import time
 import logging
 from functools import wraps
-from sqlalchemy.exc import OperationalError
+from sqlalchemy.exc import OperationalError, PendingRollbackError
 
 logger = logging.getLogger(__name__)
 
@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 def retry_db_operation(max_retries=6, initial_delay=2, max_delay=10, backoff_factor=2):
     """
     Decorator to retry database operations with exponential backoff.
+    Handles session rollback on connection errors.
 
     Args:
         max_retries: Maximum number of retry attempts (default: 6, total ~60 seconds)
@@ -31,8 +32,34 @@ def retry_db_operation(max_retries=6, initial_delay=2, max_delay=10, backoff_fac
             for attempt in range(max_retries + 1):
                 try:
                     return func(*args, **kwargs)
-                except OperationalError as e:
+                except (OperationalError, PendingRollbackError) as e:
                     last_exception = e
+                    
+                    # Roll back the session to clear invalid transaction state
+                    try:
+                        from .extensions import db
+                        db.session.rollback()
+                        logger.debug("Session rolled back due to database error")
+                    except Exception as rollback_error:
+                        logger.warning(f"Failed to rollback session: {rollback_error}")
+                    
+                    # Handle PendingRollbackError - this means we need to retry
+                    if isinstance(e, PendingRollbackError):
+                        if attempt < max_retries:
+                            logger.warning(
+                                f"Pending rollback error (attempt {attempt + 1}/{max_retries + 1}): {e}. "
+                                f"Retrying in {delay} seconds..."
+                            )
+                            time.sleep(delay)
+                            delay = min(delay * backoff_factor, max_delay)
+                            continue
+                        else:
+                            logger.error(
+                                f"Pending rollback error after {max_retries + 1} attempts: {e}"
+                            )
+                            raise
+                    
+                    # Handle OperationalError (connection/timeout errors)
                     error_code = getattr(e.orig, 'args', [None])[0] if hasattr(e, 'orig') else None
 
                     # Check if it's a timeout or connection error
