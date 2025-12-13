@@ -45,13 +45,13 @@
           <div class="collapse" id="ProfileNav">
             <ul class="nav">
               <li class="nav-item">
-                <a class="nav-link text-dark" href="{{ url_for('admin.team_profile_overview') }}">
+                <a class="nav-link text-dark" href="{{ url_for('admin.demo_team_profile_overview') }}">
                   <span class="sidenav-mini-icon"> MP </span>
                   <span class="sidenav-normal ms-3 ps-1"> My Profile </span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-dark" href="{{ url_for('admin.account_settings') }}">
+                <a class="nav-link text-dark" href="{{ url_for('admin.demo_account_settings') }}">
                   <span class="sidenav-mini-icon"> S </span>
                   <span class="sidenav-normal ms-3 ps-1"> Settings </span>
                 </a>
@@ -102,58 +102,58 @@
 
         <!-- Demo Pages Collapsible Menu -->
         <li class="nav-item">
-          <a data-bs-toggle="collapse" href="#demoPagesExamples" class="nav-link text-dark {% if request.endpoint and ('admin.dashboard' in request.endpoint or 'admin.dashboards' in request.endpoint or 'admin.pages' in request.endpoint or 'admin.account' in request.endpoint or 'admin.applications' in request.endpoint or 'admin.ecommerce' in request.endpoint or 'admin.team' in request.endpoint or 'admin.projects' in request.endpoint or 'admin.profile' in request.endpoint) %}active{% endif %}" aria-controls="demoPagesExamples" role="button" aria-expanded="{% if request.endpoint and ('admin.dashboards' in request.endpoint or 'admin.pages' in request.endpoint or 'admin.account' in request.endpoint or 'admin.applications' in request.endpoint or 'admin.ecommerce' in request.endpoint or 'admin.team' in request.endpoint or 'admin.projects' in request.endpoint or 'admin.profile' in request.endpoint) %}true{% else %}false{% endif %}">
+          <a data-bs-toggle="collapse" href="#demoPagesExamples" class="nav-link text-dark {% if request.endpoint and ('admin.demo_dashboard' in request.endpoint or 'admin.demo_dashboards' in request.endpoint or 'admin.demo_pages' in request.endpoint or 'admin.demo_account' in request.endpoint or 'admin.demo_applications' in request.endpoint or 'admin.demo_ecommerce' in request.endpoint or 'admin.demo_team' in request.endpoint or 'admin.demo_projects' in request.endpoint or 'admin.demo_profile' in request.endpoint) %}active{% endif %}" aria-controls="demoPagesExamples" role="button" aria-expanded="{% if request.endpoint and ('admin.demo_dashboard' in request.endpoint or 'admin.demo_dashboards' in request.endpoint or 'admin.demo_pages' in request.endpoint or 'admin.demo_account' in request.endpoint or 'admin.demo_applications' in request.endpoint or 'admin.demo_ecommerce' in request.endpoint or 'admin.demo_team' in request.endpoint or 'admin.demo_projects' in request.endpoint or 'admin.demo_profile' in request.endpoint) %}true{% else %}false{% endif %}">
             <i class="material-symbols-rounded opacity-5">description</i>
             <span class="nav-link-text ms-1 ps-1">Demo Pages</span>
           </a>
-          <div class="collapse {% if request.endpoint and ('admin.dashboards' in request.endpoint or 'admin.pages' in request.endpoint or 'admin.account' in request.endpoint or 'admin.applications' in request.endpoint or 'admin.ecommerce' in request.endpoint or 'admin.team' in request.endpoint or 'admin.projects' in request.endpoint or 'admin.profile' in request.endpoint) %}show{% endif %}" id="demoPagesExamples">
+          <div class="collapse {% if request.endpoint and ('admin.demo_dashboard' in request.endpoint or 'admin.demo_dashboards' in request.endpoint or 'admin.demo_pages' in request.endpoint or 'admin.demo_account' in request.endpoint or 'admin.demo_applications' in request.endpoint or 'admin.demo_ecommerce' in request.endpoint or 'admin.demo_team' in request.endpoint or 'admin.demo_projects' in request.endpoint or 'admin.demo_profile' in request.endpoint) %}show{% endif %}" id="demoPagesExamples">
             <ul class="nav">
               <!-- Dashboards -->
               <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#dashboardsExamples" class="nav-link text-dark {% if request.endpoint and 'admin.dashboards' in request.endpoint %}active{% endif %}" aria-controls="dashboardsExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.dashboards' in request.endpoint %}true{% else %}false{% endif %}">
+                <a data-bs-toggle="collapse" href="#dashboardsExamples" class="nav-link text-dark {% if request.endpoint and ('admin.demo_dashboard' in request.endpoint or 'admin.demo_dashboards' in request.endpoint) %}active{% endif %}" aria-controls="dashboardsExamples" role="button" aria-expanded="{% if request.endpoint and ('admin.demo_dashboard' in request.endpoint or 'admin.demo_dashboards' in request.endpoint) %}true{% else %}false{% endif %}">
                   <span class="sidenav-mini-icon"> D </span>
                   <span class="sidenav-normal ms-1 ps-1"> Dashboards <b class="caret"></b></span>
                 </a>
-                <div class="collapse {% if request.endpoint and 'admin.dashboards' in request.endpoint %}show{% endif %}" id="dashboardsExamples">
+                <div class="collapse {% if request.endpoint and ('admin.demo_dashboard' in request.endpoint or 'admin.demo_dashboards' in request.endpoint) %}show{% endif %}" id="dashboardsExamples">
                   <ul class="nav nav-sm flex-column">
-                    <li class="nav-item {% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
-                      <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboard' %}active{% endif %}" href="{{ url_for('admin.dashboard') }}">
+                    <li class="nav-item {% if request.endpoint == 'admin.demo_dashboard' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_dashboard' %}active{% endif %}" href="{{ url_for('admin.demo_dashboard') }}">
                         <span class="sidenav-mini-icon"> D </span>
                         <span class="sidenav-normal ms-1 ps-1"> Dashboard </span>
                       </a>
                     </li>
-                    <li class="nav-item {% if request.endpoint == 'admin.dashboards_analytics' %}active{% endif %}">
-                      <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboards_analytics' %}active{% endif %}" href="{{ url_for('admin.dashboards_analytics') }}">
+                    <li class="nav-item {% if request.endpoint == 'admin.demo_dashboards_analytics' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_dashboards_analytics' %}active{% endif %}" href="{{ url_for('admin.demo_dashboards_analytics') }}">
                         <span class="sidenav-mini-icon"> A </span>
                         <span class="sidenav-normal ms-1 ps-1"> Analytics </span>
                       </a>
                     </li>
-                    <li class="nav-item {% if request.endpoint == 'admin.dashboards_discover' %}active{% endif %}">
-                      <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboards_discover' %}active{% endif %}" href="{{ url_for('admin.dashboards_discover') }}">
+                    <li class="nav-item {% if request.endpoint == 'admin.demo_dashboards_discover' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_dashboards_discover' %}active{% endif %}" href="{{ url_for('admin.demo_dashboards_discover') }}">
                         <span class="sidenav-mini-icon"> D </span>
                         <span class="sidenav-normal ms-1 ps-1"> Discover </span>
                       </a>
                     </li>
-                    <li class="nav-item {% if request.endpoint == 'admin.dashboards_sales' %}active{% endif %}">
-                      <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboards_sales' %}active{% endif %}" href="{{ url_for('admin.dashboards_sales') }}">
+                    <li class="nav-item {% if request.endpoint == 'admin.demo_dashboards_sales' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_dashboards_sales' %}active{% endif %}" href="{{ url_for('admin.demo_dashboards_sales') }}">
                         <span class="sidenav-mini-icon"> S </span>
                         <span class="sidenav-normal ms-1 ps-1"> Sales </span>
                       </a>
                     </li>
-                    <li class="nav-item {% if request.endpoint == 'admin.dashboards_automotive' %}active{% endif %}">
-                      <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboards_automotive' %}active{% endif %}" href="{{ url_for('admin.dashboards_automotive') }}">
+                    <li class="nav-item {% if request.endpoint == 'admin.demo_dashboards_automotive' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_dashboards_automotive' %}active{% endif %}" href="{{ url_for('admin.demo_dashboards_automotive') }}">
                         <span class="sidenav-mini-icon"> A </span>
                         <span class="sidenav-normal ms-1 ps-1"> Automotive </span>
                       </a>
                     </li>
-                    <li class="nav-item {% if request.endpoint == 'admin.dashboards_smart_home' %}active{% endif %}">
-                      <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboards_smart_home' %}active{% endif %}" href="{{ url_for('admin.dashboards_smart_home') }}">
+                    <li class="nav-item {% if request.endpoint == 'admin.demo_dashboards_smart_home' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_dashboards_smart_home' %}active{% endif %}" href="{{ url_for('admin.demo_dashboards_smart_home') }}">
                         <span class="sidenav-mini-icon"> S </span>
                         <span class="sidenav-normal ms-1 ps-1"> Smart Home </span>
                       </a>
                     </li>
-                    <li class="nav-item {% if request.endpoint == 'admin.dashboards_blocks_analytics' %}active{% endif %}">
-                      <a class="nav-link text-dark {% if request.endpoint == 'admin.dashboards_blocks_analytics' %}active{% endif %}" href="{{ url_for('admin.dashboards_blocks_analytics') }}">
+                    <li class="nav-item {% if request.endpoint == 'admin.demo_dashboards_blocks_analytics' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_dashboards_blocks_analytics' %}active{% endif %}" href="{{ url_for('admin.demo_dashboards_blocks_analytics') }}">
                         <span class="sidenav-mini-icon"> B </span>
                         <span class="sidenav-normal ms-1 ps-1"> Blocks Analytics </span>
                       </a>
@@ -164,11 +164,11 @@
 
               <!-- Pages -->
               <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-dark {% if request.endpoint and 'admin.pages' in request.endpoint %}active{% endif %}" aria-controls="pagesExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.pages' in request.endpoint %}true{% else %}false{% endif %}">
+                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-dark {% if request.endpoint and 'admin.demo_pages' in request.endpoint %}active{% endif %}" aria-controls="pagesExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.demo_pages' in request.endpoint %}true{% else %}false{% endif %}">
                   <span class="sidenav-mini-icon"> P </span>
                   <span class="sidenav-normal ms-1 ps-1"> Pages <b class="caret"></b></span>
                 </a>
-                <div class="collapse {% if request.endpoint and 'admin.pages' in request.endpoint %}show{% endif %}" id="pagesExamples">
+                <div class="collapse {% if request.endpoint and 'admin.demo_pages' in request.endpoint %}show{% endif %}" id="pagesExamples">
             <ul class="nav">
               <li class="nav-item">
                 <a class="nav-link text-dark" data-bs-toggle="collapse" aria-expanded="false" href="#vrExamples">
@@ -177,14 +177,14 @@
                 </a>
                 <div class="collapse" id="vrExamples">
                   <ul class="nav nav-sm flex-column">
-                    <li class="nav-item {% if request.endpoint == 'admin.pages_vr_default' %}active{% endif %}">
-                      <a class="nav-link text-dark {% if request.endpoint == 'admin.pages_vr_default' %}active{% endif %}" href="{{ url_for('admin.pages_vr_default') }}">
+                    <li class="nav-item {% if request.endpoint == 'admin.demo_pages_vr_default' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_pages_vr_default' %}active{% endif %}" href="{{ url_for('admin.demo_pages_vr_default') }}">
                         <span class="sidenav-mini-icon"> V </span>
                         <span class="sidenav-normal ms-1 ps-1"> VR Default </span>
                       </a>
                     </li>
-                    <li class="nav-item {% if request.endpoint == 'admin.pages_vr_info' %}active{% endif %}">
-                      <a class="nav-link text-dark {% if request.endpoint == 'admin.pages_vr_info' %}active{% endif %}" href="{{ url_for('admin.pages_vr_info') }}">
+                    <li class="nav-item {% if request.endpoint == 'admin.demo_pages_vr_info' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_pages_vr_info' %}active{% endif %}" href="{{ url_for('admin.demo_pages_vr_info') }}">
                         <span class="sidenav-mini-icon"> V </span>
                         <span class="sidenav-normal ms-1 ps-1"> VR Info </span>
                       </a>
@@ -192,38 +192,38 @@
                   </ul>
                 </div>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.pages_pricing' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.pages_pricing' %}active{% endif %}" href="{{ url_for('admin.pages_pricing') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_pages_pricing' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_pages_pricing' %}active{% endif %}" href="{{ url_for('admin.demo_pages_pricing') }}">
                   <span class="sidenav-mini-icon"> P </span>
                   <span class="sidenav-normal ms-1 ps-1"> Pricing Page </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.pages_rtl' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.pages_rtl' %}active{% endif %}" href="{{ url_for('admin.pages_rtl') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_pages_rtl' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_pages_rtl' %}active{% endif %}" href="{{ url_for('admin.demo_pages_rtl') }}">
                   <span class="sidenav-mini-icon"> R </span>
                   <span class="sidenav-normal ms-1 ps-1"> RTL </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.pages_widgets' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.pages_widgets' %}active{% endif %}" href="{{ url_for('admin.pages_widgets') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_pages_widgets' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_pages_widgets' %}active{% endif %}" href="{{ url_for('admin.demo_pages_widgets') }}">
                   <span class="sidenav-mini-icon"> W </span>
                   <span class="sidenav-normal ms-1 ps-1"> Widgets </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.pages_charts' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.pages_charts' %}active{% endif %}" href="{{ url_for('admin.pages_charts') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_pages_charts' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_pages_charts' %}active{% endif %}" href="{{ url_for('admin.demo_pages_charts') }}">
                   <span class="sidenav-mini-icon"> C </span>
                   <span class="sidenav-normal ms-1 ps-1"> Charts </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.pages_sweet_alerts' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.pages_sweet_alerts' %}active{% endif %}" href="{{ url_for('admin.pages_sweet_alerts') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_pages_sweet_alerts' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_pages_sweet_alerts' %}active{% endif %}" href="{{ url_for('admin.demo_pages_sweet_alerts') }}">
                   <span class="sidenav-mini-icon"> S </span>
                   <span class="sidenav-normal ms-1 ps-1"> Sweet Alerts </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.pages_notifications' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.pages_notifications' %}active{% endif %}" href="{{ url_for('admin.pages_notifications') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_pages_notifications' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_pages_notifications' %}active{% endif %}" href="{{ url_for('admin.demo_pages_notifications') }}">
                   <span class="sidenav-mini-icon"> N </span>
                   <span class="sidenav-normal ms-1 ps-1"> Notifications </span>
                 </a>
@@ -234,32 +234,32 @@
 
               <!-- Account -->
               <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#accountExamples" class="nav-link text-dark {% if request.endpoint and 'admin.account' in request.endpoint %}active{% endif %}" aria-controls="accountExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.account' in request.endpoint %}true{% else %}false{% endif %}">
+                <a data-bs-toggle="collapse" href="#accountExamples" class="nav-link text-dark {% if request.endpoint and 'admin.demo_account' in request.endpoint %}active{% endif %}" aria-controls="accountExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.demo_account' in request.endpoint %}true{% else %}false{% endif %}">
                   <span class="sidenav-mini-icon"> A </span>
                   <span class="sidenav-normal ms-1 ps-1"> Account <b class="caret"></b></span>
                 </a>
-                <div class="collapse {% if request.endpoint and 'admin.account' in request.endpoint %}show{% endif %}" id="accountExamples">
+                <div class="collapse {% if request.endpoint and 'admin.demo_account' in request.endpoint %}show{% endif %}" id="accountExamples">
             <ul class="nav">
-              <li class="nav-item {% if request.endpoint == 'admin.account_settings' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.account_settings' %}active{% endif %}" href="{{ url_for('admin.account_settings') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_account_settings' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_account_settings' %}active{% endif %}" href="{{ url_for('admin.demo_account_settings') }}">
                   <span class="sidenav-mini-icon"> S </span>
                   <span class="sidenav-normal ms-1 ps-1"> Settings </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.account_billing' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.account_billing' %}active{% endif %}" href="{{ url_for('admin.account_billing') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_account_billing' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_account_billing' %}active{% endif %}" href="{{ url_for('admin.demo_account_billing') }}">
                   <span class="sidenav-mini-icon"> B </span>
                   <span class="sidenav-normal ms-1 ps-1"> Billing </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.account_invoice' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.account_invoice' %}active{% endif %}" href="{{ url_for('admin.account_invoice') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_account_invoice' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_account_invoice' %}active{% endif %}" href="{{ url_for('admin.demo_account_invoice') }}">
                   <span class="sidenav-mini-icon"> I </span>
                   <span class="sidenav-normal ms-1 ps-1"> Invoice </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.account_security' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.account_security' %}active{% endif %}" href="{{ url_for('admin.account_security') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_account_security' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_account_security' %}active{% endif %}" href="{{ url_for('admin.demo_account_security') }}">
                   <span class="sidenav-mini-icon"> S </span>
                   <span class="sidenav-normal ms-1 ps-1"> Security </span>
                 </a>
@@ -270,50 +270,50 @@
 
               <!-- Applications -->
               <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#applicationsExamples" class="nav-link text-dark {% if request.endpoint and 'admin.applications' in request.endpoint %}active{% endif %}" aria-controls="applicationsExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.applications' in request.endpoint %}true{% else %}false{% endif %}">
+                <a data-bs-toggle="collapse" href="#applicationsExamples" class="nav-link text-dark {% if request.endpoint and 'admin.demo_applications' in request.endpoint %}active{% endif %}" aria-controls="applicationsExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.demo_applications' in request.endpoint %}true{% else %}false{% endif %}">
                   <span class="sidenav-mini-icon"> A </span>
                   <span class="sidenav-normal ms-1 ps-1"> Applications <b class="caret"></b></span>
                 </a>
-                <div class="collapse {% if request.endpoint and 'admin.applications' in request.endpoint %}show{% endif %}" id="applicationsExamples">
+                <div class="collapse {% if request.endpoint and 'admin.demo_applications' in request.endpoint %}show{% endif %}" id="applicationsExamples">
             <ul class="nav">
-              <li class="nav-item {% if request.endpoint == 'admin.applications_crm' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.applications_crm' %}active{% endif %}" href="{{ url_for('admin.applications_crm') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_applications_crm' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_applications_crm' %}active{% endif %}" href="{{ url_for('admin.demo_applications_crm') }}">
                   <span class="sidenav-mini-icon"> C </span>
                   <span class="sidenav-normal ms-1 ps-1"> CRM </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.applications_kanban' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.applications_kanban' %}active{% endif %}" href="{{ url_for('admin.applications_kanban') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_applications_kanban' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_applications_kanban' %}active{% endif %}" href="{{ url_for('admin.demo_applications_kanban') }}">
                   <span class="sidenav-mini-icon"> K </span>
                   <span class="sidenav-normal ms-1 ps-1"> Kanban </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.applications_wizard' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.applications_wizard' %}active{% endif %}" href="{{ url_for('admin.applications_wizard') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_applications_wizard' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_applications_wizard' %}active{% endif %}" href="{{ url_for('admin.demo_applications_wizard') }}">
                   <span class="sidenav-mini-icon"> W </span>
                   <span class="sidenav-normal ms-1 ps-1"> Wizard </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.applications_datatables' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.applications_datatables' %}active{% endif %}" href="{{ url_for('admin.applications_datatables') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_applications_datatables' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_applications_datatables' %}active{% endif %}" href="{{ url_for('admin.demo_applications_datatables') }}">
                   <span class="sidenav-mini-icon"> D </span>
                   <span class="sidenav-normal ms-1 ps-1"> DataTables </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.applications_calendar' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.applications_calendar' %}active{% endif %}" href="{{ url_for('admin.applications_calendar') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_applications_calendar' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_applications_calendar' %}active{% endif %}" href="{{ url_for('admin.demo_applications_calendar') }}">
                   <span class="sidenav-mini-icon"> C </span>
                   <span class="sidenav-normal ms-1 ps-1"> Calendar </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.applications_stats' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.applications_stats' %}active{% endif %}" href="{{ url_for('admin.applications_stats') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_applications_stats' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_applications_stats' %}active{% endif %}" href="{{ url_for('admin.demo_applications_stats') }}">
                   <span class="sidenav-mini-icon"> S </span>
                   <span class="sidenav-normal ms-1 ps-1"> Stats </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.applications_validation' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.applications_validation' %}active{% endif %}" href="{{ url_for('admin.applications_validation') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_applications_validation' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_applications_validation' %}active{% endif %}" href="{{ url_for('admin.demo_applications_validation') }}">
                   <span class="sidenav-mini-icon"> V </span>
                   <span class="sidenav-normal ms-1 ps-1"> Validation </span>
                 </a>
@@ -324,39 +324,39 @@
 
               <!-- Ecommerce -->
               <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#ecommerceExamples" class="nav-link text-dark {% if request.endpoint and 'admin.ecommerce' in request.endpoint %}active{% endif %}" aria-controls="ecommerceExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.ecommerce' in request.endpoint %}true{% else %}false{% endif %}">
+                <a data-bs-toggle="collapse" href="#ecommerceExamples" class="nav-link text-dark {% if request.endpoint and 'admin.demo_ecommerce' in request.endpoint %}active{% endif %}" aria-controls="ecommerceExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.demo_ecommerce' in request.endpoint %}true{% else %}false{% endif %}">
                   <span class="sidenav-mini-icon"> E </span>
                   <span class="sidenav-normal ms-1 ps-1"> Ecommerce <b class="caret"></b></span>
                 </a>
-                <div class="collapse {% if request.endpoint and 'admin.ecommerce' in request.endpoint %}show{% endif %}" id="ecommerceExamples">
+                <div class="collapse {% if request.endpoint and 'admin.demo_ecommerce' in request.endpoint %}show{% endif %}" id="ecommerceExamples">
             <ul class="nav">
               <li class="nav-item">
-                <a class="nav-link text-dark {% if request.endpoint and 'admin.ecommerce_products' in request.endpoint %}active{% endif %}" data-bs-toggle="collapse" aria-expanded="{% if request.endpoint and 'admin.ecommerce_products' in request.endpoint %}true{% else %}false{% endif %}" href="#productsExample">
+                <a class="nav-link text-dark {% if request.endpoint and 'admin.demo_ecommerce_products' in request.endpoint %}active{% endif %}" data-bs-toggle="collapse" aria-expanded="{% if request.endpoint and 'admin.demo_ecommerce_products' in request.endpoint %}true{% else %}false{% endif %}" href="#productsExample">
                   <span class="sidenav-mini-icon"> P </span>
                   <span class="sidenav-normal ms-1 ps-1"> Products <b class="caret"></b></span>
                 </a>
-                <div class="collapse {% if request.endpoint and 'admin.ecommerce_products' in request.endpoint %}show{% endif %}" id="productsExample">
+                <div class="collapse {% if request.endpoint and 'admin.demo_ecommerce_products' in request.endpoint %}show{% endif %}" id="productsExample">
                   <ul class="nav nav-sm flex-column">
-                    <li class="nav-item {% if request.endpoint == 'admin.ecommerce_products_new' %}active{% endif %}">
-                      <a class="nav-link text-dark {% if request.endpoint == 'admin.ecommerce_products_new' %}active{% endif %}" href="{{ url_for('admin.ecommerce_products_new') }}">
+                    <li class="nav-item {% if request.endpoint == 'admin.demo_ecommerce_products_new' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_ecommerce_products_new' %}active{% endif %}" href="{{ url_for('admin.demo_ecommerce_products_new') }}">
                         <span class="sidenav-mini-icon"> N </span>
                         <span class="sidenav-normal ms-1 ps-1"> New Product </span>
                       </a>
                     </li>
-                    <li class="nav-item {% if request.endpoint == 'admin.ecommerce_products_edit' %}active{% endif %}">
-                      <a class="nav-link text-dark {% if request.endpoint == 'admin.ecommerce_products_edit' %}active{% endif %}" href="{{ url_for('admin.ecommerce_products_edit') }}">
+                    <li class="nav-item {% if request.endpoint == 'admin.demo_ecommerce_products_edit' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_ecommerce_products_edit' %}active{% endif %}" href="{{ url_for('admin.demo_ecommerce_products_edit') }}">
                         <span class="sidenav-mini-icon"> E </span>
                         <span class="sidenav-normal ms-1 ps-1"> Edit Product </span>
                       </a>
                     </li>
-                    <li class="nav-item {% if request.endpoint == 'admin.ecommerce_products_page' %}active{% endif %}">
-                      <a class="nav-link text-dark {% if request.endpoint == 'admin.ecommerce_products_page' %}active{% endif %}" href="{{ url_for('admin.ecommerce_products_page') }}">
+                    <li class="nav-item {% if request.endpoint == 'admin.demo_ecommerce_products_page' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_ecommerce_products_page' %}active{% endif %}" href="{{ url_for('admin.demo_ecommerce_products_page') }}">
                         <span class="sidenav-mini-icon"> P </span>
                         <span class="sidenav-normal ms-1 ps-1"> Product Page </span>
                       </a>
                     </li>
-                    <li class="nav-item {% if request.endpoint == 'admin.ecommerce_products_list' %}active{% endif %}">
-                      <a class="nav-link text-dark {% if request.endpoint == 'admin.ecommerce_products_list' %}active{% endif %}" href="{{ url_for('admin.ecommerce_products_list') }}">
+                    <li class="nav-item {% if request.endpoint == 'admin.demo_ecommerce_products_list' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_ecommerce_products_list' %}active{% endif %}" href="{{ url_for('admin.demo_ecommerce_products_list') }}">
                         <span class="sidenav-mini-icon"> P </span>
                         <span class="sidenav-normal ms-1 ps-1"> Products List </span>
                       </a>
@@ -365,20 +365,20 @@
                 </div>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-dark {% if request.endpoint and 'admin.ecommerce_orders' in request.endpoint %}active{% endif %}" data-bs-toggle="collapse" aria-expanded="{% if request.endpoint and 'admin.ecommerce_orders' in request.endpoint %}true{% else %}false{% endif %}" href="#ordersExample">
+                <a class="nav-link text-dark {% if request.endpoint and 'admin.demo_ecommerce_orders' in request.endpoint %}active{% endif %}" data-bs-toggle="collapse" aria-expanded="{% if request.endpoint and 'admin.demo_ecommerce_orders' in request.endpoint %}true{% else %}false{% endif %}" href="#ordersExample">
                   <span class="sidenav-mini-icon"> O </span>
                   <span class="sidenav-normal ms-1 ps-1"> Orders <b class="caret"></b></span>
                 </a>
-                <div class="collapse {% if request.endpoint and 'admin.ecommerce_orders' in request.endpoint %}show{% endif %}" id="ordersExample">
+                <div class="collapse {% if request.endpoint and 'admin.demo_ecommerce_orders' in request.endpoint %}show{% endif %}" id="ordersExample">
                   <ul class="nav nav-sm flex-column">
-                    <li class="nav-item {% if request.endpoint == 'admin.ecommerce_orders_list' %}active{% endif %}">
-                      <a class="nav-link text-dark {% if request.endpoint == 'admin.ecommerce_orders_list' %}active{% endif %}" href="{{ url_for('admin.ecommerce_orders_list') }}">
+                    <li class="nav-item {% if request.endpoint == 'admin.demo_ecommerce_orders_list' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_ecommerce_orders_list' %}active{% endif %}" href="{{ url_for('admin.demo_ecommerce_orders_list') }}">
                         <span class="sidenav-mini-icon"> O </span>
                         <span class="sidenav-normal ms-1 ps-1"> Order List </span>
                       </a>
                     </li>
-                    <li class="nav-item {% if request.endpoint == 'admin.ecommerce_orders_details' %}active{% endif %}">
-                      <a class="nav-link text-dark {% if request.endpoint == 'admin.ecommerce_orders_details' %}active{% endif %}" href="{{ url_for('admin.ecommerce_orders_details') }}">
+                    <li class="nav-item {% if request.endpoint == 'admin.demo_ecommerce_orders_details' %}active{% endif %}">
+                      <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_ecommerce_orders_details' %}active{% endif %}" href="{{ url_for('admin.demo_ecommerce_orders_details') }}">
                         <span class="sidenav-mini-icon"> O </span>
                         <span class="sidenav-normal ms-1 ps-1"> Order Details </span>
                       </a>
@@ -386,8 +386,8 @@
                   </ul>
                 </div>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.ecommerce_referral' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.ecommerce_referral' %}active{% endif %}" href="{{ url_for('admin.ecommerce_referral') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_ecommerce_referral' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_ecommerce_referral' %}active{% endif %}" href="{{ url_for('admin.demo_ecommerce_referral') }}">
                   <span class="sidenav-mini-icon"> R </span>
                   <span class="sidenav-normal ms-1 ps-1"> Referral </span>
                 </a>
@@ -398,38 +398,38 @@
 
               <!-- Team -->
               <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#profileExamples" class="nav-link text-dark {% if request.endpoint and 'admin.team' in request.endpoint %}active{% endif %}" aria-controls="profileExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.team' in request.endpoint %}true{% else %}false{% endif %}">
+                <a data-bs-toggle="collapse" href="#profileExamples" class="nav-link text-dark {% if request.endpoint and 'admin.demo_team' in request.endpoint %}active{% endif %}" aria-controls="profileExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.demo_team' in request.endpoint %}true{% else %}false{% endif %}">
                   <span class="sidenav-mini-icon"> T </span>
                   <span class="sidenav-normal ms-1 ps-1"> Team <b class="caret"></b></span>
                 </a>
-                <div class="collapse {% if request.endpoint and 'admin.team' in request.endpoint %}show{% endif %}" id="profileExamples">
+                <div class="collapse {% if request.endpoint and 'admin.demo_team' in request.endpoint %}show{% endif %}" id="profileExamples">
             <ul class="nav">
-              <li class="nav-item {% if request.endpoint == 'admin.team_all_projects' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.team_all_projects' %}active{% endif %}" href="{{ url_for('admin.team_all_projects') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_team_all_projects' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_team_all_projects' %}active{% endif %}" href="{{ url_for('admin.demo_team_all_projects') }}">
                   <span class="sidenav-mini-icon"> A </span>
                   <span class="sidenav-normal ms-1 ps-1"> All Projects </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.team_messages' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.team_messages' %}active{% endif %}" href="{{ url_for('admin.team_messages') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_team_messages' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_team_messages' %}active{% endif %}" href="{{ url_for('admin.demo_team_messages') }}">
                   <span class="sidenav-mini-icon"> M </span>
                   <span class="sidenav-normal ms-1 ps-1"> Messages </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.team_new_user' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.team_new_user' %}active{% endif %}" href="{{ url_for('admin.team_new_user') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_team_new_user' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_team_new_user' %}active{% endif %}" href="{{ url_for('admin.demo_team_new_user') }}">
                   <span class="sidenav-mini-icon"> N </span>
                   <span class="sidenav-normal ms-1 ps-1"> New User </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.team_profile_overview' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.team_profile_overview' %}active{% endif %}" href="{{ url_for('admin.team_profile_overview') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_team_profile_overview' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_team_profile_overview' %}active{% endif %}" href="{{ url_for('admin.demo_team_profile_overview') }}">
                   <span class="sidenav-mini-icon"> P </span>
                   <span class="sidenav-normal ms-1 ps-1"> Profile Overview </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.team_reports' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.team_reports' %}active{% endif %}" href="{{ url_for('admin.team_reports') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_team_reports' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_team_reports' %}active{% endif %}" href="{{ url_for('admin.demo_team_reports') }}">
                   <span class="sidenav-mini-icon"> R </span>
                   <span class="sidenav-normal ms-1 ps-1"> Reports </span>
                 </a>
@@ -440,26 +440,26 @@
 
               <!-- Projects -->
               <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#projectsExamples" class="nav-link text-dark {% if request.endpoint and 'admin.projects' in request.endpoint %}active{% endif %}" aria-controls="projectsExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.projects' in request.endpoint %}true{% else %}false{% endif %}">
+                <a data-bs-toggle="collapse" href="#projectsExamples" class="nav-link text-dark {% if request.endpoint and 'admin.demo_projects' in request.endpoint %}active{% endif %}" aria-controls="projectsExamples" role="button" aria-expanded="{% if request.endpoint and 'admin.demo_projects' in request.endpoint %}true{% else %}false{% endif %}">
                   <span class="sidenav-mini-icon"> P </span>
                   <span class="sidenav-normal ms-1 ps-1"> Projects <b class="caret"></b></span>
                 </a>
-                <div class="collapse {% if request.endpoint and 'admin.projects' in request.endpoint %}show{% endif %}" id="projectsExamples">
+                <div class="collapse {% if request.endpoint and 'admin.demo_projects' in request.endpoint %}show{% endif %}" id="projectsExamples">
             <ul class="nav">
-              <li class="nav-item {% if request.endpoint == 'admin.projects_general' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.projects_general' %}active{% endif %}" href="{{ url_for('admin.projects_general') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_projects_general' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_projects_general' %}active{% endif %}" href="{{ url_for('admin.demo_projects_general') }}">
                   <span class="sidenav-mini-icon"> G </span>
                   <span class="sidenav-normal ms-1 ps-1"> General </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.projects_timeline' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.projects_timeline' %}active{% endif %}" href="{{ url_for('admin.projects_timeline') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_projects_timeline' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_projects_timeline' %}active{% endif %}" href="{{ url_for('admin.demo_projects_timeline') }}">
                   <span class="sidenav-mini-icon"> T </span>
                   <span class="sidenav-normal ms-1 ps-1"> Timeline </span>
                 </a>
               </li>
-              <li class="nav-item {% if request.endpoint == 'admin.projects_new' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.projects_new' %}active{% endif %}" href="{{ url_for('admin.projects_new') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_projects_new' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_projects_new' %}active{% endif %}" href="{{ url_for('admin.demo_projects_new') }}">
                   <span class="sidenav-mini-icon"> N </span>
                   <span class="sidenav-normal ms-1 ps-1"> New Project </span>
                 </a>
@@ -469,8 +469,8 @@
               </li>
 
               <!-- Profile -->
-              <li class="nav-item {% if request.endpoint == 'admin.profile_projects' %}active{% endif %}">
-                <a class="nav-link text-dark {% if request.endpoint == 'admin.profile_projects' %}active{% endif %}" href="{{ url_for('admin.profile_projects') }}">
+              <li class="nav-item {% if request.endpoint == 'admin.demo_profile_projects' %}active{% endif %}">
+                <a class="nav-link text-dark {% if request.endpoint == 'admin.demo_profile_projects' %}active{% endif %}" href="{{ url_for('admin.demo_profile_projects') }}">
                   <span class="sidenav-mini-icon"> P </span>
                   <span class="sidenav-normal ms-1 ps-1"> Profile </span>
                 </a>
@@ -514,7 +514,7 @@
           </div>
           <ul class="navbar-nav justify-content-end">
             <li class="nav-item">
-              <a href="{{ url_for('admin.account_settings') }}" class="px-1 py-0 nav-link line-height-0">
+              <a href="{{ url_for('admin.demo_account_settings') }}" class="px-1 py-0 nav-link line-height-0">
                 <i class="material-symbols-rounded">account_circle</i>
               </a>
             </li>
