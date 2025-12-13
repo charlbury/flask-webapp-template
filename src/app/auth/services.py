@@ -30,7 +30,7 @@ def create_user(email: str, password: str, username: str, first_name: Optional[s
     """
     if User.query.filter_by(email=email.lower()).first():
         return None
-    
+
     if User.query.filter_by(username=username.lower()).first():
         return None
 
@@ -47,7 +47,7 @@ def create_user(email: str, password: str, username: str, first_name: Optional[s
             first_name=first_name,
             last_name=last_name
         )
-        
+
         blob_service = BlobStorageService()
         if blob_service.is_configured():
             avatar_url = blob_service.upload_avatar(user.id, avatar_data, content_type)
@@ -80,7 +80,7 @@ def authenticate_user(username_or_email: str, password: str) -> Optional[User]:
     """
     # Try username first (case-insensitive)
     user = User.query.filter_by(username=username_or_email.lower()).first()
-    
+
     # If not found, try email (case-insensitive)
     if not user:
         user = User.query.filter_by(email=username_or_email.lower()).first()

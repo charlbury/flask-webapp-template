@@ -196,25 +196,25 @@ def upload_user_avatar(user_id):
 def revoke_user_session_admin(user_id, session_id):
     """Revoke a session for a specific user (admin only)."""
     user = User.query.get_or_404(user_id)
-    
+
     try:
         # Get the session to check ownership
         user_session = UserSession.query.get_or_404(session_id)
-        
+
         # Ensure session belongs to the user
         if user_session.user_id != user.id:
             flash('Session does not belong to this user.', 'error')
             return redirect(url_for('admin.view_user_settings', user_id=user_id))
-        
+
         # Check if this is the current session for that user
         current_session_token = None
         if user_session.is_current:
             # Try to get the current session token from Flask session
             from flask import session as flask_session
             current_session_token = flask_session.get('session_token')
-        
+
         is_current = user_session.session_token == current_session_token
-        
+
         # Revoke the session
         if revoke_session(session_id, user.id):
             flash(f'Session revoked successfully for {user.email}.', 'success')
@@ -225,7 +225,7 @@ def revoke_user_session_admin(user_id, session_id):
     except Exception as e:
         current_app.logger.error(f"Error revoking session: {e}", exc_info=True)
         flash('An error occurred while revoking the session.', 'error')
-    
+
     return redirect(url_for('admin.view_user_settings', user_id=user_id))
 
 
@@ -236,16 +236,16 @@ def revoke_user_session(session_id):
     try:
         # Get the session to check ownership
         user_session = UserSession.query.get_or_404(session_id)
-        
+
         # Ensure user owns this session
         if user_session.user_id != current_user.id:
             flash('You do not have permission to revoke this session.', 'error')
             return redirect(url_for('admin.live_settings'))
-        
+
         # Check if this is the current session
         current_session_token = get_current_session_token()
         is_current = user_session.session_token == current_session_token
-        
+
         # Revoke the session
         if revoke_session(session_id, current_user.id):
             if is_current:
@@ -261,7 +261,7 @@ def revoke_user_session(session_id):
     except Exception as e:
         current_app.logger.error(f"Error revoking session: {e}", exc_info=True)
         flash('An error occurred while revoking the session.', 'error')
-    
+
     return redirect(url_for('admin.live_settings'))
 
 
