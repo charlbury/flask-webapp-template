@@ -8,7 +8,7 @@ from flask_login import current_user
 from sqlalchemy.orm import joinedload
 
 from . import admin_bp
-from .forms import AssignRoleForm, RemoveRoleForm, ChangePasswordForm, AvatarUploadForm
+from .forms import AssignRoleForm, RemoveRoleForm, ChangePasswordForm, AvatarUploadForm, EditUserForm
 from ..models import User, Role, Project, UserSession
 from ..extensions import db
 from ..security.roles import admin_required, ensure_role_exists
@@ -86,6 +86,146 @@ def live_settings():
     sessions = get_user_sessions(current_user.id)
 
     return render_template('admin/live/settings.html', form=form, avatar_form=avatar_form, sessions=sessions)
+
+
+@admin_bp.route('/users/<user_id>/settings', methods=['GET', 'POST'])
+@admin_required
+def view_user_settings(user_id):
+    """View and edit settings page for a specific user (admin only)."""
+    user = User.query.get_or_404(user_id)
+    form = EditUserForm(user_id=user_id)
+    avatar_form = AvatarUploadForm()
+
+    if form.validate_on_submit():
+        # Update user information
+        user.first_name = form.first_name.data.strip() if form.first_name.data else None
+        user.last_name = form.last_name.data.strip() if form.last_name.data else None
+        user.email = form.email.data.lower().strip()
+        user.username = form.username.data.strip()
+        user.is_active = form.is_active.data
+        db.session.commit()
+        flash(f'User {user.email} updated successfully', 'success')
+        return redirect(url_for('admin.view_user_settings', user_id=user_id))
+
+    # Populate form with current values
+    form.first_name.data = user.first_name
+    form.last_name.data = user.last_name
+    form.email.data = user.email
+    form.username.data = user.username
+    form.is_active.data = user.is_active
+
+    # Get user sessions for display
+    sessions = get_user_sessions(user.id)
+
+    return render_template('admin/live/view_user_settings.html', view_user=user, form=form, avatar_form=avatar_form, sessions=sessions)
+
+
+@admin_bp.route('/users/<user_id>/avatar/upload', methods=['POST'])
+@admin_required
+def upload_user_avatar(user_id):
+    """Handle avatar image upload for a specific user (admin only)."""
+    user = User.query.get_or_404(user_id)
+    form = AvatarUploadForm()
+
+    if not form.validate_on_submit():
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash(f'Avatar upload error: {error}', 'error')
+        return redirect(url_for('admin.view_user_settings', user_id=user_id))
+
+    try:
+        # Validate image file
+        is_valid, error_message = validate_image_file(
+            form.avatar.data,
+            max_size=current_app.config.get('MAX_AVATAR_SIZE', 5242880)
+        )
+
+        if not is_valid:
+            flash(f'Avatar upload error: {error_message}', 'error')
+            return redirect(url_for('admin.view_user_settings', user_id=user_id))
+
+        # Read file data
+        file_data = form.avatar.data.read()
+        content_type = form.avatar.data.content_type
+
+        # Crop image to square if needed
+        file_data, content_type = crop_to_square(file_data, content_type)
+
+        # Upload to Azure Blob Storage
+        blob_service = BlobStorageService()
+
+        if not blob_service.is_configured():
+            connection_string = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
+            if not connection_string:
+                current_app.logger.error("AZURE_STORAGE_CONNECTION_STRING environment variable is not set")
+                flash('Avatar storage is not configured. AZURE_STORAGE_CONNECTION_STRING is not set.', 'error')
+            else:
+                current_app.logger.error("Blob storage service failed to initialize despite connection string being set")
+                flash('Avatar storage is not configured. Please check server logs for details.', 'error')
+            return redirect(url_for('admin.view_user_settings', user_id=user_id))
+
+        # Delete all existing avatar files for this user
+        blob_service.delete_user_avatars(user.id)
+
+        # Upload new avatar
+        blob_url = blob_service.upload_avatar(
+            user_id=user.id,
+            file_data=file_data,
+            content_type=content_type
+        )
+
+        if blob_url:
+            # Update user's avatar_url
+            user.avatar_url = blob_url
+            db.session.commit()
+            flash(f'Avatar uploaded successfully for {user.email}', 'success')
+        else:
+            flash('Failed to upload avatar. Please try again.', 'error')
+
+    except Exception as e:
+        current_app.logger.error(f"Avatar upload error: {e}", exc_info=True)
+        flash('An error occurred while uploading the avatar. Please try again.', 'error')
+        db.session.rollback()
+
+    return redirect(url_for('admin.view_user_settings', user_id=user_id))
+
+
+@admin_bp.route('/users/<user_id>/sessions/<session_id>/revoke', methods=['POST'])
+@admin_required
+def revoke_user_session_admin(user_id, session_id):
+    """Revoke a session for a specific user (admin only)."""
+    user = User.query.get_or_404(user_id)
+    
+    try:
+        # Get the session to check ownership
+        user_session = UserSession.query.get_or_404(session_id)
+        
+        # Ensure session belongs to the user
+        if user_session.user_id != user.id:
+            flash('Session does not belong to this user.', 'error')
+            return redirect(url_for('admin.view_user_settings', user_id=user_id))
+        
+        # Check if this is the current session for that user
+        current_session_token = None
+        if user_session.is_current:
+            # Try to get the current session token from Flask session
+            from flask import session as flask_session
+            current_session_token = flask_session.get('session_token')
+        
+        is_current = user_session.session_token == current_session_token
+        
+        # Revoke the session
+        if revoke_session(session_id, user.id):
+            flash(f'Session revoked successfully for {user.email}.', 'success')
+            if is_current:
+                flash(f'Note: This was the current session for {user.email}. They will be logged out on their next request.', 'info')
+        else:
+            flash('Failed to revoke session.', 'error')
+    except Exception as e:
+        current_app.logger.error(f"Error revoking session: {e}", exc_info=True)
+        flash('An error occurred while revoking the session.', 'error')
+    
+    return redirect(url_for('admin.view_user_settings', user_id=user_id))
 
 
 @admin_bp.route('/sessions/<session_id>/revoke', methods=['POST'])

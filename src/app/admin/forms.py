@@ -4,11 +4,11 @@ Admin forms.
 
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-from wtforms import SelectField, HiddenField, SubmitField, PasswordField
-from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
+from wtforms import SelectField, HiddenField, SubmitField, PasswordField, StringField, BooleanField, EmailField
+from wtforms.validators import DataRequired, Length, EqualTo, ValidationError, Optional
 from flask import current_app
 
-from ..models import Role
+from ..models import Role, User
 
 
 class AssignRoleForm(FlaskForm):
@@ -84,3 +84,32 @@ class AvatarUploadForm(FlaskForm):
 
         if file_size == 0:
             raise ValidationError('File is empty')
+
+
+class EditUserForm(FlaskForm):
+    """Form for editing user information (admin only)."""
+
+    first_name = StringField('First Name', validators=[Optional(), Length(max=100)])
+    last_name = StringField('Last Name', validators=[Optional(), Length(max=100)])
+    email = EmailField('Email', validators=[DataRequired(), Length(max=255)])
+    username = StringField('Username', validators=[DataRequired(), Length(max=13)])
+    is_active = BooleanField('Account Active', default=True)
+    submit = SubmitField('Update User')
+
+    def __init__(self, user_id=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user_id = user_id
+
+    def validate_email(self, field):
+        """Check if email is unique (excluding current user)."""
+        if self.user_id:
+            existing_user = User.query.filter_by(email=field.data).first()
+            if existing_user and existing_user.id != self.user_id:
+                raise ValidationError('Email is already registered.')
+
+    def validate_username(self, field):
+        """Check if username is unique (excluding current user)."""
+        if self.user_id:
+            existing_user = User.query.filter_by(username=field.data).first()
+            if existing_user and existing_user.id != self.user_id:
+                raise ValidationError('Username is already taken.')
