@@ -39,7 +39,7 @@
         <!-- User Profile Section -->
         <li class="nav-item mb-2 mt-0">
           <a data-bs-toggle="collapse" href="#ProfileNav" class="nav-link text-dark" aria-controls="ProfileNav" role="button" aria-expanded="false">
-            <img src="{{ url_for('static', filename='admin/img/team-3.jpg') }}" class="avatar">
+            <img src="{{ current_user.get_avatar_url() }}" class="avatar" alt="User avatar">
             <span class="nav-link-text ms-2 ps-1">{% if current_user.first_name or current_user.last_name %}{{ current_user.first_name }} {{ current_user.last_name }}{% else %}{{ current_user.email }}{% endif %}</span>
           </a>
           <div class="collapse" id="ProfileNav">

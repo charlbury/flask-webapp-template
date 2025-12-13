@@ -30,6 +30,7 @@ class User(UserMixin, db.Model):
     # Profile fields
     first_name: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     last_name: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    avatar_url: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
 
     # Timestamps
     created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now(), nullable=False)
@@ -79,6 +80,13 @@ class User(UserMixin, db.Model):
     def is_admin(self) -> bool:
         """Check if user has admin role."""
         return self.has_role('admin')
+
+    def get_avatar_url(self) -> str:
+        """Get avatar URL or return default avatar."""
+        from flask import url_for
+        if self.avatar_url:
+            return self.avatar_url
+        return url_for('static', filename='admin/img/bruce-mars.jpg')
 
     def __repr__(self) -> str:
         return f'<User {self.username} ({self.email})>'

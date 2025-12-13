@@ -65,3 +65,13 @@ SCM_DO_BUILD_DURING_DEPLOYMENT=1
 
 # SESSION_COOKIE_SECURE=True
 # REMEMBER_COOKIE_SECURE=True
+
+# Azure Blob Storage Configuration
+# ================================
+# Azure Storage Account connection string for avatar uploads
+# Get this from Azure Portal: Storage Account -> Access Keys -> Connection string
+# Format: DefaultEndpointsProtocol=https;AccountName=...;AccountKey=...;EndpointSuffix=core.windows.net
+AZURE_STORAGE_CONNECTION_STRING=
+
+# Azure Storage Container name for avatars (optional, defaults to 'avatars')
+AZURE_STORAGE_CONTAINER_NAME=avatars

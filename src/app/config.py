@@ -23,13 +23,19 @@ class Config:
     SESSION_COOKIE_SAMESITE = 'Lax'
     WTF_CSRF_TIME_LIMIT = 3600
 
+    # Azure Blob Storage configuration
+    AZURE_STORAGE_CONNECTION_STRING = os.getenv('AZURE_STORAGE_CONNECTION_STRING', '')
+    AZURE_STORAGE_CONTAINER_NAME = os.getenv('AZURE_STORAGE_CONTAINER_NAME', 'avatars')
+    MAX_AVATAR_SIZE = 5242880  # 5MB in bytes
+    ALLOWED_AVATAR_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'webp']
+
     # Content Security Policy for Bootstrap CDN and Material Dashboard
     CSP_HEADERS = {
         'default-src': "'self'",
         'script-src': "'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://buttons.github.io",
         'style-src': "'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com https://cdnjs.cloudflare.com",
         'font-src': "'self' https://cdn.jsdelivr.net https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com",
-        'img-src': "'self' data:",
+        'img-src': "'self' data: https://*.blob.core.windows.net",
         'connect-src': "'self'"
     }
 
