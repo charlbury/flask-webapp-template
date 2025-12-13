@@ -15,5 +15,42 @@
     </div>
   </div>
 </div>
+
+<!-- Analytics Section -->
+<div class="row">
+  <div class="col-lg-12 position-relative z-index-2">
+    <div class="ms-3">
+      <h1 class="h1 text-dark">My Account Dashboard</h1>
+      <h2 class="h4 text-secondary">Account settings, preferences and analytics</h2>
+      <p class="lead">Explore key metrics and trends with interactive charts powered by Chart.js, a powerful and flexible JavaScript charting library. Our product leverages Chart.js to create visually stunning and responsive charts that bring your data to life. With support for various chart types including line, bar, pie, and more, Chart.js enables us to present complex data in an easily digestible format. We've integrated Chart.js seamlessly into our analytics dashboard, allowing for real-time updates, smooth animations, and customizable styling to match your brand. Experience the power of data visualization with our Chart.js-enhanced analytics tools, designed to help you make informed decisions and uncover valuable insights from your data.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mb-4">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header pb-0">
+        <h6 class="mb-0">Quick Actions</h6>
+      </div>
+      <div class="card-body">
+        <div class="d-flex gap-2">
+          <a href="{{ url_for('user.settings') }}" class="btn btn-primary">
+            <i class="material-symbols-rounded me-1">settings</i> Account Settings
+          </a>
+          <a href="{{ url_for('main.index') }}" class="btn btn-outline-primary">
+            <i class="material-symbols-rounded me-1">home</i> Home
+          </a>
+          {% if current_user.is_admin %}
+          <a href="{{ url_for('admin.live_dashboard') }}" class="btn btn-outline-success">
+            <i class="material-symbols-rounded me-1">admin_panel_settings</i> Admin Dashboard
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
