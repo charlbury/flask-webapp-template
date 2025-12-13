@@ -35,9 +35,9 @@
             <form role="form" method="POST">
               {{ form.hidden_tag() }}
 
-              <div class="input-group input-group-dynamic mb-3 {% if form.first_name.errors %}is-invalid{% endif %}">
+              <div class="input-group input-group-outline mb-3 {% if form.first_name.errors %}is-invalid{% endif %}">
                 <label class="form-label">First Name</label>
-                {{ form.first_name(class="form-control", aria_label="First Name") }}
+                {{ form.first_name(class="form-control " + ("is-invalid" if form.first_name.errors else ""), aria_label="First Name") }}
                 {% if form.first_name.errors %}
                   <div class="invalid-feedback">
                     {% for error in form.first_name.errors %}
@@ -47,9 +47,9 @@
                 {% endif %}
               </div>
 
-              <div class="input-group input-group-dynamic mb-3 {% if form.last_name.errors %}is-invalid{% endif %}">
+              <div class="input-group input-group-outline mb-3 {% if form.last_name.errors %}is-invalid{% endif %}">
                 <label class="form-label">Last Name</label>
-                {{ form.last_name(class="form-control", aria_label="Last Name") }}
+                {{ form.last_name(class="form-control " + ("is-invalid" if form.last_name.errors else ""), aria_label="Last Name") }}
                 {% if form.last_name.errors %}
                   <div class="invalid-feedback">
                     {% for error in form.last_name.errors %}
@@ -59,7 +59,7 @@
                 {% endif %}
               </div>
 
-              <div class="input-group input-group-dynamic mb-3 {% if form.email.errors %}is-invalid{% endif %}">
+              <div class="input-group input-group-outline mb-3 {% if form.email.errors %}is-invalid{% endif %}">
                 <label class="form-label">Email</label>
                 {{ form.email(class="form-control " + ("is-invalid" if form.email.errors else ""), aria_label="Email") }}
                 {% if form.email.errors %}
@@ -71,7 +71,7 @@
                 {% endif %}
               </div>
 
-              <div class="input-group input-group-dynamic mb-3 {% if form.username.errors %}is-invalid{% endif %}">
+              <div class="input-group input-group-outline mb-3 {% if form.username.errors %}is-invalid{% endif %}">
                 <label class="form-label">Username</label>
                 {{ form.username(class="form-control " + ("is-invalid" if form.username.errors else ""), aria_label="Username", maxlength="13") }}
                 {% if form.username.errors %}
@@ -83,9 +83,9 @@
                 {% endif %}
               </div>
 
-              <div class="input-group input-group-dynamic mb-3 {% if form.password.errors %}is-invalid{% endif %}">
+              <div class="input-group input-group-outline mb-3 {% if form.password.errors %}is-invalid{% endif %}">
                 <label class="form-label">Password</label>
-                {{ form.password(class="form-control", aria_label="Password") }}
+                {{ form.password(class="form-control " + ("is-invalid" if form.password.errors else ""), aria_label="Password") }}
                 {% if form.password.errors %}
                   <div class="invalid-feedback">
                     {% for error in form.password.errors %}
@@ -95,9 +95,9 @@
                 {% endif %}
               </div>
 
-              <div class="input-group input-group-dynamic mb-3 {% if form.confirm_password.errors %}is-invalid{% endif %}">
+              <div class="input-group input-group-outline mb-3 {% if form.confirm_password.errors %}is-invalid{% endif %}">
                 <label class="form-label">Confirm Password</label>
-                {{ form.confirm_password(class="form-control", aria_label="Confirm Password") }}
+                {{ form.confirm_password(class="form-control " + ("is-invalid" if form.confirm_password.errors else ""), aria_label="Confirm Password") }}
                 {% if form.confirm_password.errors %}
                   <div class="invalid-feedback">
                     {% for error in form.confirm_password.errors %}
@@ -126,7 +126,7 @@
   // Fix Material Dashboard input states - only reset classes, preserve user input
   (function() {
     function fixInputStates() {
-      const inputs = document.querySelectorAll('.input-group-dynamic input, .input-group-outline input');
+      const inputs = document.querySelectorAll('.input-group-outline input');
       inputs.forEach(function(input) {
         // Only fix Material Dashboard classes, don't touch the input value
         // If input has a value, ensure Material Dashboard shows it as filled
