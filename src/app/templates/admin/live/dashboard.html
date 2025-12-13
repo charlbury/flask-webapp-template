@@ -111,6 +111,7 @@
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Avatar</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Roles</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
@@ -120,6 +121,13 @@
                   <tbody>
                     {% for user in recent_users %}
                       <tr>
+                        <td>
+                          <div class="d-flex px-2 py-1">
+                            <div>
+                              <img src="{{ user.get_avatar_url() }}" class="avatar avatar-sm me-2" alt="{{ user.email }}">
+                            </div>
+                          </div>
+                        </td>
                         <td>
                           <div class="d-flex px-2 py-1">
                             <div class="d-flex flex-column justify-content-center">
