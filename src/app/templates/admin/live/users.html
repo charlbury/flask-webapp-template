@@ -101,6 +101,16 @@
                                   </button>
                                 </form>
                               </li>
+                              <li><hr class="dropdown-divider"></li>
+                              <li>
+                                <button class="dropdown-item text-danger delete-user-btn"
+                                        data-user-id="{{ user.id }}"
+                                        data-user-email="{{ user.email }}"
+                                        data-user-username="{{ user.username }}"
+                                        data-project-count="{{ user.projects.count() }}">
+                                  <i class="material-symbols-rounded me-1">delete</i> Delete User
+                                </button>
+                              </li>
                             </ul>
                           </div>
                         </td>
@@ -175,6 +185,61 @@
           <button type="submit" class="btn btn-danger">Remove Role</button>
         </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<!-- Delete/Anonymize User Modal -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete or Anonymize User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-warning" role="alert">
+          <strong>Warning:</strong> This action cannot be undone!
+        </div>
+        <p>You are about to delete or anonymize the following user:</p>
+        <ul class="list-unstyled ms-3">
+          <li><strong>Email:</strong> <span id="delete_user_email"></span></li>
+          <li><strong>Username:</strong> <span id="delete_user_username"></span></li>
+          <li><strong>Projects:</strong> <span id="delete_user_projects_count"></span></li>
+        </ul>
+        <div class="alert alert-danger mt-3" role="alert">
+          <strong>What will be deleted:</strong>
+          <ul class="mb-0">
+            <li>All projects owned by this user (<span id="delete_projects_count_detail"></span>)</li>
+            <li>All user sessions</li>
+            <li>User avatar</li>
+            <li id="hard_delete_detail" style="display: none;">User account (permanent deletion)</li>
+            <li id="anonymize_detail" style="display: none;">All personally identifiable information (email, username, name, avatar)</li>
+          </ul>
+        </div>
+        <p class="text-muted small">
+          <strong>Hard Delete:</strong> Completely removes the user record. Use for GDPR right to erasure requests.<br>
+          <strong>Anonymize:</strong> Removes PII but keeps the user record for statistics and reports. GDPR-compliant alternative.
+        </p>
+        <p class="text-danger small mb-0">
+          <strong>Note:</strong> You cannot delete or anonymize your own account.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <form method="POST" action="" id="anonymizeUserForm" class="d-inline">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          <button type="submit" class="btn btn-warning">
+            <i class="material-symbols-rounded me-1" style="vertical-align: middle;">admin_panel_settings</i> Anonymize
+          </button>
+        </form>
+        <form method="POST" action="" id="deleteUserForm" class="d-inline">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          <button type="submit" class="btn btn-danger">
+            <i class="material-symbols-rounded me-1" style="vertical-align: middle;">delete_forever</i> Hard Delete
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 </div>
@@ -277,6 +342,26 @@ function openRemoveRoleModal(userId, userRoles) {
   }, { once: true });
 }
 
+function openDeleteUserModal(userId, userEmail, userUsername, projectCount) {
+  // Set user information in modal
+  document.getElementById('delete_user_email').textContent = userEmail;
+  document.getElementById('delete_user_username').textContent = userUsername;
+  document.getElementById('delete_user_projects_count').textContent = projectCount;
+  document.getElementById('delete_projects_count_detail').textContent = projectCount + ' project(s)';
+
+  // Set form actions
+  document.getElementById('deleteUserForm').action = `/admin/users/${userId}/delete`;
+  document.getElementById('anonymizeUserForm').action = `/admin/users/${userId}/anonymize`;
+
+  // Show/hide details based on action type (both shown by default)
+  document.getElementById('hard_delete_detail').style.display = 'list-item';
+  document.getElementById('anonymize_detail').style.display = 'list-item';
+
+  // Show modal
+  const modal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
+  modal.show();
+}
+
 // Initialize DataTable
 document.addEventListener('DOMContentLoaded', function() {
   // Initialize DataTable if table exists
@@ -304,6 +389,17 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       openRemoveRoleModal(userId, userRoles);
+    }
+
+    // Handle delete user button clicks
+    if (e.target.closest('.delete-user-btn')) {
+      const button = e.target.closest('.delete-user-btn');
+      const userId = button.getAttribute('data-user-id');
+      const userEmail = button.getAttribute('data-user-email');
+      const userUsername = button.getAttribute('data-user-username');
+      const projectCount = parseInt(button.getAttribute('data-project-count') || '0', 10);
+
+      openDeleteUserModal(userId, userEmail, userUsername, projectCount);
     }
   });
 

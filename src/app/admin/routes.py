@@ -15,6 +15,7 @@ from ..security.roles import admin_required, ensure_role_exists
 from ..services.blob_storage import BlobStorageService
 from ..utils.image_validator import validate_image_file, crop_to_square
 from ..services.session_tracker import get_user_sessions, revoke_session, get_current_session_token
+from ..auth.services import anonymize_user, delete_user
 
 
 # Live App Routes (for production development)
@@ -441,6 +442,58 @@ def toggle_user_active(user_id):
 
     status = 'activated' if user.is_active else 'deactivated'
     flash(f'User {user.email} has been {status}', 'success')
+
+    return redirect(url_for(redirect_to))
+
+
+@admin_bp.route('/users/<user_id>/delete', methods=['POST'])
+@admin_required
+def delete_user_route(user_id):
+    """Hard delete a user account."""
+    user = User.query.get_or_404(user_id)
+
+    # Determine redirect based on referrer
+    referrer = request.referrer or ''
+    redirect_to = 'admin.live_users' if '/user-management' in referrer else 'admin.demo_users'
+
+    # Prevent self-deletion
+    if user.id == current_user.id:
+        flash('You cannot delete your own account', 'error')
+        return redirect(url_for(redirect_to))
+
+    # Store email for flash message
+    user_email = user.email
+
+    if delete_user(user_id):
+        flash(f'User {user_email} has been permanently deleted', 'success')
+    else:
+        flash(f'Failed to delete user {user_email}', 'error')
+
+    return redirect(url_for(redirect_to))
+
+
+@admin_bp.route('/users/<user_id>/anonymize', methods=['POST'])
+@admin_required
+def anonymize_user_route(user_id):
+    """Anonymize a user account (remove PII but keep record for stats)."""
+    user = User.query.get_or_404(user_id)
+
+    # Determine redirect based on referrer
+    referrer = request.referrer or ''
+    redirect_to = 'admin.live_users' if '/user-management' in referrer else 'admin.demo_users'
+
+    # Prevent self-anonymization
+    if user.id == current_user.id:
+        flash('You cannot anonymize your own account', 'error')
+        return redirect(url_for(redirect_to))
+
+    # Store email for flash message
+    user_email = user.email
+
+    if anonymize_user(user_id):
+        flash(f'User {user_email} has been anonymized', 'success')
+    else:
+        flash(f'Failed to anonymize user {user_email}', 'error')
 
     return redirect(url_for(redirect_to))
 

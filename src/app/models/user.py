@@ -26,6 +26,7 @@ class User(UserMixin, db.Model):
     username: Mapped[str] = mapped_column(String(13), unique=True, nullable=False, index=True)
     password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    is_anonymized: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
 
     # Profile fields
     first_name: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
