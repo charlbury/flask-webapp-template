@@ -8,6 +8,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from ..models import User
 from ..extensions import db
+from ..utils.image_validator import generate_initial_avatar
+from ..services.blob_storage import BlobStorageService
 
 
 def create_user(email: str, password: str, username: str, first_name: Optional[str] = None, last_name: Optional[str] = None) -> Optional[User]:
@@ -35,6 +37,29 @@ def create_user(email: str, password: str, username: str, first_name: Optional[s
 
     db.session.add(user)
     db.session.commit()
+
+    # Generate and upload initial avatar
+    try:
+        avatar_data, content_type = generate_initial_avatar(
+            username=username,
+            first_name=first_name,
+            last_name=last_name
+        )
+        
+        blob_service = BlobStorageService()
+        if blob_service.is_configured():
+            avatar_url = blob_service.upload_avatar(user.id, avatar_data, content_type)
+            if avatar_url:
+                user.avatar_url = avatar_url
+                db.session.commit()
+                current_app.logger.info(f"Created initial avatar for user: {username} ({email})")
+            else:
+                current_app.logger.warning(f"Failed to upload initial avatar for user: {username} ({email})")
+        else:
+            current_app.logger.info(f"Blob storage not configured, skipping initial avatar creation for user: {username} ({email})")
+    except Exception as e:
+        # Log error but don't fail user creation if avatar generation fails
+        current_app.logger.error(f"Error creating initial avatar for user {username} ({email}): {e}", exc_info=True)
 
     current_app.logger.info(f"Created user: {username} ({email})")
     return user
