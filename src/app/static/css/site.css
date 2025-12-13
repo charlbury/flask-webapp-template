@@ -30,3 +30,17 @@
   border-bottom-right-radius: 6px !important;
 }
 */
+
+/*
+ * Required Field Indicator
+ *
+ * Styles the asterisk span element inside required field labels.
+ * Material Dashboard uses ::after for input-group-outline labels to create
+ * the border effect, so we add the asterisk as a span element in the HTML
+ * and style it with CSS.
+ */
+.input-group.input-group-outline .form-label.required .required-asterisk {
+  color: #F44335;
+  font-weight: bold;
+  margin-left: 2px;
+}
